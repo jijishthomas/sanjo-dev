@@ -5976,11 +5976,11 @@ const pages = [
           })}
           <div class="timeline-steps">
             ${[
-              ["Psychology foundation", "Counselling psychology, emotional insight, and human behavior form the base of Sanjo's work."],
-              ["Education and facilitation", "Teaching, learning strategy, and student development shaped his practical approach."],
-              ["Counselling and coaching practice", "One-to-one support brought clarity, goal setting, personal effectiveness, and emotional resilience into focus."],
-              ["Corporate and institutional training", "Leadership, team building, communication, and professional development expanded the work into organizations."],
-              ["Founder of WayMaker Skills™", "WayMaker Skills™ became the organization bridge for broader human development and applied intelligence pathways."]
+              ["Foundations", "Understanding people and human behaviour."],
+              ["Education", "Learning how growth happens."],
+              ["Practice", "Supporting individuals through change."],
+              ["Scale", "Working with groups, institutions, and organizations."],
+              ["Vision", "Creating WayMaker Skills™."]
             ].map(([title, copy]) => `
               <article class="timeline-step reveal">
                 <h3>${title}</h3>
@@ -6099,11 +6099,11 @@ const pages = [
       renderHero({
         eyebrow: "Expertise",
         title: "Expertise across psychology, education, leadership, and life skills.",
-        copy: "Sanjo's work is shaped by how people actually learn, feel, decide, relate, and perform under real conditions.",
+        copy: "Helping individuals, families, educators, leaders, and organizations grow through psychology-based, practical, and purpose-driven development.",
         actions: [anchor("/programs/", "Explore Programs", "btn btn-primary"), anchor("/contact/", "Discuss Your Context", "btn btn-secondary")],
         media: { image: "/assets/imgs/header_small.jpg", alt: "Sanjo Cine Mathew teaching and facilitating" },
-        panelTitle: "Approach that is psychology-based and outcome-oriented",
-        panelList: ["Psychology-based", "Experiential", "Reflective", "Practical", "Outcome-oriented", "Purpose-driven"]
+        panelTitle: "The Principles Behind My Work",
+        panelList: ["Psychology-based", "Human-centered", "Experiential", "Practical", "Purpose-driven"]
       }, renderBreadcrumbs({ route: "/expertise/", breadcrumbs: [{ label: "Home", route: "/" }, { label: "Expertise", route: "/expertise/" }] })),
       `
       <section class="section">
@@ -6127,14 +6127,14 @@ const pages = [
           <div class="story-card reveal">
             ${sectionHeader({
               eyebrow: "Approach",
-              title: "How Sanjo works across diverse audiences.",
-              copy: "The method is always adaptive, but the underlying discipline remains consistent: create safe awareness, practical structure, and action-led movement."
+              title: "Different Audiences. Shared Development Principles.",
+              copy: "Whether working with individuals, families, educators, leaders, or organizations, the goal remains the same: meaningful and sustainable growth."
             })}
             ${list([
               "Begin with context rather than assumptions.",
-              "Translate psychological insight into usable action.",
-              "Use experiential facilitation to improve retention and engagement.",
-              "Measure success through visible change in confidence, communication, decision making, and accountability."
+              "Translate insight into practical action.",
+              "Use experiential learning to deepen engagement.",
+              "Focus on measurable and meaningful outcomes."
             ])}
           </div>
           ${renderCards([
@@ -6150,18 +6150,18 @@ const pages = [
       `,
       faqSection({
         eyebrow: "Questions",
-        title: "Choosing the right expertise area.",
-        copy: "These questions often come up when individuals or institutions are trying to decide where to begin.",
+        title: "Finding the right starting point.",
+        copy: "Common questions from individuals, families, schools, and organizations exploring growth, learning, leadership, and development pathways.",
         items: [
-          { q: "Can one program combine multiple expertise areas?", a: "Yes. Many of Sanjo's interventions combine counselling insight, emotional intelligence, communication, and leadership development because real needs rarely fit into one isolated category." },
-          { q: "Do these expertise areas apply only to formal workshops?", a: "No. They apply to one-to-one work, school interventions, parent sessions, group facilitation, leadership programmes, and corporate learning pathways." },
-          { q: "How do I know which pathway fits my need?", a: "Start with the context: who the audience is, what challenge they are facing, and what visible outcomes you want. The consultation process can then shape the right pathway." },
-          { q: "Can organizational and personal needs be addressed differently?", a: "Yes. Sanjo.in focuses on the personal brand and personal pathways, while WayMaker Skills™ provides the broader organizational bridge when scale and institutional depth are needed." }
+          { q: "Can one program combine multiple expertise areas?", a: "Yes. Real-world challenges rarely fit into a single category. Many programs integrate psychology, communication, emotional intelligence, leadership, learning, and human development principles." },
+          { q: "Are these expertise areas limited to workshops?", a: "No. They may be applied through counselling, coaching, mentoring, training, consulting, speaking engagements, or longer-term development initiatives." },
+          { q: "How do I know which pathway is right for me?", a: "A conversation helps identify the most relevant focus area based on your goals, context, audience, and desired outcomes." },
+          { q: "Do individuals and organizations require different approaches?", a: "Yes. While the underlying principles remain consistent, the design, delivery, and outcomes are adapted to suit the specific audience and context." }
         ]
       }),
       ctaBand({
         title: "Turn expertise into the right next step.",
-        copy: "Move from exploration to a concrete pathway for counselling, learning, student development, leadership, or organizational growth.",
+        copy: "Explore the pathway that best fits your goals, audience, and context.",
         actions: [
           anchor("/programs/", "See Programs", "btn btn-soft"),
           anchor("/contact/", "Contact Sanjo", "btn btn-secondary")
@@ -6180,8 +6180,8 @@ const pages = [
     content: [
       renderHero({
         eyebrow: "Programs",
-        title: "Programs for clarity, confidence, capability, and purposeful growth.",
-        copy: "A complete index of Sanjo's signature programs across personal development, education, institutional support, and corporate learning.",
+        title: "Programs Built Around Human Growth.",
+        copy: "Sanjo's programs draw from psychology, education, coaching, human development, and practical life experience. Each pathway is designed to create meaningful growth in a specific context while remaining adaptable to individual and organizational need.",
         actions: [anchor("/contact/", "Enquire Now", "btn btn-primary"), anchor("/book-consultation/", "Book a Consultation", "btn btn-secondary")],
         media: { image: "/assets/imgs/program-banner-header.png", alt: "Sanjo Cine Mathew program banner" },
         panelTitle: "Program categories",
@@ -6204,14 +6204,14 @@ const pages = [
         <div class="container">
           ${sectionHeader({
             eyebrow: "How Programs Are Delivered",
-            title: "Formats that match the context instead of forcing a generic approach.",
-            copy: "Sanjo's programs can be delivered as one-to-one support, intensive workshops, short interventions, or broader learning journeys."
+            title: "One vision. Multiple delivery formats.",
+            copy: "Every audience is different. Programs can be adapted as focused conversations, workshops, interventions, or long-term developmental journeys."
           })}
           ${renderCards([
-            { title: "One-to-one Pathways", copy: "Counselling, clarity, coaching, and personal effectiveness work for individuals." },
-            { title: "Group Workshops", copy: "Programs for students, parents, women, and community audiences built around shared themes." },
-            { title: "Institutional Interventions", copy: "School-wide and educator-facing programmes with developmental continuity." },
-            { title: "Corporate Learning Journeys", copy: "Multi-module learning pathways for leadership, communication, culture, and performance." }
+            { title: "One-to-One Support", copy: "Personalized guidance and mentoring." },
+            { title: "Group Programs", copy: "Shared learning experiences and workshops." },
+            { title: "Strategic Interventions", copy: "Targeted solutions for specific needs." },
+            { title: "Development Journeys", copy: "Longer-term growth and transformation pathways." }
           ], "process-card", "grid-4")}
         </div>
       </section>
@@ -6219,21 +6219,21 @@ const pages = [
       faqSection({
         eyebrow: "FAQ",
         title: "Questions about program fit and customization.",
-        copy: "Start here if you are comparing pathways or considering a customized intervention.",
+        copy: "Find answers to common questions about selecting, adapting, and implementing programs.",
         items: [
-          { q: "Can programs be customized?", a: "Yes. Program design can be adapted to age, audience, time available, developmental need, and organizational context." },
-          { q: "Do all programs have to be long-format?", a: "No. Some programmes work as focused sessions or short series, while others are more effective as immersive journeys." },
-          { q: "What if I am not sure whether I need counselling, coaching, or a workshop?", a: "That is a common starting point. A consultation helps clarify the need and routes you to the most relevant format." },
-          { q: "Are these programs available for institutions and organizations?", a: "Yes. Personal brand pathways begin here, and broader institutional engagements can also connect to WayMaker Skills™ when scale is needed." }
+          { q: "Can programs be customized?", a: "Yes. Programs can be adapted to the audience, age group, goals, duration, developmental needs, and organizational context." },
+          { q: "I'm not sure whether I need counselling, coaching, mentoring, training, or a workshop. What should I choose?", a: "A brief conversation can help identify the most suitable pathway. Recommendations are based on your goals, audience, context, and desired outcomes." },
+          { q: "Are these programs available for schools, organizations, and institutions?", a: "Yes. Many programs can be delivered for educational institutions, organizations, community groups, and professional audiences, with appropriate customization." },
+          { q: "Can programs be delivered online or in person?", a: "Depending on the program and audience, sessions may be delivered online, onsite, or through a blended format." },
         ]
       }),
       ctaBand({
-        title: "Choose the pathway that matches your audience and goals.",
-        copy: "Move into program details for corporates, counselling, schools, women empowerment, or broader human development work.",
+        title: "Different audiences. Different needs. Shared growth.",
+        copy: "Discover pathways tailored to students, parents, professionals, organizations, and communities.",
         actions: [
           anchor("/corporate-learning/", "Corporate Learning", "btn btn-soft"),
           anchor("/counselling-coaching/", "Counselling & Coaching", "btn btn-secondary"),
-          anchor("/schools-students-parents/", "Schools, Students & Parents", "btn btn-secondary"),
+          anchor("/schools-students-parents/", " Education & Youth Development", "btn btn-secondary"),
           anchor("/women-empowerment/", "Women Empowerment", "btn btn-secondary")
         ]
       })
