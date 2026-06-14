@@ -12,7 +12,11 @@ const outDirArg = outDirEqualsArg
   : outDirArgIndex >= 0 ? process.argv[outDirArgIndex + 1] : process.env.SANJO_BUILD_DIR;
 const OUTPUT_DIR = outDirArg ? path.resolve(ROOT, outDirArg) : ROOT;
 const DEPLOY_BUILD = OUTPUT_DIR !== ROOT;
-const BASE_URL = "https://sanjo.in";
+const BASE_URL = normalizeBaseUrl(process.env.SANJO_BASE_URL || "https://sanjo.in");
+const PUBLIC_BASE_PATH = normalizePublicBasePath(process.env.SANJO_PUBLIC_BASE || "");
+const CNAME = Object.hasOwn(process.env, "SANJO_CNAME")
+  ? process.env.SANJO_CNAME.trim()
+  : BASE_URL === "https://sanjo.in" ? "sanjo.in" : "";
 const YEAR = new Date().getFullYear();
 const GA_ID = "G-6RXTX63CVY";
 const FORM_ACCESS_KEY = "f9c83cdc-a3a4-4441-922b-dced7f52a1cd";
@@ -4566,11 +4570,21 @@ const footerColumns = [
   }
 ];
 
-function fullUrl(route) {
-  return route.startsWith("http") ? route : `${BASE_URL}${routeHref(route)}`;
+function normalizeBaseUrl(url) {
+  return String(url || "").replace(/\/+$/, "");
 }
 
-function routeHref(href) {
+function normalizePublicBasePath(basePath) {
+  const clean = String(basePath || "").trim();
+  if (!clean || clean === "/") return "";
+  return `/${clean.replace(/^\/+|\/+$/g, "")}`;
+}
+
+function fullUrl(route) {
+  return route.startsWith("http") ? route : `${BASE_URL}${canonicalRoute(route)}`;
+}
+
+function canonicalRoute(href) {
   if (!href || href.startsWith("http") || href.startsWith("mailto:") || href.startsWith("tel:")) {
     return href;
   }
@@ -4580,8 +4594,20 @@ function routeHref(href) {
   return hash ? `${normalized}#${hash}` : normalized;
 }
 
+function publicHref(href) {
+  const canonical = canonicalRoute(href);
+  if (!canonical || !canonical.startsWith("/")) return canonical;
+  return `${PUBLIC_BASE_PATH}${canonical}`;
+}
+
+function routeHref(href) {
+  return publicHref(href);
+}
+
 function canonicalizeMarkup(html) {
-  return html.replace(/href="([^"]+)"/g, (_match, href) => `href="${routeHref(href)}"`);
+  return html
+    .replace(/href="([^"]+)"/g, (_match, href) => `href="${publicHref(href)}"`)
+    .replace(/src="([^"]+)"/g, (_match, src) => `src="${publicHref(src)}"`);
 }
 
 function slugToOutputPath(route) {
@@ -5481,7 +5507,7 @@ function renderPage(page) {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/site.css">
+  <link rel="stylesheet" href="${publicHref("/assets/css/site.css")}">
   <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -5502,7 +5528,7 @@ function renderPage(page) {
     </main>
     ${renderFooter()}
   </div>
-  <script src="/assets/js/site.js"></script>
+  <script src="${publicHref("/assets/js/site.js")}"></script>
 </body>
 </html>`;
 }
@@ -6691,13 +6717,13 @@ const pages = [
         <div class="container">
           ${sectionHeader({
             eyebrow: "What Is WAMI™?",
-            title: "A joyful world where children practise real-life skills through stories and play.",
+            title: "A joyful world where life skills come alive.",
             copy: "WAMI™ helps children grow through stories, activities, games, challenges, reflection, and character-building experiences that feel bright, safe, and memorable."
           })}
           ${renderCards([
-            { title: "Learn by doing", copy: "Children practise rather than just listen, so the learning feels active, embodied, and easy to remember." },
-            { title: "Grow through stories", copy: "Story worlds make values, choices, emotions, and character lessons easier for children to understand." },
-            { title: "Reflect with confidence", copy: "Gentle reflection moments help children notice what they learned, how they felt, and how they can respond next time." }
+            { title: "Learn by doing", copy: "Children learn best when they actively explore, create, and participate." },
+            { title: "Grow through stories", copy: "Stories help children understand values, emotions, choices, and character." },
+            { title: "Reflect with confidence", copy: "Simple reflection moments help children notice, understand, and apply what they learn." }
           ], "framework-card", "grid-3")}
         </div>
       </section>
@@ -6707,8 +6733,8 @@ const pages = [
         <div class="container">
           ${sectionHeader({
             eyebrow: "How WAMI™ Comes Alive",
-            title: "Colourful activity tiles children can keep coming back to.",
-            copy: "The WAMI™ world is designed to be revisited, replayed, and reflected on from different angles."
+            title: "Where every activity becomes a life skill adventure.",
+            copy: "The WAMI™ world is filled with stories, games, challenges, reflection moments, and creative experiences designed to help children grow."
           })}
           ${renderCards([
             { title: "Stories", copy: "Narratives that make values, feelings, and choices feel real and relatable." },
@@ -6728,8 +6754,8 @@ const pages = [
         <div class="container">
           ${sectionHeader({
             eyebrow: "Child Development Outcomes",
-            title: "Core child development outcomes with brighter energy and stronger meaning.",
-            copy: "WAMI™ supports skills children can carry into family life, school spaces, friendships, and future learning environments."
+            title: "The life skills that matter beyond the classroom.",
+            copy: "WAMI™ helps children build confidence, communication, creativity, emotional awareness, and other essential human skills."
           })}
           ${renderCards([
             { title: "Confidence", copy: "A stronger sense of voice, presence, and willingness to try." },
@@ -6749,17 +6775,17 @@ const pages = [
         <div class="container">
           ${sectionHeader({
             eyebrow: "For Parents And Schools",
-            title: "Two pathways, one joyful learning world.",
-            copy: "WAMI™ can meet children through the home environment, the classroom environment, or both together."
+            title: "Growing together through home and school.",
+            copy: "Children thrive when the important adults in their lives reinforce the same values, skills, and habits. This creates a beautiful bridge between parents and educators."
           })}
           ${renderCards([
             {
-              title: "For Parents",
-              copy: "WAMI™ offers child-friendly ways to reinforce confidence, communication, values, creativity, and reflection at home."
+              title: "For Parents - Support life skills at home",
+              copy: "WAMI™ provides simple, engaging ways for families to nurture confidence, communication, creativity, values, and reflection in everyday life."
             },
             {
-              title: "For Schools",
-              copy: "WAMI™ can support child-focused life skills work through school pathways, classroom experiences, and broader youth development partnerships."
+              title: "For Schools - Bring life skills into the learning journey",
+              copy: "WAMI™ supports schools through student programs, classroom experiences, life-skill initiatives, and youth development partnerships."
             }
           ], "framework-card", "grid-2")}
         </div>
@@ -6770,15 +6796,15 @@ const pages = [
         <div class="container">
           ${sectionHeader({
             eyebrow: "Inside The WAMI™ World",
-            title: "A journey of stories, games, creativity, and reflection.",
-            copy: "The flow stays playful, but it is still intentional. Each step gives children another way to practise life skills with safety and joy."
+            title: "A world of stories, play, and personal growth.",
+            copy: "The WAMI™ journey helps children explore ideas, express themselves, build relationships, and grow with confidence."
           })}
           <div class="timeline-steps">
             ${[
-              ["Story missions", "Children enter a friendly learning world through characters, situations, and value-rich stories."],
-              ["Game-based learning", "Playful participation turns skill ideas into action instead of passive instruction."],
-              ["Creative expression", "Children draw, respond, imagine, build, and communicate in their own way."],
-              ["Reflection moments", "Guided check-ins help them notice what they learned and how it applies in life."]
+              ["Game-Based Learning", "-"],
+              ["Creative Expression", "-"],
+              ["Reflection Moments", "-"],
+              // ["Reflection moments", "Guided check-ins help them notice what they learned and how it applies in life."]
             ].map(([title, copy]) => `
               <article class="timeline-step reveal">
                 <h3>${title}</h3>
@@ -6791,18 +6817,18 @@ const pages = [
       `,
       faqSection({
         eyebrow: "WAMI™ Questions",
-        title: "WAMI™ Questions",
-        copy: "A quick orientation for parents, schools, and partners exploring the WAMI™ world.",
+        title: "Questions About WAMI™",
+        copy: "A quick guide for parents, educators, and partners exploring the WAMI™ world.",
         items: [
-          { q: "What is WAMI™?", a: "WAMI™ is the children’s life skills world from WayMaker Skills™, presented here on Sanjo.in as part of Sanjo’s founder story and framework overview." },
-          { q: "Who is WAMI™ for?", a: "WAMI™ is designed for children and is useful for parents, schools, and child development partners who want structured life skills with a bright, engaging format." },
-          { q: "Can WAMI™ be used in schools?", a: "Yes. WAMI™ can support school pathways, classroom experiences, activity-led sessions, and broader youth development partnerships." },
-          { q: "What kinds of skills does WAMI™ help build?", a: "It supports confidence, creativity, communication, character, curiosity, collaboration, emotional awareness, and practical problem-solving." }
+          { q: "Who is WAMI™ for?", a: "WAMI™ is designed for children and can be experienced through families, schools, learning groups, and community programs." },
+          { q: "Can WAMI™ be used in schools?", a: "Yes. WAMI™ can support life-skills learning through classroom experiences, enrichment programs, student development initiatives, and partnerships." },
+          { q: "What skills does WAMI™ help children develop?", a: "WAMI™ focuses on confidence, communication, creativity, character, emotional awareness, collaboration, curiosity, and practical life skills." },
+          { q: "Is WAMI™ a curriculum or a learning experience?", a: "WAMI™ is a playful life-skills learning world that combines stories, activities, games, creativity, and reflection to support child development." }
         ]
       }),
       ctaBand({
-        title: "Bring WAMI™ to your learning community.",
-        copy: "Whether you are a parent, school, or partner, WAMI™ can help children practise life skills in a joyful, memorable way.",
+        title: "Every child deserves a world that helps them grow.",
+        copy: "Bring WAMI™ into homes, classrooms, and communities where stories, play, creativity, and reflection become pathways to life skills.",
         actions: [
           anchor(routes.contact, "Start a Conversation", "btn btn-soft"),
           anchor(waymakerLinks.wami, "Explore at WayMaker Skills™", "btn btn-secondary")
@@ -7960,17 +7986,18 @@ const legacyRedirects = [
 ];
 
 function redirectHtml(target) {
+  const publicTarget = publicHref(target);
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="refresh" content="0; url=${target}">
+  <meta http-equiv="refresh" content="0; url=${publicTarget}">
   <link rel="canonical" href="${fullUrl(target)}">
-  <script>location.replace(${JSON.stringify(target)});</script>
+  <script>location.replace(${JSON.stringify(publicTarget)});</script>
   <title>Redirecting...</title>
 </head>
 <body>
-  <p>Redirecting to <a href="${target}">${target}</a></p>
+  <p>Redirecting to <a href="${publicTarget}">${publicTarget}</a></p>
 </body>
 </html>`;
 }
@@ -8017,7 +8044,9 @@ async function writeSupportFiles() {
   await safeWrite(path.join(OUTPUT_DIR, "assets/css/site.css"), SITE_CSS.trimStart());
   await safeWrite(path.join(OUTPUT_DIR, "assets/js/site.js"), SITE_JS.trimStart());
   await safeWrite(path.join(OUTPUT_DIR, "robots.txt"), `User-agent: *\nAllow: /\n\nSitemap: ${BASE_URL}/sitemap.xml\n`);
-  await safeWrite(path.join(OUTPUT_DIR, "CNAME"), "sanjo.in\n");
+  if (CNAME) {
+    await safeWrite(path.join(OUTPUT_DIR, "CNAME"), `${CNAME}\n`);
+  }
   await safeWrite(path.join(OUTPUT_DIR, "404.html"), notFoundHtml());
 }
 

@@ -16,23 +16,24 @@ npm run preview
 
 ## GitHub Pages Deployment
 
-The workflow at `.github/workflows/deploy.yml` deploys on pushes to `main`.
+The workflow at `.github/workflows/pages.yml` deploys on pushes to `main`.
 
 It uses:
 
 - `actions/checkout`
 - `actions/setup-node`
 - `actions/configure-pages`
+- `npm run build:dist`
 - `actions/upload-pages-artifact`
 - `actions/deploy-pages`
 
-The deployment artifact is `dist/`. The build writes `dist/CNAME` with:
+The deployment artifact is `dist/`. For the GitHub project page, the workflow builds with `/sanjo-dev` as the public base path so CSS, JS, images, PDFs, and internal links resolve under:
 
 ```txt
-sanjo.in
+https://jijishthomas.github.io/sanjo-dev/
 ```
 
-For the custom domain, configure GitHub Pages for the repository and point DNS for `sanjo.in` to GitHub Pages as required by GitHub.
+For the custom domain, configure GitHub Pages for the repository, point DNS for `sanjo.in` to GitHub Pages as required by GitHub, and build with `SANJO_BASE_URL=https://sanjo.in`, no `SANJO_PUBLIC_BASE`, and `SANJO_CNAME=sanjo.in`.
 
 ## Build Output
 
