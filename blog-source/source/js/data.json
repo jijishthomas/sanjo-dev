@@ -1,0 +1,61 @@
+{
+    "author": {
+        "id": "sanjomathew",
+        "name": "Sanjo Cine Mathew",
+        "photo": "images/author.jpg",
+        "bio": "Counselling Psychologist, Skill Coach & Learning Facilitator",
+        "socialLinks": {
+            "facebook": "https://www.facebook.com/sanjo.mathew.39/",
+            "linkedin": "https://www.linkedin.com/in/sanjocinemathew/",
+            "instgram": "https://www.instagram.com/sanjocinemathew/"
+        }
+    },
+    "tags": {
+        "tag1": "Psychology",
+        "tag2": "Human",
+        "tag3": "AI",
+        "tag4": "Health",
+        "tag5": "Science"
+    },
+    "categories": {
+        "cat1": "Technology",
+        "cat2": "Health",
+        "cat3": "Science",
+        "cat4": "Innovation"
+    },
+    "posts": [
+        {
+            "id": "crab-basket-mentality-sanjo-mathew-blog",
+            "title": "Rising Above the Tide: Lessons from the Crab Basket Mentality.",
+            "subTitle": "Echoes of Wisdom - Inspired by Life",
+            "image": "crab-basket-mentality-sanjo-mathew-blog.png",
+            "authorId": "sanjomathew",
+            "date": "2024-08-15",
+            "tags": [
+                "tag1",
+                "tag3"
+            ],
+            "categories": [
+                "cat1",
+                "cat4"
+            ],
+            "content": "<p>Life is a series of challenges, and adversity is an inevitable part of the journey. When faced with difficult situations, our responses can be compared to the transformative processes of a potato, an egg, or coffee beans. Each metaphor symbolizes a unique approach to adversity, reflecting qualities of resilience, strength, or the ability to spread positivity.</p> <p><b>The Potato Approach:</b>Imagine yourself as a potato when adversity strikes. Potatoes become soft and malleable when exposed to heat or pressure. Similarly, embracing challenges with an open and adaptable mindset allows us to navigate difficulties with resilience. The potato teaches us that flexibility and a willingness to change can lead to personal growth and strength in the face of adversity.</p> <p><b>The Egg Philosophy:</b>Contrastingly, an egg becomes hard-boiled when subjected to heat. If you choose to face adversity as an egg, your response may involve toughening up and developing a thicker shell. While this approach can provide protection, it's essential to balance resilience with an open heart. Becoming too rigid may lead to emotional detachment, hindering personal development and growth.</p> <p><b>Brewing Resilience Like Coffee:</b>Consider the aromatic coffee beans that transform into a delightful beverage when exposed to hot water. Embracing adversity as if you were a coffee bean involves using challenges as opportunities for personal development. Just as coffee beans spread their aroma, facing difficulties with a positive mindset can inspire those around you. This approach encourages resilience, learning, and the ability to create something valuable out of challenging circumstances.</p> <p><b>Conclusion:</b>Life's challenges are inevitable, but our responses to adversity shape our character and define our journey. Whether you choose to be like a flexible potato, a resilient egg, or a transformative coffee bean, the key is to find a balance that fosters personal growth and positivity. By understanding the unique qualities of each metaphor, you can navigate adversity with grace, turning challenges into opportunities for self-discovery and empowerment.</p>"
+        }
+    ],
+    "sections": {
+        "editorsPick": {
+            "postId": "crab-basket-mentality-sanjo-mathew-blog"
+        },
+        "trendingPosts": [
+            {
+                "postId": "crab-basket-mentality-sanjo-mathew-blog"
+            }
+        ],
+        "popularPosts": {
+            "postId": "crab-basket-mentality-sanjo-mathew-blog"
+        },
+        "recentPosts": [
+            "crab-basket-mentality-sanjo-mathew-blog"
+        ]
+    }
+}

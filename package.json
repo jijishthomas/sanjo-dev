@@ -1,0 +1,10 @@
+{
+  "name": "sanjo-personal-brand-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-site.mjs",
+    "build:dist": "node scripts/build-site.mjs --out-dir dist",
+    "preview": "node scripts/preview-site.mjs"
+  }
+}

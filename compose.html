@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>JSON Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        form {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea,
+        button {
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        #content {
+            width: 100% !important;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
+</head>
+
+<body>
+
+    <form id="jsonForm">
+        <h2> Sanjo's Blog Generator</h2>
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" required>
+
+        <label for="subTitle">Sub Title</label>
+        <input type="text" id="subTitle" name="subTitle">
+
+        <label for="readTime">Read Time (in minutes)</label>
+        <input type="number" id="readTime" name="readTime" required>
+
+        <label for="tags">Tags (comma-separated)</label>
+        <textarea id="tags" name="tags" required></textarea>
+
+        <label for="content">Blog Content</label>
+        <textarea id="content" name="content"></textarea>
+
+        <button type="button" onclick="generateJSON()">Save</button>
+        <p>Send the generated JSON file along with the blog image to Jijish</p>
+    </form>
+
+    <pre id="output"></pre>
+    <button id="downloadButton" style="display: none;">Download JSON</button>
+
+    <script>
+        // Initialize WYSIWYG editor
+        CKEDITOR.replace('content');
+
+        function generateJSON() {
+            // Get current date in the desired format
+            const currentDate = new Date();
+            const formattedDate = currentDate.toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            }).replace(/ /g, ' ');
+
+            // Get form values
+            const title = document.getElementById('title').value.trim();
+            const subTitle = document.getElementById('subTitle').value.trim();
+            const readTime = document.getElementById('readTime').value.trim();
+            let tags = document.getElementById('tags').value.trim().split(',').map(tag => `#${tag.trim()}`);
+            const content = CKEDITOR.instances.content.getData(); // Get content from WYSIWYG editor
+
+            // Validate required fields
+            if (!title || !readTime || !tags.length || !content) {
+                alert('Please fill all required fields.');
+                return;
+            }
+
+            if (tags) {
+                tags.push(
+                    '#sanjo', '#sanjo-mathew'
+                )
+            }
+
+            // Generate ID and image name from title
+            const id = title.replace(/[^a-zA-Z0-9 ]/g, '').replace(/\s+/g, '-').toLowerCase();
+            const image = `${id}-sanjo-blog.jpg`;
+
+            // Create JSON object
+            const jsonObject = {
+                id: id,
+                title: title,
+                subTitle: subTitle,
+                image: image,
+                authorId: 'sanjomathew',
+                date: formattedDate,
+                readTime: `${readTime} min to Read`,
+                tags: tags,
+                content: content
+            };
+
+            // Display JSON
+            const jsonOutput = JSON.stringify(jsonObject, null, 4);
+            document.getElementById('output').textContent = jsonOutput;
+
+            // Enable and configure download button
+            const downloadButton = document.getElementById('downloadButton');
+            downloadButton.style.display = 'block';
+            downloadButton.onclick = function () {
+                const blob = new Blob([jsonOutput], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${id}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+            };
+        }
+    </script>
+
+</body>
+
+</html>

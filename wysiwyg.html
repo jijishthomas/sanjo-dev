@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Simple WYSIWYG Editor</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        .editor-container {
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding: 10px;
+            background-color: #ffffff;
+            min-height: 300px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1 class="text-center">Simple WYSIWYG Editor</h1>
+
+        <div class="btn-toolbar mb-3" role="toolbar">
+            <div class="btn-group mr-2" role="group">
+                <button type="button" class="btn btn-secondary" onclick="execCommand('bold')"><b>B</b></button>
+                <button type="button" class="btn btn-secondary" onclick="execCommand('italic')"><i>I</i></button>
+                <button type="button" class="btn btn-secondary" onclick="execCommand('underline')"><u>U</u></button>
+            </div>
+            <div class="btn-group mr-2" role="group">
+                <button type="button" class="btn btn-secondary" onclick="execCommand('justifyLeft')">Left</button>
+                <button type="button" class="btn btn-secondary" onclick="execCommand('justifyCenter')">Center</button>
+                <button type="button" class="btn btn-secondary" onclick="execCommand('justifyRight')">Right</button>
+            </div>
+            <div class="btn-group mr-2" role="group">
+                <button type="button" class="btn btn-secondary" onclick="execCommand('insertUnorderedList')">•
+                    List</button>
+                <button type="button" class="btn btn-secondary" onclick="execCommand('insertOrderedList')">1.
+                    List</button>
+            </div>
+        </div>
+
+        <div id="editor" class="editor-container" contenteditable="true">
+            <p></p>
+        </div>
+
+        <button class="btn btn-primary" onclick="getHTMLContent()">Get HTML</button>
+
+        <h2 class="mt-4">HTML Output:</h2>
+        <div class="d-flex justify-content-between align-items-center">
+            <pre id="htmlOutput" class="formatted-content bg-light p-3 flex-grow-1 mr-2"></pre>
+            <button class="btn btn-secondary" onclick="copyCode()">Copy Code</button>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        function execCommand(command) {
+            document.execCommand(command, false, null);
+        }
+
+        function getHTMLContent() {
+            let editorContent = document.getElementById('editor').innerHTML;
+
+            // Simplification: Remove extra tags and inline styles
+            editorContent = editorContent.replace(/<o:p[^>]*>(.*?)<\/o:p>/g, ''); // Remove <o:p> tags
+            editorContent = editorContent.replace(/\sstyle="[^"]*"/g, ''); // Remove inline styles
+
+            document.getElementById('htmlOutput').textContent = editorContent;
+        }
+
+        function copyCode() {
+            const htmlOutput = document.getElementById('htmlOutput');
+            const range = document.createRange();
+            range.selectNode(htmlOutput);
+            window.getSelection().removeAllRanges();  // Clear previous selections
+            window.getSelection().addRange(range);
+
+            try {
+                document.execCommand('copy');
+                alert('Code copied to clipboard!');
+            } catch (err) {
+                alert('Failed to copy code. Please try manually.');
+            }
+
+            window.getSelection().removeAllRanges();  // Deselect after copy
+        }
+
+        function formatString(input) {
+            if (typeof input !== 'string') {
+                throw new Error('Input must be a string');
+            }
+            return input.toLowerCase().split(' ').join('-');
+        }
+
+        // Example usage
+        const input = "A Tribute to Dr Manmohan Singh: Visionary Leadership and Timeless Wisdom";
+        const formattedString = formatString(input);
+        console.log(formattedString);
+        // Output: "a-blueprint-for-managing-stress-in-professional-and-personal-life"
+
+
+
+    </script>
+
+</body>
+
+</html>

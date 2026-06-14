@@ -1,0 +1,250 @@
+@media (max-width: 1120px) {}
+
+@media (max-width: 992px) {
+
+    .custom_nav-container.navbar-expand-lg .navbar-nav {
+        width: 100%;
+    }
+
+    .custom_nav-container.navbar-expand-lg .navbar-nav .nav-link {
+        font-size: 0.95rem;
+        line-height: 1.4;
+        white-space: normal;
+        padding: 10px 0;
+    }
+
+    .insights-buttons a {
+        margin: 0;
+    }
+
+    .hero-container {
+        flex-direction: column;
+        gap: 24px;
+        padding-top: 50px;
+        padding-bottom: 170px;
+    }
+
+    .hero_detail-box {
+        width: 100%;
+        margin-bottom: 45px;
+    }
+
+    .hero_img-container {
+        width: 100%;
+        margin-right: 0;
+        margin-top: 0;
+    }
+
+    .hero-container.container {
+        padding-top: 45px;
+    }
+
+    .hero_detail-box h1 {
+        width: 100%;
+        font-size: 42px;
+    }
+
+    .google-form-wrap iframe {
+        min-height: 760px;
+        height: 74vh;
+    }
+
+
+}
+
+
+@media (max-width: 768px) {
+
+    .insights-buttons a {
+        margin: 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    .contact_img-box {
+        margin: 1.25rem 0 0;
+    }
+
+
+    .hero_detail-box {
+        text-align: center;
+    }
+
+    .hero_detail-box h1 {
+        width: 100%;
+        font-size: 34px;
+    }
+
+    .hero_detail-box p {
+        margin-top: 16px;
+        margin-bottom: 24px;
+    }
+
+    .call_to-btn {
+        width: 100%;
+        padding: 12px 20px;
+    }
+
+    .common_style>section {
+        padding: 34px 0;
+    }
+
+    .common_style p {
+        margin: 20px 0 28px 0;
+    }
+
+    .client_section .row {
+        padding: 36px 0;
+    }
+
+    .contact_section {
+        padding: 36px 16px;
+    }
+
+    .google-form-wrap iframe {
+        min-height: 680px;
+        height: 72vh;
+    }
+
+    .info_logo-box h2 {
+        font-size: 1.25rem;
+        text-align: center;
+    }
+
+    .info_section .social-box {
+        width: auto;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .top_container::after {
+        display: none;
+    }
+
+    .top_container::before {
+        background-size: cover;
+    }
+
+    .info_section .col-md-3 {
+        padding: 20px 25px;
+        text-align: center;
+    }
+
+    .common_style img {
+        width: 100%;
+        margin: 20px auto;
+    }
+
+}
+
+@media (max-width: 576px) {
+    .hero-container {
+        padding-top: 36px;
+        padding-bottom: 110px;
+        gap: 18px;
+    }
+
+    .hero_detail-box h1 {
+        font-size: 30px;
+    }
+
+    .layout_padding {
+        padding: 58px 0;
+    }
+
+    .client_img-box::before,
+    .client_img-box::after {
+        content: "";
+        position: absolute;
+        width: 75px;
+        height: 20px;
+        border-radius: 20px;
+        background-color: #00B140;
+    }
+
+    .client_img-box::before {
+        top: 0;
+        transform: rotate(132deg);
+        left: -15px;
+        animation: beforeanimate 1s;
+        animation-delay: .1s;
+    }
+
+    .client_img-box::after {
+        bottom: 0px;
+        transform: rotate(135deg);
+        right: -15px;
+        animation: afteranimate 1s;
+        animation-delay: .1s;
+    }
+
+
+    @keyframes beforeanimate {
+        0% {
+            top: 43%;
+            transform: rotate(142deg);
+            left: 31%;
+
+        }
+
+        100% {
+            top: 0px;
+            transform: rotate(132deg);
+            left: -15px;
+        }
+    }
+
+    @keyframes afteranimate {
+        0% {
+            bottom: 46%;
+            transform: rotate(142deg);
+            right: 35%;
+        }
+
+        100% {
+            bottom: 0px;
+            transform: rotate(135deg);
+            right: -15px;
+        }
+    }
+
+    .contact_section {
+        padding: 0px 15px 0 15px;
+    }
+
+    .sub_page .contact_section {
+        padding: 45px 15px;
+    }
+
+    .contact_section input {
+        width: 100%;
+    }
+
+    .google-form-wrap {
+        border-radius: 14px;
+    }
+
+    .google-form-wrap iframe {
+        min-height: 620px;
+        height: 68vh;
+    }
+
+    .info_section .social-box {
+        width: auto;
+    }
+}
+
+
+
+@media (max-width: 480px) {}
+
+@media (max-width: 400px) {}
+
+@media (max-width: 360px) {}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1170px;
+    }
+
+}
