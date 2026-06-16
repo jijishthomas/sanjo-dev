@@ -186,7 +186,7 @@ ol {
   display: grid;
   gap: 14px;
   margin-bottom: 28px;
-  max-width: 780px;
+  max-width: 1040px;
 }
 
 .section-header.centered {
@@ -1327,7 +1327,7 @@ ol {
 .blog-post-header {
   display: grid;
   gap: 16px;
-  max-width: 820px;
+  max-width: 1040px;
 }
 
 .divider {
@@ -1370,7 +1370,7 @@ body {
 .section-header {
   gap: 12px;
   margin-bottom: 22px;
-  max-width: 720px;
+  max-width: 1040px;
 }
 
 .section-header h2,
@@ -2156,7 +2156,7 @@ body {
 }
 
 .footer-cta-band p {
-  max-width: 720px;
+  max-width: 960px;
   color: rgba(238, 247, 255, 0.9);
   font-size: 0.92rem;
   line-height: 1.55;
@@ -2557,12 +2557,12 @@ body {
 }
 
 .article-layout {
-  grid-template-columns: minmax(0, 820px) minmax(260px, 340px);
+  grid-template-columns: minmax(0, 960px) minmax(260px, 340px);
   align-items: start;
 }
 
 .article-content {
-  max-width: 820px;
+  max-width: 960px;
   font-size: clamp(1.02rem, 1vw, 1.1rem);
   line-height: 1.75;
 }

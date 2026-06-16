@@ -210,7 +210,7 @@ ol {
   display: grid;
   gap: 14px;
   margin-bottom: 28px;
-  max-width: 780px;
+  max-width: 1040px;
 }
 
 .section-header.centered {
@@ -1351,7 +1351,7 @@ ol {
 .blog-post-header {
   display: grid;
   gap: 16px;
-  max-width: 820px;
+  max-width: 1040px;
 }
 
 .divider {
@@ -1394,7 +1394,7 @@ body {
 .section-header {
   gap: 12px;
   margin-bottom: 22px;
-  max-width: 720px;
+  max-width: 1040px;
 }
 
 .section-header h2,
@@ -2180,7 +2180,7 @@ body {
 }
 
 .footer-cta-band p {
-  max-width: 720px;
+  max-width: 960px;
   color: rgba(238, 247, 255, 0.9);
   font-size: 0.92rem;
   line-height: 1.55;
@@ -2581,12 +2581,12 @@ body {
 }
 
 .article-layout {
-  grid-template-columns: minmax(0, 820px) minmax(260px, 340px);
+  grid-template-columns: minmax(0, 960px) minmax(260px, 340px);
   align-items: start;
 }
 
 .article-content {
-  max-width: 820px;
+  max-width: 960px;
   font-size: clamp(1.02rem, 1vw, 1.1rem);
   line-height: 1.75;
 }
@@ -4338,6 +4338,14 @@ const signaturePrograms = [
     detailHref: `${routes.schools}#exam-stress`
   },
   {
+    id: "educator-excellence",
+    title: "Educator Excellence Pathway",
+    description: "A professional growth pathway for teaching excellence, student engagement, classroom leadership, and reflective educator development.",
+    bestFor: "Educators, teachers, school leaders, academic teams",
+    outcomes: "Teaching excellence, student engagement, classroom leadership, professional growth",
+    detailHref: "/programs/educator-excellence-pathway/"
+  },
+  {
     id: "corporate-excellence",
     title: "Corporate Excellence & Transformational Learning",
     description: "Psychology-based learning experiences for professionals and organizations seeking better human performance.",
@@ -4347,11 +4355,11 @@ const signaturePrograms = [
   },
   {
     id: "future-ready-leadership-academy",
-    title: "Future-Ready Leadership Academy",
+    title: "Future-Ready Leadership Program",
     description: "A transformational leadership development journey focused on self-leadership, influence, communication, decision-making, and purposeful impact.",
     bestFor: "Emerging leaders, educators, managers, entrepreneurs, team leads",
     outcomes: "Leadership, Influence, Communication, Strategic Thinking",
-    detailHref: `${routes.programs}#future-ready-leadership-academy`
+    detailHref: "/programs/future-ready-leadership-program/"
   },
   {
     id: "elevate",
@@ -5079,7 +5087,7 @@ function renderFooter() {
         <div class="footer-shell">
           <div class="footer-cta-band">
             <div class="stack">
-              <h2>For schools, organizations, and institutional programs, explore WayMaker Skills™.</h2>
+              <h2>For Schools, Organizations, and Institutional programs, explore WayMaker Skills™.</h2>
               <p>Sanjo.in is Dr. Sanjo Cine Mathew's personal brand platform. For large-scale institutional and company engagements, connect through the organization he founded.</p>
             </div>
             <div class="button-row">
@@ -5242,6 +5250,7 @@ function programVisual(program) {
     "parenting-with-passion": { icon: "family", badge: "Family / guidance" },
     "personal-effectiveness-mentorship": { icon: "growth", badge: "Growth / leadership" },
     "exam-stress": { icon: "book", badge: "Learning / calm" },
+    "educator-excellence": { icon: "people", badge: "Educator / growth" },
     "corporate-excellence": { icon: "leadership", badge: "Leadership / teams" },
     "future-ready-leadership-academy": { icon: "leadership", badge: "Leadership / impact" },
     elevate: { icon: "bridge", badge: "Culture / change" }
@@ -5638,6 +5647,18 @@ const programDetails = [
     brochure: "/assets/overcome-exam-stress-transformational-smart-learning-workshop-sanjo.pdf"
   },
   {
+    route: "/programs/educator-excellence-pathway/",
+    sourceId: "educator-excellence",
+    title: "Educator Excellence Pathway",
+    eyebrow: "Educator Development",
+    description: "A professional growth pathway for teaching excellence, student engagement, classroom leadership, and reflective educator development.",
+    image: "/assets/imgs/gallery/teachers-training-programme-nizamia-public-school-trivandrum-sanjo-mathew-trainer.jpg",
+    audience: ["Educators", "Teachers", "School leaders", "Academic teams"],
+    highlights: ["Teaching excellence", "Student engagement", "Classroom leadership", "Communication and presence", "Reflective professional growth", "Human-centered learning culture"],
+    outcomes: ["Stronger classroom confidence", "Improved student connection", "Clearer instructional presence", "Better educator communication", "Professional growth with purpose"],
+    brochure: null
+  },
+  {
     route: "/programs/corporate-excellence-transformational-learning/",
     sourceId: "corporate-excellence",
     title: "Corporate Excellence & Transformational Learning / E.L.E.V.A.T.E.",
@@ -5647,6 +5668,18 @@ const programDetails = [
     audience: ["Corporate teams", "Managers", "HR and L&D leaders", "Organizations in transition"],
     highlights: ["Leadership Elevation", "Engage & Empower / DEI", "Voice & Influence / Storytelling", "Adventure Labs / Outbound Learning", "Transformation Mindset", "Emotional Mastery"],
     outcomes: ["Executive capability enhancement", "Team-building", "Experiential outbound learning", "Emotional intelligence", "Communication", "Behavioral effectiveness", "Productivity", "Collaboration", "Organizational growth"],
+    brochure: null
+  },
+  {
+    route: "/programs/future-ready-leadership-program/",
+    sourceId: "future-ready-leadership-academy",
+    title: "Future-Ready Leadership Program",
+    eyebrow: "Leadership Development",
+    description: "A transformational leadership development journey focused on leadership presence, communication, influence, emotional intelligence, and purposeful impact.",
+    image: "/assets/imgs/program-banner-header.png",
+    audience: ["Emerging leaders", "Educators", "Managers", "Entrepreneurs", "Team leads"],
+    highlights: ["Leadership presence", "Communication excellence", "Influence and stakeholder trust", "Emotional intelligence", "Purposeful decision-making", "Self-leadership and accountability"],
+    outcomes: ["Stronger leadership presence", "Clearer communication", "Responsible influence", "Emotional maturity", "Purposeful impact"],
     brochure: null
   }
 ];
@@ -5751,7 +5784,7 @@ const pages = [
           <div class="identity-copy reveal">
             ${sectionHeader({
               eyebrow: "Human Development Strategist ",
-              title: "The strategist for transformative growth.",
+              title: "The Strategist for Transformative Growth.",
               copy: "Sanjo helps individuals, families, educators, leaders, and institutions navigate growth with clarity, competence, and purpose."
             })}
             <p class="muted">Her work integrates counselling psychology, education, communication, leadership, parenting, and skill development to translate insight into meaningful action and lasting impact.</p>
@@ -5777,7 +5810,7 @@ const pages = [
         <div class="container">
           ${sectionHeader({
             eyebrow: "PROFESSIONAL EXPERTISE",
-            title: "Expertise that blends psychology, education, leadership, and human development.",
+            title: "Expertise that blends Psychology, Education, Leadership, and Human development.",
             copy: "Each intervention is designed to move people from insight to action with practical structure and emotional intelligence."
           })}
           ${renderCards(expertiseAreas.slice(0, 6).map((item, index) => ({
@@ -5794,7 +5827,7 @@ const pages = [
         <div class="container">
           ${sectionHeader({
             eyebrow: "Signature Programs",
-            title: "Signature interventions designed for measurable outcomes.",
+            title: "Signature Interventions for Measurable Outcomes.",
             copy: "Personal programmes across counselling, student development, leadership, parenting, empowerment, and corporate transformation."
           })}
           ${programCards(signaturePrograms.slice(0, 8))}
@@ -5853,15 +5886,17 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "Audience Pathways",
+            eyebrow: "Find your growth pathway",
             title: "Quick pathway selector.",
-            copy: "Each audience enters from a different need, but the goal is the same: clarity, capability, and meaningful transformation."
+            copy: "Everyone's journey is unique. Choose the pathway that best reflects you are and where you want to grow."
           })}
           ${renderCards([
             { icon: "book", title: "I am a Student", copy: "Exam confidence, future readiness, self-expression, and learning habits.", links: [anchor("/schools-students-parents/", "See Student Pathway", "btn btn-secondary")] },
             { icon: "family", title: "I am a Parent", copy: "Emotional guidance, communication, boundaries, and developmental support at home.", links: [anchor("/schools-students-parents/#parenting-with-passion", "See Parent Pathway", "btn btn-secondary")] },
             { icon: "people", title: "I represent a School", copy: "Whole-ecosystem support across students, parents, and educators.", links: [anchor("/schools-students-parents/", "See School Pathway", "btn btn-secondary")] },
+            { icon: "people", title: "I am an Educator", copy: "Teaching excellence, student engagement, classroom leadership, and professional growth.", links: [anchor("/programs/educator-excellence-pathway/", "See Educator Pathway", "btn btn-secondary")] },
             { icon: "bridge", title: "I represent an Organization", copy: "Leadership, collaboration, culture, and human-centered performance.", links: [anchor("/corporate-learning/", "See Organization Pathway", "btn btn-secondary")] },
+            { icon: "leadership", title: "I Want to Lead", copy: "Leadership presence, communication, influence, emotional intelligence, and purposeful impact.", links: [anchor("/programs/future-ready-leadership-program/", "See Leadership Pathway", "btn btn-secondary")] },
             { icon: "calm", title: "I want Counselling", copy: "Clarity, emotional steadiness, decision support, and one-to-one growth.", links: [anchor("/counselling-coaching/", "See Counselling Pathway", "btn btn-secondary")] },
             { icon: "growth", title: "I want Women Empowerment", copy: "Identity, confidence, voice, well-being, and action planning.", links: [anchor("/women-empowerment/", "See Women Pathway", "btn btn-secondary")] }
           ], "path-card", "grid-4")}
@@ -5902,7 +5937,6 @@ const pages = [
           ${sectionHeader({
             eyebrow: "Latest Insights",
             title: "Fresh reflections from the blog.",
-            copy: "Latest posts are populated from the same JSON file used by the blog index and article pages."
           })}
           <div class="grid-3">
             ${blogPosts.slice(0, 3).map((post) => renderBlogCard(post, { cta: "Read Insight" })).join("")}
@@ -5918,7 +5952,7 @@ const pages = [
         <div class="container">
           ${sectionHeader({
             eyebrow: "Transformation Outcomes",
-            title: "What transformation looks like in practice.",
+            title: "What Transformation looks like in Practice.",
             copy: "Sanjo's work is designed to move people from confusion to confidence and from awareness to applied change."
           })}
           ${renderCards([
