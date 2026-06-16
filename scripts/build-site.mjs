@@ -5497,7 +5497,7 @@ function renderPage(page) {
   const ogImage = page.ogImage ? `${BASE_URL}${page.ogImage}` : `${BASE_URL}/assets/imgs/avatar.jpg`;
   const content = canonicalizeMarkup(page.content);
 
-  return `<!DOCTYPE html>
+  return canonicalizeMarkup(`<!DOCTYPE html>
 <html lang="en-IN">
 <head>
   <meta charset="utf-8">
@@ -5546,7 +5546,7 @@ function renderPage(page) {
   </div>
   <script src="${publicHref("/assets/js/site.js")}"></script>
 </body>
-</html>`;
+</html>`);
 }
 
 function page(route, data) {
