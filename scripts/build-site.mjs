@@ -39,7 +39,7 @@ const SITE_CSS = String.raw`
   --radius: 26px;
   --radius-lg: 36px;
   --radius-sm: 18px;
-  --container: min(1240px, calc(100vw - 32px));
+  --container: min(1320px, calc(100vw - 32px));
   --font-body: "Manrope", sans-serif;
   --font-display: "Fraunces", serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -1372,7 +1372,7 @@ ol {
   --shadow-card: 0 20px 42px rgba(20, 38, 67, 0.1);
   --radius-card: 22px;
   --radius-section: 32px;
-  --container: min(1120px, calc(100vw - 32px));
+  --container: min(1320px, calc(100vw - 32px));
 }
 
 body {

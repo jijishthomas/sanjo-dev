@@ -11,7 +11,7 @@
   --shadow: 0 20px 50px rgba(21, 33, 54, 0.12);
   --radius: 18px;
   --radius-sm: 12px;
-  --container: min(1080px, 92vw);
+  --container: min(1320px, 92vw);
 }
 
 * { box-sizing: border-box; }
