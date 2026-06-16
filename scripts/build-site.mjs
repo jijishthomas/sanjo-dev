@@ -4346,6 +4346,14 @@ const signaturePrograms = [
     detailHref: `${routes.corporateLearning}#corporate-excellence`
   },
   {
+    id: "future-ready-leadership-academy",
+    title: "Future-Ready Leadership Academy",
+    description: "A transformational leadership development journey focused on self-leadership, influence, communication, decision-making, and purposeful impact.",
+    bestFor: "Emerging leaders, educators, managers, entrepreneurs, team leads",
+    outcomes: "Leadership, Influence, Communication, Strategic Thinking",
+    detailHref: `${routes.programs}#future-ready-leadership-academy`
+  },
+  {
     id: "elevate",
     title: "E.L.E.V.A.T.E.",
     description: "A premium transformation journey for organizations navigating change, leadership, and culture building.",
@@ -4584,13 +4592,21 @@ function fullUrl(route) {
   return route.startsWith("http") ? route : `${BASE_URL}${canonicalRoute(route)}`;
 }
 
+function stripPublicBasePath(pathname) {
+  if (!PUBLIC_BASE_PATH || pathname === PUBLIC_BASE_PATH) return pathname === PUBLIC_BASE_PATH ? "/" : pathname;
+  return pathname.startsWith(`${PUBLIC_BASE_PATH}/`)
+    ? pathname.slice(PUBLIC_BASE_PATH.length)
+    : pathname;
+}
+
 function canonicalRoute(href) {
   if (!href || href.startsWith("http") || href.startsWith("mailto:") || href.startsWith("tel:")) {
     return href;
   }
 
   const [pathname, hash = ""] = href.split("#");
-  const normalized = canonicalRouteMap[pathname] || pathname;
+  const baseStrippedPathname = stripPublicBasePath(pathname);
+  const normalized = canonicalRouteMap[baseStrippedPathname] || baseStrippedPathname;
   return hash ? `${normalized}#${hash}` : normalized;
 }
 
@@ -5227,6 +5243,7 @@ function programVisual(program) {
     "personal-effectiveness-mentorship": { icon: "growth", badge: "Growth / leadership" },
     "exam-stress": { icon: "book", badge: "Learning / calm" },
     "corporate-excellence": { icon: "leadership", badge: "Leadership / teams" },
+    "future-ready-leadership-academy": { icon: "leadership", badge: "Leadership / impact" },
     elevate: { icon: "bridge", badge: "Culture / change" }
   };
   return visuals[program.id] || { icon: "spark", badge: "Development" };
@@ -5780,7 +5797,7 @@ const pages = [
             title: "Signature interventions designed for measurable outcomes.",
             copy: "Personal programmes across counselling, student development, leadership, parenting, empowerment, and corporate transformation."
           })}
-          ${programCards(signaturePrograms.slice(0, 7))}
+          ${programCards(signaturePrograms.slice(0, 8))}
         </div>
       </section>
       `,
@@ -5812,7 +5829,7 @@ const pages = [
               },
               {
                 title: "NOVA™ — Human Development Methodology",
-                copy: "A clear developmental pathway built around Notice, Own, Visualize, and Act.",
+                copy: "Practical models that help individuals and institutions navigate learning, leadership, and future readiness.",
                 links: [
                   anchor(routes.nova, "Read Overview", "btn btn-secondary"),
                   anchor(waymakerLinks.nova, "Learn More at WayMaker Skills™", "btn btn-soft")
@@ -5820,7 +5837,7 @@ const pages = [
               },
               {
                 title: "LQ™ — Life Intelligence Quotient Framework",
-                copy: "A five-dimensional framework for how people think, feel, connect, act, and adapt in life.",
+                copy: "A signature human development framework that offers a deeper lens for understanding personal capability, growth, and life effectiveness.",
                 links: [
                   anchor(routes.lq, "Read Overview", "btn btn-secondary"),
                   anchor(waymakerLinks.lq, "Learn More at WayMaker Skills™", "btn btn-soft")
