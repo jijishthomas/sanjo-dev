@@ -5030,7 +5030,6 @@ function renderHeader(page) {
         <div class="header-row">
           <a class="brand-lockup" href="${routes.home}">
             <strong>Sanjo Cine Mathew</strong>
-            <span>Personal Brand Website</span>
           </a>
           <nav class="primary-nav" aria-label="Primary navigation">
             ${renderPrimaryNav(page)}
@@ -5734,11 +5733,11 @@ const pages = [
         <div class="container home-identity-grid">
           <div class="identity-copy reveal">
             ${sectionHeader({
-              eyebrow: "Personal Brand",
+              eyebrow: "Human Development Strategist ",
               title: "The strategist for transformative growth.",
-              copy: "Sanjo's personal brand sits at the intersection of emotional depth, practical skill-building, future readiness, and purposeful action."
+              copy: "Sanjo helps individuals, families, educators, leaders, and institutions navigate growth with clarity, competence, and purpose."
             })}
-            <p class="muted">His work connects counselling psychology, education, personal effectiveness, communication, leadership, parenting, empowerment, and institutional learning into practical growth pathways.</p>
+            <p class="muted">Her work integrates counselling psychology, education, communication, leadership, parenting, and skill development to translate insight into meaningful action and lasting impact.</p>
             <div class="button-row">
               <a class="btn btn-primary" href="/about/">Explore My Journey</a>
             </div>
@@ -5760,7 +5759,7 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "About Preview",
+            eyebrow: "PROFESSIONAL EXPERTISE",
             title: "Expertise that blends psychology, education, leadership, and human development.",
             copy: "Each intervention is designed to move people from insight to action with practical structure and emotional intelligence."
           })}
