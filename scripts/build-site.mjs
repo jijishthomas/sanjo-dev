@@ -2,7 +2,17 @@ import { existsSync, readFileSync } from "node:fs";
 import { cp, mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { BOOKS_ROUTE, books, bookRoute, legacyBookRoute } from "../data/books.mjs";
+import {
+  BOOKS_ROUTE,
+  BOOKS_PORTRAIT,
+  BOOKS_RECOGNITION,
+  BOOK_AUTHOR_CREDENTIALS,
+  BOOK_TITLES,
+  INTENTIONAL_SERIES,
+  books,
+  bookRoute,
+  legacyBookRoute
+} from "../data/books.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -3304,12 +3314,677 @@ body {
   text-align: right;
 }
 
-.books-index-hero,
 .book-detail-hero {
   background:
     radial-gradient(circle at 82% 20%, rgba(200, 145, 43, 0.2), transparent 25%),
     radial-gradient(circle at 12% 78%, rgba(14, 122, 114, 0.2), transparent 28%),
     linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(232, 246, 248, 0.94));
+}
+
+.books-breadcrumb-row {
+  padding: 12px 0 0;
+}
+
+.books-breadcrumb-row .breadcrumbs {
+  margin: 0;
+}
+
+.books-breadcrumb-row .breadcrumbs ol {
+  padding: 0;
+}
+
+.books-showcase-section {
+  padding-top: 18px;
+}
+
+.books-showcase {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  gap: 30px;
+  padding: clamp(28px, 4vw, 44px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 34px;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(240, 199, 103, 0.18), transparent 24%),
+    radial-gradient(circle at 100% 10%, rgba(16, 150, 136, 0.22), transparent 28%),
+    radial-gradient(circle at 18% 100%, rgba(29, 79, 145, 0.22), transparent 26%),
+    linear-gradient(135deg, #103f4f 0%, #0c5b60 48%, #16706c 100%);
+  box-shadow: 0 28px 64px rgba(11, 54, 65, 0.22);
+  color: #f6f4ee;
+}
+
+.books-showcase::before,
+.books-showcase::after {
+  content: "";
+  position: absolute;
+  inset: auto;
+  pointer-events: none;
+}
+
+.books-showcase::before {
+  top: 0;
+  left: 10%;
+  width: 180px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 247, 224, 0.6), transparent);
+}
+
+.books-showcase::after {
+  right: -8%;
+  bottom: -12%;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(240, 199, 103, 0.16), transparent 62%);
+}
+
+.books-showcase-top {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(180px, 0.22fr) minmax(0, 1fr) minmax(180px, 0.22fr);
+  gap: 26px;
+  align-items: center;
+}
+
+.books-showcase-eyebrow {
+  color: #f0d89a;
+}
+
+.books-showcase-title {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.books-showcase-title span {
+  font-size: 0.92rem;
+  font-family: var(--font-body);
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(246, 244, 238, 0.72);
+}
+
+.books-showcase-title strong {
+  font-size: clamp(2.4rem, 5vw, 4.8rem);
+  line-height: 0.98;
+  color: #fff8ec;
+}
+
+.books-showcase-summary {
+  margin: 0;
+  font-size: 1.12rem;
+  color: #f3dfab;
+}
+
+.books-showcase-copy {
+  max-width: 58ch;
+  color: rgba(246, 244, 238, 0.82);
+}
+
+.books-author-credentials {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.books-author-credential {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: 16px 0;
+}
+
+.books-author-credential-icon .icon-mark {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff5db;
+}
+
+.books-author-credential-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.books-author-credential-copy strong,
+.books-author-credential-copy span {
+  display: block;
+}
+
+.books-author-credential-copy strong {
+  color: rgba(255, 248, 236, 0.94);
+  font-size: 0.88rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.books-author-credential-copy span {
+  color: rgba(246, 244, 238, 0.72);
+  font-size: 0.92rem;
+}
+
+.books-author-credential-divider {
+  width: 1px;
+  min-height: 48px;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.books-author-portrait {
+  margin: 0;
+}
+
+.books-author-portrait-shell {
+  position: relative;
+  width: min(260px, 100%);
+  aspect-ratio: 4 / 5;
+  margin-inline: auto;
+  padding: 14px;
+  border-radius: 36px;
+  border: 1px solid rgba(240, 199, 103, 0.36);
+  background: radial-gradient(circle at 30% 30%, rgba(240, 199, 103, 0.18), rgba(15, 72, 86, 0.92));
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 20px 40px rgba(4, 32, 40, 0.28);
+}
+
+.books-author-portrait-shell::before {
+  content: "";
+  position: absolute;
+  top: 18px;
+  right: 26px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff5db 0%, #f0c767 52%, rgba(240, 199, 103, 0.08) 100%);
+  box-shadow: 0 0 22px rgba(240, 199, 103, 0.62);
+}
+
+.books-author-portrait-placeholder {
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  padding: 24px;
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    radial-gradient(circle at top, rgba(240, 199, 103, 0.14), transparent 38%),
+    linear-gradient(180deg, rgba(18, 82, 92, 0.96), rgba(11, 54, 65, 1));
+  text-align: center;
+}
+
+.books-author-portrait-shell img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 28px;
+}
+
+.books-author-portrait-placeholder-icon .icon-mark {
+  width: 64px;
+  height: 64px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff5db;
+}
+
+.books-author-portrait-placeholder span {
+  font-size: 0.76rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(246, 244, 238, 0.74);
+}
+
+.books-author-portrait-placeholder strong {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  color: #fff8ec;
+}
+
+.books-author-portrait-placeholder strong + span {
+  color: rgba(246, 244, 238, 0.68);
+  font-size: 0.92rem;
+}
+
+.books-author-copy {
+  display: grid;
+  gap: 18px;
+}
+
+.books-record-badge {
+  display: grid;
+  place-items: center;
+}
+
+.books-record-badge-shell {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  max-width: 250px;
+  padding: 20px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 26px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(5, 41, 48, 0.08));
+  text-align: center;
+}
+
+.books-record-badge-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.books-record-badge-kicker {
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(246, 244, 238, 0.66);
+}
+
+.books-record-badge-copy strong {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  line-height: 1.05;
+  color: #f3dfab;
+}
+
+.books-record-badge-copy span:last-child {
+  color: rgba(246, 244, 238, 0.86);
+}
+
+.books-record-laurel {
+  position: relative;
+  width: 20px;
+  height: 74px;
+}
+
+.books-record-laurel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(240, 199, 103, 0.72);
+  border-left: 0;
+  border-top: 0;
+  border-bottom: 0;
+  border-radius: 50%;
+}
+
+.books-record-laurel::after {
+  content: "";
+  position: absolute;
+  inset: 8px 0;
+  background:
+    radial-gradient(circle at 50% 10%, rgba(240, 199, 103, 0.94) 0 3px, transparent 3.5px),
+    radial-gradient(circle at 50% 28%, rgba(240, 199, 103, 0.88) 0 3px, transparent 3.5px),
+    radial-gradient(circle at 50% 46%, rgba(240, 199, 103, 0.84) 0 3px, transparent 3.5px),
+    radial-gradient(circle at 50% 64%, rgba(240, 199, 103, 0.8) 0 3px, transparent 3.5px),
+    radial-gradient(circle at 50% 82%, rgba(240, 199, 103, 0.76) 0 3px, transparent 3.5px);
+}
+
+.books-record-laurel-right::before {
+  border-right: 0;
+  border-left: 2px solid rgba(240, 199, 103, 0.72);
+}
+
+.books-hero-books {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  align-items: end;
+}
+
+.books-hero-book {
+  min-width: 0;
+}
+
+.books-hero-book-link {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  height: 100%;
+  padding: 18px 18px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(7, 56, 67, 0.84), rgba(8, 41, 50, 0.88));
+  color: inherit;
+  text-decoration: none;
+  transition: transform var(--dur-base) var(--ease), border-color var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease);
+}
+
+.books-hero-book-link:hover,
+.books-hero-book-link:focus-visible {
+  transform: translateY(-8px);
+  border-color: rgba(240, 199, 103, 0.34);
+  box-shadow: 0 18px 38px rgba(6, 32, 40, 0.28), 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.books-hero-book-link:focus-visible {
+  outline: 3px solid rgba(240, 199, 103, 0.76);
+  outline-offset: 3px;
+}
+
+.books-hero-book-badge,
+.books-hero-book-kicker,
+.books-hero-book-action {
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.books-hero-book-badge {
+  color: rgba(246, 244, 238, 0.56);
+}
+
+.books-hero-book-kicker {
+  color: #f0d89a;
+}
+
+.books-hero-book-media {
+  display: grid;
+  place-items: center;
+  min-height: clamp(240px, 30vw, 410px);
+  padding: 12px 6px 6px;
+}
+
+.books-hero-book-media img {
+  width: 100%;
+  max-width: 240px;
+  max-height: clamp(260px, 31vw, 430px);
+  object-fit: contain;
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.34));
+}
+
+.books-hero-book-title {
+  font-family: var(--font-display);
+  font-size: 1.28rem;
+  line-height: 1.08;
+  color: #fff8ec;
+}
+
+.books-hero-book-subtitle {
+  color: rgba(246, 244, 238, 0.76);
+  font-size: 0.94rem;
+  line-height: 1.35;
+}
+
+.books-hero-book-action {
+  margin-top: auto;
+  color: rgba(246, 244, 238, 0.84);
+}
+
+.books-certificates {
+  display: grid;
+  gap: 28px;
+}
+
+.books-certificates-header h2 {
+  margin: 8px 0 0;
+  color: var(--text);
+}
+
+.books-certificates-header p:last-child {
+  max-width: 68ch;
+}
+
+.books-certificates-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.books-certificate-card {
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid rgba(22, 35, 63, 0.08);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: var(--shadow-soft);
+  transition: transform var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
+}
+
+.books-certificate-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 36px rgba(22, 35, 63, 0.12);
+}
+
+.books-certificate-frame {
+  display: grid;
+  place-items: center;
+  min-height: 300px;
+  padding: 20px;
+  border: 1px solid rgba(29, 79, 145, 0.08);
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(243, 248, 255, 0.9), rgba(251, 248, 241, 0.96));
+}
+
+.books-certificate-frame img {
+  width: 100%;
+  height: 100%;
+  max-height: 360px;
+  object-fit: contain;
+}
+
+.books-certificate-placeholder {
+  display: grid;
+  place-items: center;
+  gap: 12px;
+  min-height: 240px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.books-certificate-placeholder .icon-mark {
+  width: 56px;
+  height: 56px;
+  border-radius: 20px;
+}
+
+.books-certificate-caption {
+  display: grid;
+  gap: 8px;
+}
+
+.books-certificate-label,
+.recognition-preview-kicker {
+  color: var(--secondary);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.books-certificate-caption h3,
+.recognition-preview-title {
+  font-family: var(--font-display);
+  font-size: 1.24rem;
+  line-height: 1.1;
+}
+
+.books-certificate-caption p {
+  color: var(--muted);
+}
+
+.books-certificate-action {
+  justify-self: start;
+  min-height: 42px;
+  padding: 10px 16px;
+  border: 1px solid rgba(29, 79, 145, 0.14);
+  border-radius: 999px;
+  background: rgba(29, 79, 145, 0.08);
+  color: var(--primary);
+  font-weight: 800;
+}
+
+.books-certificate-action:disabled {
+  background: rgba(22, 35, 63, 0.06);
+  color: var(--muted);
+}
+
+.recognition-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  gap: 24px;
+  padding: clamp(24px, 3vw, 34px);
+  border: 1px solid rgba(22, 35, 63, 0.08);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at top right, rgba(200, 145, 43, 0.14), transparent 28%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(243, 249, 248, 0.92));
+  box-shadow: var(--shadow-soft);
+}
+
+.recognition-panel-compact {
+  grid-template-columns: minmax(0, 1.5fr) minmax(220px, 0.7fr);
+}
+
+.recognition-panel-copy,
+.recognition-panel-visual {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+
+.recognition-facts {
+  display: grid;
+  gap: 10px;
+  padding-left: 1.1rem;
+  color: var(--muted);
+}
+
+.recognition-preview-card,
+.recognition-preview-placeholder {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid rgba(22, 35, 63, 0.08);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: var(--shadow-soft);
+}
+
+.recognition-preview-card {
+  color: inherit;
+  text-align: left;
+}
+
+.recognition-preview-frame {
+  display: grid;
+  place-items: center;
+  min-height: 220px;
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(245, 240, 232, 0.72);
+}
+
+.recognition-preview-frame img {
+  width: 100%;
+  max-height: 220px;
+  object-fit: contain;
+}
+
+.recognition-preview-placeholder {
+  place-items: center;
+  min-height: 100%;
+  text-align: center;
+}
+
+.recognition-preview-placeholder .icon-mark {
+  width: 58px;
+  height: 58px;
+  border-radius: 20px;
+}
+
+.recognition-preview-placeholder strong {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+}
+
+.recognition-preview-placeholder span {
+  color: var(--muted);
+}
+
+.books-purpose-strip {
+  position: relative;
+  z-index: 1;
+  margin-top: 4px;
+  padding: 22px 28px;
+  border: 1px solid rgba(216, 163, 59, 0.2);
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(255, 244, 219, 0.96), rgba(246, 231, 190, 0.96) 44%, rgba(255, 248, 232, 0.98) 100%);
+  color: #123844;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.books-purpose-strip p {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.04rem, 2vw, 1.36rem);
+  line-height: 1.35;
+}
+
+.books-collection-section {
+  padding-top: 58px;
+}
+
+.books-reader-section {
+  padding-top: 12px;
+}
+
+.books-reader-shell {
+  display: grid;
+  gap: 22px;
+}
+
+.books-reader-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.books-reader-card {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  padding: 24px;
+  border: 1px solid rgba(22, 35, 63, 0.08);
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 250, 244, 0.96));
+  box-shadow: var(--shadow-soft);
+}
+
+.books-reader-card h3 {
+  margin: 0;
+  font-size: 1.42rem;
+}
+
+.books-reader-card p {
+  margin: 0;
+}
+
+.books-reader-card-kicker {
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.books-reader-steps {
+  display: grid;
+  gap: 12px;
 }
 
 .books-grid {
@@ -4019,6 +4694,33 @@ body {
 }
 
 @media (max-width: 1120px) {
+  .books-breadcrumb-row {
+    padding-top: 10px;
+  }
+
+  .books-showcase-top {
+    grid-template-columns: minmax(160px, 0.24fr) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .books-record-badge {
+    grid-column: 1 / -1;
+  }
+
+  .books-record-badge-shell {
+    max-width: 320px;
+  }
+
+  .books-hero-books,
+  .books-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .books-certificates-grid,
+  .books-reader-grid {
+    grid-template-columns: 1fr;
+  }
+
   .page-hero-grid,
   .split-panel,
   .story-layout,
@@ -4107,6 +4809,10 @@ body {
     padding: 44px 0;
   }
 
+  .books-breadcrumb-row {
+    padding-top: 8px;
+  }
+
   .grid-2,
   .grid-3,
   .grid-4,
@@ -4138,9 +4844,63 @@ body {
   }
 
   .book-showcase,
+  .books-showcase,
   .waymaker-bridge,
   .blog-search-card {
     border-radius: 24px;
+  }
+
+  .books-showcase {
+    gap: 22px;
+    padding: 24px 22px;
+  }
+
+  .books-showcase-top {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .books-author-copy {
+    justify-items: center;
+  }
+
+  .books-showcase-copy {
+    max-width: 100%;
+  }
+
+  .books-author-portrait-shell {
+    width: min(200px, 58vw);
+  }
+
+  .books-record-badge-shell {
+    max-width: 100%;
+  }
+
+  .books-author-credentials,
+  .recognition-panel,
+  .recognition-panel-compact {
+    grid-template-columns: 1fr;
+  }
+
+  .books-author-credential {
+    grid-template-columns: auto minmax(0, 1fr);
+    padding: 14px 0;
+  }
+
+  .books-author-credential-divider {
+    display: none;
+  }
+
+  .books-hero-books {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .books-purpose-strip {
+    padding: 20px 22px;
+  }
+
+  .books-collection-section {
+    padding-top: 48px;
   }
 
   .books-carousel-shell {
@@ -4367,6 +5127,60 @@ body {
     padding: 18px;
   }
 
+  .books-showcase {
+    padding: 18px;
+  }
+
+  .books-showcase-title strong {
+    font-size: clamp(2rem, 11vw, 3rem);
+  }
+
+  .books-author-credentials {
+    border-bottom: 0;
+  }
+
+  .books-author-credential {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  }
+
+  .books-certificates-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .recognition-preview-card,
+  .books-certificate-action {
+    width: 100%;
+  }
+
+  .books-hero-books {
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(170px, 74vw);
+    grid-template-columns: none;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scroll-snap-type: x proximity;
+  }
+
+  .books-hero-book {
+    scroll-snap-align: start;
+  }
+
+  .books-hero-book-link {
+    min-height: 100%;
+  }
+
+  .books-hero-book-media {
+    min-height: 250px;
+  }
+
+  .books-purpose-strip {
+    padding: 18px 18px 20px;
+  }
+
+  .books-collection-section {
+    padding-top: 42px;
+  }
+
   .book-slides {
     min-height: 830px;
   }
@@ -4421,6 +5235,14 @@ body {
   .author-card-inner,
   .book-nav-card {
     grid-template-columns: 1fr;
+  }
+
+  .books-record-badge-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .books-record-laurel {
+    display: none;
   }
 }
 
@@ -4604,19 +5426,40 @@ const SITE_JS = String.raw`
 
     const image = lightbox.querySelector("img");
     const closeButton = lightbox.querySelector("[data-lightbox-close]");
+    const dialog = lightbox.querySelector(".gallery-lightbox-inner");
+    let lastTrigger = null;
+
+    function focusableElements() {
+      return Array.from(lightbox.querySelectorAll("button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])"))
+        .filter(function (node) {
+          return !node.hasAttribute("disabled") && node.getAttribute("aria-hidden") !== "true";
+        });
+    }
 
     function close() {
       lightbox.classList.remove("open");
+      lightbox.setAttribute("aria-hidden", "true");
       body.style.overflow = "";
+      if (lastTrigger && typeof lastTrigger.focus === "function") {
+        lastTrigger.focus();
+      }
     }
 
     document.querySelectorAll("[data-lightbox-src]").forEach(function (button) {
       button.addEventListener("click", function () {
         if (!image) return;
+        lastTrigger = button;
         image.src = button.getAttribute("data-lightbox-src");
         image.alt = button.getAttribute("data-lightbox-alt") || "";
+        if (dialog) {
+          dialog.setAttribute("aria-label", button.getAttribute("data-lightbox-label") || "Image preview");
+        }
         lightbox.classList.add("open");
+        lightbox.setAttribute("aria-hidden", "false");
         body.style.overflow = "hidden";
+        if (closeButton) {
+          closeButton.focus();
+        }
       });
     });
 
@@ -4631,8 +5474,23 @@ const SITE_JS = String.raw`
     });
 
     document.addEventListener("keydown", function (event) {
+      if (!lightbox.classList.contains("open")) return;
       if (event.key === "Escape") {
         close();
+        return;
+      }
+      if (event.key === "Tab") {
+        const nodes = focusableElements();
+        if (!nodes.length) return;
+        const first = nodes[0];
+        const last = nodes[nodes.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
       }
     });
   }
@@ -5580,6 +6438,7 @@ function canonicalRoute(href) {
 }
 
 function publicHref(href) {
+  if (href && href.startsWith("#")) return href;
   const canonical = canonicalRoute(href);
   if (!canonical || !canonical.startsWith("/")) return canonical;
   return `${PUBLIC_BASE_PATH}${canonical}`;
@@ -6304,12 +7163,6 @@ function gallerySection() {
           }).join("")}
         </div>
       </div>
-      <div class="gallery-lightbox" data-lightbox>
-        <div class="gallery-lightbox-inner">
-          <button class="gallery-close" type="button" aria-label="Close image preview" data-lightbox-close>×</button>
-          <img src="" alt="">
-        </div>
-      </div>
     </section>
   `;
 }
@@ -6603,6 +7456,7 @@ function renderPage(page) {
     </main>
     ${renderFooter()}
   </div>
+  ${renderSharedLightbox()}
   <script src="${publicHref("/assets/js/site.js")}"></script>
 </body>
 </html>`);
@@ -6622,6 +7476,21 @@ function getBook(slug) {
 
 function bookSeriesLabel(book) {
   return book.seriesPosition ? `Book ${book.seriesPosition} of 3` : book.category;
+}
+
+function publicAssetExists(assetPath) {
+  return Boolean(assetPath) && existsSync(path.join(ROOT, assetPath.replace(/^\//, "")));
+}
+
+function getBooksPortrait() {
+  return publicAssetExists(BOOKS_PORTRAIT.image) ? BOOKS_PORTRAIT : null;
+}
+
+function getBooksCertificates() {
+  return BOOKS_RECOGNITION.certificates.map((item) => ({
+    ...item,
+    isAvailable: publicAssetExists(item.image)
+  }));
 }
 
 function renderBookCover(book, className = "book-card-cover", loading = "lazy") {
@@ -6698,27 +7567,273 @@ function renderBookCard(book) {
   `;
 }
 
+function renderBooksHeroBook(book, index) {
+  const heroLabel = book.seriesPosition ? `Intentional Life Blueprint &middot; Book ${book.seriesPosition}` : book.category;
+  const subtitle = book.subtitle ? `<span class="books-hero-book-subtitle">${book.subtitle}</span>` : "";
+  return `
+    <article class="books-hero-book reveal">
+      <a class="books-hero-book-link" href="${bookRoute(book)}" aria-label="Explore ${escapeAttr(book.title)}">
+        <span class="books-hero-book-badge">${String(index + 1).padStart(2, "0")}</span>
+        <span class="books-hero-book-kicker">${heroLabel}</span>
+        <span class="books-hero-book-media">
+          <img src="${book.coverImage}" alt="${escapeAttr(book.coverAlt)}" loading="${index === 0 ? "eager" : "lazy"}" decoding="async" width="420" height="640">
+        </span>
+        <span class="books-hero-book-title">${book.shortTitle}</span>
+        ${subtitle}
+        <span class="books-hero-book-action">Explore Book</span>
+      </a>
+    </article>
+  `;
+}
+
+function renderAuthorCredentials() {
+  return `
+    <ul class="books-author-credentials" aria-label="Author credentials">
+      ${BOOK_AUTHOR_CREDENTIALS.map((item, index) => `
+        <li class="books-author-credential">
+          <span class="books-author-credential-icon">${iconSvg(item.icon)}</span>
+          <span class="books-author-credential-copy">
+            <strong>${item.label}</strong>
+            <span>${item.supportingLabel}</span>
+          </span>
+          ${index < BOOK_AUTHOR_CREDENTIALS.length - 1 ? '<span class="books-author-credential-divider" aria-hidden="true"></span>' : ""}
+        </li>
+      `).join("")}
+    </ul>
+  `;
+}
+
+function renderBooksPortrait() {
+  const portrait = getBooksPortrait();
+  if (portrait) {
+    return `
+      <div class="books-author-portrait-shell">
+        <img src="${portrait.image}" alt="${escapeAttr(portrait.alt)}" loading="eager" decoding="async" width="540" height="640">
+      </div>
+    `;
+  }
+
+  return `
+    <div class="books-author-portrait-shell">
+      <div class="books-author-portrait-placeholder">
+        <span class="books-author-portrait-placeholder-icon" aria-hidden="true">${iconSvg("people")}</span>
+        <strong>Official portrait</strong>
+        <span>Photo coming soon</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderCertificateCard(item) {
+  const imageMarkup = item.isAvailable
+    ? `<img src="${item.image}" alt="${escapeAttr(item.alt)}" loading="lazy" decoding="async" width="1200" height="850">`
+    : `<div class="books-certificate-placeholder" aria-hidden="true">${iconSvg("leadership")}<span>Certificate image placeholder</span></div>`;
+  const actionAttrs = item.isAvailable
+    ? ` type="button" data-lightbox-src="${item.image}" data-lightbox-alt="${escapeAttr(item.alt)}" data-lightbox-label="${escapeAttr(`${item.title} preview`)}"`
+    : ` type="button" disabled aria-disabled="true"`;
+  const actionLabel = item.isAvailable ? "View certificate" : "Image pending";
+  const cardDescription = item.isAvailable
+    ? item.title
+    : `${item.title} placeholder until the certificate image is supplied`;
+
+  return `
+    <article class="books-certificate-card">
+      <div class="books-certificate-frame">
+        ${imageMarkup}
+      </div>
+      <div class="books-certificate-caption">
+        <span class="books-certificate-label">${item.label}</span>
+        <h3>${item.title}</h3>
+        <p>${cardDescription}</p>
+        <button class="books-certificate-action" ${actionAttrs}>${actionLabel}</button>
+      </div>
+    </article>
+  `;
+}
+
+function renderBooksCertificates(certificates) {
+  return `
+    <section class="section books-recognition-section" id="record-achievements" aria-labelledby="record-achievements-title">
+      <div class="container">
+        <div class="books-certificates reveal">
+          <div class="books-certificates-header">
+            <p class="eyebrow">${BOOKS_RECOGNITION.eyebrow}</p>
+            <h2 id="record-achievements-title">${BOOKS_RECOGNITION.heading}</h2>
+            <p>${BOOKS_RECOGNITION.description}</p>
+          </div>
+          <div class="books-certificates-grid">
+            ${certificates.map(renderCertificateCard).join("")}
+          </div>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderRecognitionSection({
+  eyebrow,
+  heading,
+  description,
+  facts,
+  ctaLabel,
+  ctaHref,
+  className = "",
+  compact = false,
+  previewCertificate = null
+}) {
+  const certificate = previewCertificate && previewCertificate.isAvailable ? previewCertificate : null;
+  return `
+    <section class="section ${className}">
+      <div class="container">
+        <div class="recognition-panel${compact ? " recognition-panel-compact" : ""} reveal">
+          <div class="recognition-panel-copy">
+            <p class="eyebrow">${eyebrow}</p>
+            <h2>${heading}</h2>
+            <p>${description}</p>
+            <ul class="recognition-facts" aria-label="Recognition highlights">
+              ${facts.map((fact) => `<li>${fact}</li>`).join("")}
+            </ul>
+            <div class="button-row">${anchor(ctaHref, ctaLabel, "btn btn-primary")}</div>
+          </div>
+          <div class="recognition-panel-visual">
+            ${certificate ? `
+              <button class="recognition-preview-card" type="button" data-lightbox-src="${certificate.image}" data-lightbox-alt="${escapeAttr(certificate.alt)}" data-lightbox-label="${escapeAttr(`${certificate.title} preview`)}">
+                <span class="recognition-preview-kicker">${certificate.label}</span>
+                <div class="recognition-preview-frame">
+                  <img src="${certificate.image}" alt="${escapeAttr(certificate.alt)}" loading="lazy" decoding="async" width="1200" height="850">
+                </div>
+                <span class="recognition-preview-title">${certificate.title}</span>
+              </button>
+            ` : `
+              <div class="recognition-preview-placeholder" aria-hidden="true">
+                ${iconSvg("leadership")}
+                <strong>${BOOK_TITLES.length} published books</strong>
+                <span>Recognition and certificate preview</span>
+              </div>
+            `}
+          </div>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderSharedLightbox() {
+  return `
+    <div class="gallery-lightbox" data-lightbox aria-hidden="true">
+      <div class="gallery-lightbox-inner" role="dialog" aria-modal="true" aria-label="Image preview">
+        <button class="gallery-close" type="button" aria-label="Close image preview" data-lightbox-close>×</button>
+        <img src="" alt="">
+      </div>
+    </div>
+  `;
+}
+
+function renderBooksReaderPathway(trilogy) {
+  return `
+    <section class="section tight books-reader-section">
+      <div class="container">
+        <div class="books-reader-shell">
+          ${sectionHeader({
+            eyebrow: "Reader pathway",
+            title: "Choose your reading pathway.",
+            copy: "Begin with transformational fiction or move through the trilogy built around intentional living, intentional thinking, and intentional being."
+          })}
+          <div class="books-reader-grid">
+            <article class="books-reader-card reveal">
+              <span class="books-reader-card-kicker">Transformational Fiction</span>
+              <h3>${books[0].title}</h3>
+              <p>Begin with The WayMaker Woman, a story of identity, courage, responsibility, and intentional choice.</p>
+              <div class="button-row">${anchor(bookRoute(books[0]), "Start with The WayMaker Woman", "btn btn-primary")}</div>
+            </article>
+            <article class="books-reader-card reveal">
+              <span class="books-reader-card-kicker">${INTENTIONAL_SERIES}</span>
+              <h3>Move through the blueprint trilogy.</h3>
+              <p>Continue through intentional living, intentional thinking, and intentional being across the three-book series.</p>
+              <div class="books-reader-steps">
+                ${trilogy.map((book) => `
+                  <a class="trilogy-step" href="${bookRoute(book)}">
+                    <strong>${book.shortTitle}</strong>
+                    <span>${book.subtitle.replace("The Blueprint for ", "")}</span>
+                  </a>
+                `).join("")}
+              </div>
+              <div class="button-row">${anchor(bookRoute(trilogy[0]), "Explore the Blueprint Series", "btn btn-secondary")}</div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
 function renderBooksIndexContent() {
   const trilogy = books.filter((book) => book.seriesName);
+  const certificates = getBooksCertificates();
+  const aboutAction = anchor(routes.about, "Learn About Dr. Sanjo Cine Mathew", "btn btn-secondary");
+  const collectionAction = `<a class="btn btn-primary" href="#book-collection">Explore All Books</a>`;
+  const recordsAction = `<a class="btn btn-soft" href="#record-achievements">View Recognition</a>`;
   return [
-    renderHero({
-      className: "books-index-hero",
-      eyebrow: "Books",
-      title: "Books by Dr. Sanjo Cine Mathew",
-      copy: "Explore transformational fiction and psychology-informed books by Dr. Sanjo Cine Mathew on intentional living, emotional resilience, mental clarity, conscious thinking, and inner harmony.",
-      actions: [anchor(bookRoute(books[0]), "Start with The WayMaker Woman", "btn btn-primary"), anchor(bookRoute(books[1]), "Explore the Blueprint Series", "btn btn-secondary")],
-      media: { html: renderBookCover(books[0], "book-detail-cover", "eager") },
-      panelTitle: "Reader pathway",
-      panelCopy: "The WayMaker Woman stands as transformational fiction. The three blueprint books form the Intentional Life Blueprint Series.",
-      panelHtml: `<div class="button-row">${anchor(routes.about, "Learn more about Dr. Sanjo Cine Mathew", "btn btn-secondary")}</div>`
-    }, renderBreadcrumbs({ route: routes.books, breadcrumbs: [{ label: "Home", route: routes.home }, { label: "Books", route: routes.books }] })),
     `
-    <section class="section">
+    <section class="books-breadcrumb-row">
+      <div class="container">
+        ${renderBreadcrumbs({ route: routes.books, breadcrumbs: [{ label: "Home", route: routes.home }, { label: "Books", route: routes.books }] })}
+      </div>
+    </section>
+    `,
+    `
+    <section class="section books-showcase-section" aria-labelledby="books-hero-title">
+      <div class="container">
+        <div class="books-showcase reveal">
+          <div class="books-showcase-top">
+            <figure class="books-author-portrait">
+              ${renderBooksPortrait()}
+            </figure>
+            <div class="books-author-copy">
+              <p class="eyebrow books-showcase-eyebrow">Author &bull; Mentor &bull; Intentional Living Advocate</p>
+              <h1 id="books-hero-title" class="books-showcase-title">
+                <span>Books by</span>
+                <strong>Dr. Sanjo Cine Mathew</strong>
+              </h1>
+              <p class="books-showcase-summary">Four books. One purpose - to inspire intentional living.</p>
+              <p class="books-showcase-copy">Transformational fiction and psychology-informed books exploring resilience, clarity, conscious thinking, and inner harmony.</p>
+              ${renderAuthorCredentials()}
+              <div class="hero-actions">
+                ${collectionAction}
+                ${aboutAction}
+                ${recordsAction}
+              </div>
+            </div>
+            <aside class="books-record-badge" aria-label="Verified recognition for Dr. Sanjo Cine Mathew">
+              <div class="books-record-badge-shell">
+                <span class="books-record-laurel books-record-laurel-left" aria-hidden="true"></span>
+                <div class="books-record-badge-copy">
+                  <span class="books-record-badge-kicker">Verified recognition</span>
+                  <strong>Asia Book of Records</strong>
+                  <span>Awardee</span>
+                </div>
+                <span class="books-record-laurel books-record-laurel-right" aria-hidden="true"></span>
+              </div>
+            </aside>
+          </div>
+          <div class="books-hero-books" aria-label="Featured books by Dr. Sanjo Cine Mathew">
+            ${books.map(renderBooksHeroBook).join("")}
+          </div>
+          <div class="books-purpose-strip reveal">
+            <p>Four books. A journey through resilience, clarity, harmony, and intentional living.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    `,
+    renderBooksCertificates(certificates),
+    `
+    <section class="section books-collection-section" id="book-collection">
       <div class="container">
         ${sectionHeader({
           eyebrow: "All Books",
           title: "Explore the complete book collection.",
-          copy: "Presented in the intended reading order, beginning with The WayMaker Woman."
+          copy: "Presented in the intended reading order, beginning with The WayMaker Woman and continuing through the blueprint trilogy."
         })}
         <div class="books-grid">
           ${books.map(renderBookCard).join("")}
@@ -6726,31 +7841,7 @@ function renderBooksIndexContent() {
       </div>
     </section>
     `,
-    `
-    <section class="section tight">
-      <div class="container split-panel">
-        <article class="story-card reveal">
-          ${sectionHeader({
-            eyebrow: "Transformational Fiction",
-            title: books[0].title,
-            copy: books[0].homepageSummary
-          })}
-          <div class="button-row">${anchor(bookRoute(books[0]), "Explore Book", "btn btn-primary")}</div>
-        </article>
-        <aside class="quote-panel reveal">
-          <blockquote>The Intentional Life Blueprint Series</blockquote>
-          <div class="trilogy-path">
-            ${trilogy.map((book) => `
-              <a class="trilogy-step" href="${bookRoute(book)}">
-                <strong>${book.shortTitle}</strong>
-                <span>${book.subtitle.replace("The Blueprint for ", "")}</span>
-              </a>
-            `).join("")}
-          </div>
-        </aside>
-      </div>
-    </section>
-    `
+    renderBooksReaderPathway(trilogy)
   ].join("");
 }
 
@@ -7378,6 +8469,20 @@ const pages = [
         quoteTitle: "Transforming Potential into Purpose",
         quoteCopy: "Growth happens when mindset, emotional strength, practical skills, and purposeful action come together in a way people can sustain.  The path to transformation begins with a single intentional step.",
         quoteBy: "Dr. Sanjo Cine Mathew"
+      }),
+      renderRecognitionSection({
+        className: "about-recognition-section",
+        eyebrow: "Authorship & Recognition",
+        heading: "Four Published Books. One Recognised Literary Journey.",
+        description: "Sanjo's writing extends his work in psychology, resilience, intentional living, and personal transformation. His collection includes a transformational fiction title and the Intentional Life Blueprint series, with recognition from the Asia Book of Records.",
+        facts: [
+          "Four published books",
+          "Transformational fiction and intentional-living titles",
+          "Asia Book of Records Awardee"
+        ],
+        ctaLabel: "Explore Books & Recognition",
+        ctaHref: routes.books,
+        previewCertificate: getBooksCertificates()[0]
       }),
       `
       <section class="section">
@@ -8539,6 +9644,22 @@ const pages = [
         panelTitle: "Highlights",
         panelList: ["Ph.D. in Counselling Psychology", "Director & Founder - WayMaker Skills™", "Asia Book of Records Awardee", "50+ certifications and training credentials"]
       }, renderBreadcrumbs({ route: "/resume/", breadcrumbs: [{ label: "Home", route: "/" }, { label: "Resume / Credentials", route: "/resume/" }] })),
+      renderRecognitionSection({
+        className: "resume-recognition-section",
+        eyebrow: "Publications & Honours",
+        heading: "Award-Recognised Authorship and Published Work.",
+        description: "Alongside work in counselling psychology, education, facilitation, and human development, Dr. Sanjo Cine Mathew is the author of four published books and an Asia Book of Records Awardee.",
+        facts: [
+          "Author of four published books",
+          "The WayMaker Woman",
+          "Intentional Life Blueprint trilogy",
+          "Asia Book of Records Awardee"
+        ],
+        ctaLabel: "View Books, Certificates & Recognition",
+        ctaHref: routes.books,
+        compact: true,
+        previewCertificate: getBooksCertificates()[0]
+      }),
       `
       <section class="section">
         <div class="container list-columns">

@@ -47,6 +47,58 @@ export const BOOKS_ROUTE = "/books/";
 export const BOOK_AUTHOR = "Dr. Sanjo Cine Mathew";
 export const BOOK_AUTHOR_PATH = "/about-sanjo-cine-mathew/";
 export const INTENTIONAL_SERIES = "The Intentional Life Blueprint Series";
+export const BOOK_AUTHOR_CREDENTIALS = [
+  {
+    id: "published-books",
+    icon: "book",
+    label: "Four published books",
+    supportingLabel: "Published collection"
+  },
+  {
+    id: "asia-book-of-records",
+    icon: "leadership",
+    label: "Asia Book of Records",
+    supportingLabel: "Awardee"
+  },
+  {
+    id: "psychologist-author",
+    icon: "mind",
+    label: "Counselling psychologist",
+    supportingLabel: "And author"
+  }
+];
+export const BOOK_TITLES = [
+  "The WayMaker Woman",
+  "The Resilience Response",
+  "Untangle the Confusion",
+  "Harness the Harmony"
+];
+export const BOOKS_PORTRAIT = {
+  image: "",
+  alt: "Portrait of Dr. Sanjo Cine Mathew"
+};
+export const BOOKS_RECOGNITION = {
+  eyebrow: "Award & Recognition",
+  heading: "Recognised for an Award-Winning Literary Achievement.",
+  description:
+    "Dr. Sanjo Cine Mathew's published works have received recognition from the Asia Book of Records. Explore the certificates and the complete collection of four published books.",
+  certificates: [
+    {
+      id: "certificate-01",
+      image: "/assets/imgs/books/books-record.jpeg",
+      alt: "Asia Book of Records certificate displayed for Dr. Sanjo Cine Mathew",
+      label: "Certificate 01",
+      title: "Asia Book of Records Recognition"
+    },
+    {
+      id: "certificate-02",
+      image: "/assets/imgs/books/certificates/asia-book-of-records-certificate-02.jpg",
+      alt: "Certificate recognising the published works of Dr. Sanjo Cine Mathew",
+      label: "Certificate 02",
+      title: "Literary Recognition Certificate"
+    }
+  ]
+};
 
 /** @type {SanjoBook[]} */
 export const books = [
