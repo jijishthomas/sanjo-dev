@@ -318,6 +318,20 @@ ol {
   font-size: clamp(1.02rem, 2vw, 1.16rem);
 }
 
+.hero-supporting {
+  margin: 0;
+  color: var(--ink-soft);
+  max-width: 62ch;
+}
+
+.hero-supporting-meta {
+  margin: -4px 0 0;
+  color: var(--brand-deep);
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
 .hero-actions,
 .button-row {
   display: flex;
@@ -6088,6 +6102,8 @@ function renderHero(hero, withBreadcrumbs = "") {
               ${hero.eyebrow ? `<p class="eyebrow">${hero.eyebrow}</p>` : ""}
               <h1 class="hero-title">${hero.title}</h1>
               <p class="lede">${hero.copy}</p>
+              ${hero.supportingCopy ? `<p class="hero-supporting">${hero.supportingCopy}</p>` : ""}
+              ${hero.supportingMeta ? `<p class="hero-supporting-meta">${hero.supportingMeta}</p>` : ""}
               ${hero.pills ? metaPills(hero.pills) : ""}
               ${hero.actions ? `<div class="hero-actions">${hero.actions.join("")}</div>` : ""}
               ${hero.scrollCue ? `<div class="scroll-cue">${hero.scrollCue}</div>` : ""}
@@ -7323,6 +7339,8 @@ const pages = [
       renderHero({
         eyebrow: "About Sanjo",
         title: "About Sanjo Cine Mathew",
+        supportingCopy: "Helping individuals, educators, leaders, and organizations unlock their potential through psychology, learning, resilience, and intentional growth.",
+        supportingMeta: "10,000+ Students Mentored/ 5,000+ Teachers & Parents Trained/ 20+ Years in Education & Human Development",
         copy: "Counselling Psychologist, Educator, Author, Skill Coach, Learning Facilitator, and Founder of WayMaker Skills™.",
         actions: [
           anchor("/programs/", "Explore Programs", "btn btn-primary"),
@@ -7330,22 +7348,22 @@ const pages = [
           anchor("/contact/", "Work With Sanjo", "btn btn-secondary")
         ],
         media: { image: "/assets/imgs/avatar.jpg", alt: "Dr. Sanjo Cine Mathew portrait" },
-        panelTitle: "A personal brand rooted in human growth",
-        panelCopy: "Sanjo.in is the personal website of Dr. Sanjo Cine Mathew. WayMaker Skills™ is the organization he founded to scale human development and applied intelligence programmes."
+        panelTitle: "The Strategist for Transformative Growth",
+        panelCopy: "Dr. Sanjo Cine Mathew is a Counselling Psychologist, Educator, Author, and Founder of WayMaker Skills™. Through mentoring, training, and transformational learning experiences, she helps individuals and organizations unlock their potential and thrive in a changing world."
       }, renderBreadcrumbs({ route: routes.about, breadcrumbs: [{ label: "Home", route: routes.home }, { label: "About Sanjo", route: routes.about }] })),
       splitStory({
         eyebrow: "Story",
-        title: "A journey shaped by psychology, education, and the real human work of growth.",
+        title: "A Connected Path from Insight to Impact.",
         copy: "Sanjo's work has grown from a deep interest in human behavior into a multi-dimensional practice serving learners, families, professionals, leaders, and institutions.",
         paragraphs: [
-          "Over the years, he has worked across counselling psychology, student development, parenting guidance, educator support, wellness, communication, and leadership transformation. That breadth matters because people do not grow in isolated compartments.",
-          "His practice is not built on abstract theory alone. It draws from live facilitation, individual support, school environments, institutional learning, and corporate transformation contexts where emotional intelligence and practical capability must work together.",
+          "Over the years, she has worked across counselling psychology, student development, parenting guidance, educator support, wellness, communication, and leadership transformation. That breadth matters because people do not grow in isolated compartments.",
+          "Her practice is not built on abstract theory alone. It draws from live facilitation, individual support, school environments, institutional learning, and corporate transformation contexts where emotional intelligence and practical capability must work together.",
           "This blend of psychological insight, educational thinking, and real-world facilitation has shaped Sanjo into a trusted guide for people who want change that is both meaningful and usable."
         ],
-        image: "/assets/imgs/header.jpg",
+        image: "/assets/imgs/header.png",
         imageAlt: "Sanjo Cine Mathew at a live training session",
         quoteTitle: "Transforming Potential into Purpose",
-        quoteCopy: "Growth happens when mindset, emotional strength, practical skills, and purposeful action come together in a way people can sustain.",
+        quoteCopy: "Growth happens when mindset, emotional strength, practical skills, and purposeful action come together in a way people can sustain.  The path to transformation begins with a single intentional step.",
         quoteBy: "Dr. Sanjo Cine Mathew"
       }),
       `
@@ -7354,15 +7372,13 @@ const pages = [
           ${sectionHeader({
             eyebrow: "Journey Timeline",
             title: "A connected path from insight to institution-building.",
-            copy: "The About page now groups Sanjo's journey as a clear set of milestones instead of disconnected content blocks."
           })}
           <div class="timeline-steps">
             ${[
-              ["Foundations", "Understanding people and human behaviour."],
-              ["Education", "Learning how growth happens."],
-              ["Practice", "Supporting individuals through change."],
-              ["Scale", "Working with groups, institutions, and organizations."],
-              ["Vision", "Creating WayMaker Skills™."]
+              ["The Explorer", "A lifelong fascination with people, learning, science, and possibility."],
+              ["The Learner", "Pursuing psychology, education, and interdisciplinary studies to understand how growth happens."],
+              ["The Practitioner", "Working directly with students, families, educators, and professionals across diverse settings."],
+              ["The WayMaker", "Creating programs, books, and learning experiences that help people discover, develop, and direct their potential."],
             ].map(([title, copy]) => `
               <article class="timeline-step reveal">
                 <h3>${title}</h3>
@@ -7378,8 +7394,8 @@ const pages = [
         <div class="container">
           ${sectionHeader({
             eyebrow: "Professional Identity",
-            title: "Roles that define Sanjo's contribution.",
-            copy: "His professional identity is intentionally multidisciplinary because people and institutions need integrated support."
+            title: "Roles Rooted in One Mission.",
+            copy: "Across Psychology, Education, Coaching, and Leadership development, each role serves a single purpose: Helping people and organizations Grow with Intention."
           })}
           ${renderCards([
             { title: "Director & Founder", copy: "Leading the vision and strategic direction behind WayMaker Skills™." },
@@ -7396,18 +7412,23 @@ const pages = [
       `,
       `
       <section class="section">
+      <div class="container">
+        ${sectionHeader({
+          title: "One Vision. Two Platforms.",
+        })}
         <div class="container comparison">
           <article class="card reveal">
-            <h3>Sanjo.in</h3>
-            <p>This is Sanjo's personal brand website. It focuses on who he is, what he stands for, his expertise, personal programmes, credentials, and consultation pathways.</p>
+            <h3>www.sanjo.in</h3>
+            <p>This is where I share my journey, philosophy, expertise, and personal work</p>
           </article>
           <article class="card reveal">
             <h3>WayMaker Skills™</h3>
-            <p>This is the organization founded by Sanjo. It carries broader institutional, organizational, methodology, and scalable human development initiatives.</p>
+            <p>This is the learning and development ecosystem through which that vision is transformed into programs, workshops, resources, and growth experiences for individuals and organizations.</p>
             <div class="button-row" style="margin-top:14px;">
               ${anchor(waymakerLinks.company, "Visit WayMaker Skills™", "btn btn-soft")}
             </div>
           </article>
+        </div>
         </div>
       </section>
       `,
@@ -7417,7 +7438,7 @@ const pages = [
           <div class="story-card reveal">
             ${sectionHeader({
               eyebrow: "Mission",
-              title: "Helping people discover strengths, build clarity, and create meaningful change.",
+              title: "Helping people discover Strengths, build Clarity, and Create meaningful Change.",
               copy: "Sanjo's mission is not simply to motivate people but to help them understand themselves better and move with greater maturity, confidence, and direction."
             })}
             ${list([
@@ -7449,7 +7470,8 @@ const pages = [
           <div class="cta-band reveal">
             <div class="stack">
               <p class="eyebrow">Core Philosophy</p>
-              <h2>Awareness. Clarity. Skill. Purpose. Action.</h2>
+              <h2>From Potential to Purpose.</h2>
+              <p class="muted">Meaningful growth happens when Awareness creates Clarity, Clarity develops Skill, Skill reveals Purpose, and Purpose inspires Intentional Action.</p>
               <div class="chips">
                 ${["Awareness", "Clarity", "Skill", "Purpose", "Action"].map((item) => `<span class="chip">${item}</span>`).join("")}
               </div>
@@ -7459,7 +7481,7 @@ const pages = [
       </section>
       `,
       ctaBand({
-        title: "Explore Sanjo's programmes, expertise, and consultation pathways.",
+        title: "Explore Sanjo's Programmes, Expertise, and Consultation pathways.",
         copy: "If you are looking for a personal, institutional, or organizational growth roadmap, begin with the pathway that matches your current context.",
         actions: [
           anchor("/programs/", "Explore Programs", "btn btn-soft"),
@@ -9022,14 +9044,14 @@ const pages = [
   page("/impact/", {
     title: "Impact | Sanjo Cine Mathew",
     description: "Explore the kinds of transformation and impact created through the counselling, coaching, student development, and corporate learning work of Sanjo Cine Mathew.",
-    ogImage: "/assets/imgs/header.jpg",
+    ogImage: "/assets/imgs/header.png",
     content: [
       renderHero({
         eyebrow: "Impact",
         title: "Transformation measured through confidence, capability, and practical change.",
         copy: "This page captures the kinds of outcomes Sanjo's work is designed to create across individuals, families, schools, and organizations.",
         actions: [anchor("/gallery/", "View the Gallery", "btn btn-primary"), anchor("/contact/", "Discuss an Impact Goal", "btn btn-secondary")],
-        media: { image: "/assets/imgs/header.jpg", alt: "Sanjo facilitating a live session" },
+        media: { image: "/assets/imgs/header.png", alt: "Sanjo facilitating a live session" },
         panelTitle: "Impact markers",
         panelMeta: ["Confidence", "Communication", "Resilience", "Leadership", "Future readiness", "Purposeful action"]
       }, renderBreadcrumbs({ route: "/impact/", breadcrumbs: [{ label: "Home", route: "/" }, { label: "Impact", route: "/impact/" }] })),

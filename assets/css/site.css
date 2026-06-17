@@ -293,6 +293,20 @@ ol {
   font-size: clamp(1.02rem, 2vw, 1.16rem);
 }
 
+.hero-supporting {
+  margin: 0;
+  color: var(--ink-soft);
+  max-width: 62ch;
+}
+
+.hero-supporting-meta {
+  margin: -4px 0 0;
+  color: var(--brand-deep);
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
 .hero-actions,
 .button-row {
   display: flex;
