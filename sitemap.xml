@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://sanjo.in/programs/inspire-creative-innovator-workshop/</loc>
   </url>
@@ -91,16 +91,36 @@
     <loc>https://sanjo.in/books/</loc>
   </url>
   <url>
-    <loc>https://sanjo.in/books/the-waymaker-woman/</loc>
+    <loc>https://sanjo.in/books/dr-sanjo-cine-mathew/the-waymaker-woman-transformational-fiction/</loc>
+    <image:image>
+      <image:loc>https://sanjo.in/assets/imgs/books/the-waymaker-women-sanjo-book.webp</image:loc>
+      <image:title>The WayMaker Woman</image:title>
+      <image:caption>Cover of The WayMaker Woman by Dr. Sanjo Cine Mathew</image:caption>
+    </image:image>
   </url>
   <url>
-    <loc>https://sanjo.in/books/the-resilience-response/</loc>
+    <loc>https://sanjo.in/books/dr-sanjo-cine-mathew/the-resilience-response-intentional-living/</loc>
+    <image:image>
+      <image:loc>https://sanjo.in/assets/imgs/books/resilience-response-sanjo-book.webp</image:loc>
+      <image:title>The Resilience Response: The Blueprint for Intentional Living</image:title>
+      <image:caption>Cover of The Resilience Response: The Blueprint for Intentional Living by Dr. Sanjo Cine Mathew</image:caption>
+    </image:image>
   </url>
   <url>
-    <loc>https://sanjo.in/books/untangle-the-confusion/</loc>
+    <loc>https://sanjo.in/books/dr-sanjo-cine-mathew/untangle-the-confusion-intentional-thinking/</loc>
+    <image:image>
+      <image:loc>https://sanjo.in/assets/imgs/books/untangle-the-confusion-sanjo-book.webp</image:loc>
+      <image:title>Untangle the Confusion: The Blueprint for Intentional Thinking</image:title>
+      <image:caption>Cover of Untangle the Confusion: The Blueprint for Intentional Thinking by Dr. Sanjo Cine Mathew</image:caption>
+    </image:image>
   </url>
   <url>
-    <loc>https://sanjo.in/books/harness-the-harmony/</loc>
+    <loc>https://sanjo.in/books/dr-sanjo-cine-mathew/harness-the-harmony-intentional-being/</loc>
+    <image:image>
+      <image:loc>https://sanjo.in/assets/imgs/books/harness-the-harmony-sanjo-book.webp</image:loc>
+      <image:title>Harness the Harmony: The Blueprint for Intentional Being</image:title>
+      <image:caption>Cover of Harness the Harmony: The Blueprint for Intentional Being by Dr. Sanjo Cine Mathew</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://sanjo.in/blog-insights/world-environment-day/</loc>

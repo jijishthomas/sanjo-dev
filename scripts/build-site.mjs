@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { cp, mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { BOOKS_ROUTE, books, bookRoute } from "../data/books.mjs";
+import { BOOKS_ROUTE, books, bookRoute, legacyBookRoute } from "../data/books.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -3151,6 +3151,12 @@ body {
   font-weight: 800;
 }
 
+.book-slide-author a {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .book-slide .outcome-chips span {
   background: rgba(255, 255, 255, 0.14);
   border: 1px solid rgba(255, 255, 255, 0.16);
@@ -3429,6 +3435,228 @@ body {
 
 .book-nav {
   margin-top: 26px;
+}
+
+.book-detail-hero .page-hero-grid {
+  align-items: center;
+  padding-block: clamp(24px, 3.4vw, 42px);
+}
+
+.book-detail-hero .hero-copy {
+  gap: 14px;
+}
+
+.book-detail-hero .hero-title {
+  max-width: 980px;
+  font-size: clamp(2rem, 4.4vw, 4.1rem);
+}
+
+.book-detail-hero .hero-panel {
+  padding: 18px;
+  gap: 12px;
+}
+
+.book-detail-hero .hero-panel-title a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.book-detail-main {
+  padding-top: clamp(36px, 5vw, 64px);
+  padding-bottom: clamp(28px, 4vw, 46px);
+}
+
+.book-detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 8fr) minmax(310px, 4fr);
+  gap: clamp(18px, 3vw, 30px);
+  align-items: start;
+}
+
+.book-editorial-grid {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.book-content-card,
+.book-support-card {
+  display: grid;
+  gap: 12px;
+  padding: clamp(20px, 2.4vw, 28px);
+  border: 1px solid rgba(22, 35, 63, 0.08);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow: var(--shadow-soft);
+}
+
+.book-content-card {
+  grid-column: span 4;
+}
+
+.book-content-card-wide {
+  grid-column: 1 / -1;
+}
+
+.book-content-card h2,
+.book-support-card h2 {
+  font-family: var(--font-display);
+  line-height: 1.12;
+}
+
+.book-content-card p,
+.book-content-card li,
+.book-support-card p,
+.book-support-card li {
+  color: #42506a;
+  font-size: 1rem;
+  line-height: 1.72;
+}
+
+.book-content-card p {
+  max-width: 72ch;
+}
+
+.book-content-card .bullet-list,
+.book-support-card .bullet-list {
+  display: grid;
+  gap: 8px;
+}
+
+.book-support-column {
+  display: grid;
+  gap: 14px;
+}
+
+.book-support-card blockquote {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+  line-height: 1.16;
+  color: var(--text);
+}
+
+.author-card-inner {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.author-card-inner img {
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  object-fit: cover;
+}
+
+.author-card-inner .btn {
+  margin-top: 10px;
+}
+
+.book-related-section {
+  padding-top: clamp(28px, 4vw, 46px);
+  padding-bottom: clamp(22px, 3vw, 34px);
+}
+
+.related-books-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.related-book {
+  display: grid;
+  grid-template-columns: 118px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+  padding: 18px;
+}
+
+.related-book-cover {
+  display: grid;
+  place-items: center;
+  min-height: 176px;
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at center, rgba(14, 122, 114, 0.12), transparent 58%),
+    linear-gradient(135deg, #f6fbfb, #fff6e8);
+}
+
+.related-book-cover img {
+  width: 100px;
+  max-height: 154px;
+  object-fit: contain;
+}
+
+.related-book-body {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+
+.related-book h3 {
+  font-family: var(--font-display);
+  line-height: 1.16;
+  font-size: 1.1rem;
+}
+
+.related-book p {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.related-book:hover,
+.related-book:focus-within,
+.book-nav-card:hover,
+.book-nav-card:focus-visible {
+  border-color: rgba(29, 79, 145, 0.22);
+  transform: translateY(-2px);
+}
+
+.book-nav-section {
+  padding-top: 10px;
+  padding-bottom: clamp(38px, 5vw, 64px);
+}
+
+.book-nav {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 0;
+}
+
+.book-nav-card {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid rgba(22, 35, 63, 0.08);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: var(--shadow-soft);
+  transition: transform var(--dur-fast) ease, border-color var(--dur-fast) ease;
+}
+
+.book-nav-card img {
+  width: 58px;
+  max-height: 86px;
+  object-fit: contain;
+}
+
+.book-nav-card small {
+  display: block;
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.book-nav-card strong {
+  display: block;
+  line-height: 1.2;
 }
 
 .blog-library-hero {
@@ -3939,6 +4167,23 @@ body {
     grid-template-columns: 1fr;
   }
 
+  .book-editorial-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .book-content-card,
+  .book-content-card-wide {
+    grid-column: auto;
+  }
+
+  .book-content-card-wide {
+    grid-column: 1 / -1;
+  }
+
+  .book-support-column {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .book-detail-hero .page-hero-grid {
     grid-template-columns: 1fr;
   }
@@ -4118,6 +4363,37 @@ body {
   .related-book img {
     width: 68px;
     max-height: 100px;
+  }
+
+  .book-editorial-grid,
+  .book-support-column,
+  .related-books-grid,
+  .book-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .book-content-card,
+  .book-content-card-wide {
+    grid-column: 1 / -1;
+  }
+
+  .related-book {
+    grid-template-columns: 92px minmax(0, 1fr);
+    padding: 14px;
+  }
+
+  .related-book-cover {
+    min-height: 142px;
+  }
+
+  .related-book-cover img {
+    width: 78px;
+    max-height: 124px;
+  }
+
+  .author-card-inner,
+  .book-nav-card {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -4747,6 +5023,11 @@ const canonicalRouteMap = {
   [routes.shopBookAlias]: bookRoute(books[1])
 };
 
+books.forEach((book) => {
+  canonicalRouteMap[legacyBookRoute(book)] = bookRoute(book);
+  canonicalRouteMap[legacyBookRoute(book).replace(/\/$/, "")] = bookRoute(book);
+});
+
 const primaryNav = [
   { label: "Home", route: routes.home },
   { label: "About", route: routes.about },
@@ -4800,7 +5081,6 @@ const frameworkMenu = [
 const moreMenu = [
   { label: "Resume", route: routes.resume, description: "Professional background and credentials." },
   { label: "Gallery", route: routes.gallery, description: "Workshops, schools, and learning moments." },
-  { label: "Books", route: routes.books, description: "Books by Dr. Sanjo Cine Mathew." },
   { label: "Contact", route: routes.contact, description: "Email, WhatsApp, and enquiry form." }
 ];
 
@@ -5185,6 +5465,7 @@ routeToLabel[routes.blogAlias] = "Blog / Insights";
 routeToLabel[routes.books] = "Books";
 books.forEach((book) => {
   routeToLabel[bookRoute(book)] = book.title;
+  routeToLabel[legacyBookRoute(book)] = book.shortTitle;
 });
 routeToLabel[routes.shopAlias] = "Books & Publications";
 routeToLabel[routes.shopBookAlias] = "The Resilience Response";
@@ -5339,6 +5620,10 @@ function escapeAttr(value) {
     .replace(/"/g, "&quot;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
+}
+
+function escapeXml(value) {
+  return escapeAttr(value).replace(/'/g, "&apos;");
 }
 
 function slugify(value) {
@@ -5621,7 +5906,7 @@ function renderPrimaryNav(page) {
     }
 
     if (item.route === "#more") {
-      const active = [routes.resume, routes.gallery, routes.books, routes.contact].includes(normalizeRoute(page.route)) || normalizeRoute(page.route).startsWith(routes.books) ? "active" : "";
+      const active = [routes.resume, routes.gallery, routes.contact].includes(normalizeRoute(page.route)) ? "active" : "";
       return `
         <details class="nav-group ${active}">
           <summary class="nav-group-summary" aria-haspopup="true" aria-expanded="false">
@@ -6029,13 +6314,14 @@ function breadcrumbSchema(crumbs) {
 }
 
 function personSchema() {
+  const personId = `${BASE_URL}${routes.about}#dr-sanjo-cine-mathew`;
   return {
     "@context": "https://schema.org",
     "@type": "Person",
-    "@id": `${BASE_URL}/#person`,
+    "@id": personId,
     name: "Dr. Sanjo Cine Mathew",
     alternateName: "Sanjo Cine Mathew",
-    url: `${BASE_URL}/`,
+    url: fullUrl(routes.about),
     image: `${BASE_URL}/assets/imgs/avatar.jpg`,
     jobTitle: "Counselling Psychologist, Skill Coach, Learning Facilitator, Human Development Practitioner, and Founder of WayMaker Skills™",
     description: "Dr. Sanjo Cine Mathew is a counselling psychologist in India, skill coach, learning facilitator, author, and founder of WayMaker Skills™.",
@@ -6076,7 +6362,7 @@ function organizationSchema() {
     name: "WayMaker Skills™",
     url: waymakerLinks.company,
     founder: {
-      "@id": `${BASE_URL}/#person`
+      "@id": `${BASE_URL}${routes.about}#dr-sanjo-cine-mathew`
     },
     description: "WayMaker Skills™ is the human development and applied intelligence organization founded by Dr. Sanjo Cine Mathew.",
     sameAs: [waymakerLinks.company]
@@ -6089,7 +6375,7 @@ function serviceSchema(name, description, route) {
     name,
     description,
     provider: {
-      "@id": `${BASE_URL}/#person`
+      "@id": `${BASE_URL}${routes.about}#dr-sanjo-cine-mathew`
     },
     areaServed: "India",
     url: fullUrl(route)
@@ -6106,7 +6392,7 @@ function articleSchema(post) {
     datePublished: post.date,
     keywords: post.tags,
     author: {
-      "@id": `${BASE_URL}/#person`
+      "@id": `${BASE_URL}${routes.about}#dr-sanjo-cine-mathew`
     },
     publisher: {
       "@id": `${BASE_URL}/#website`
@@ -6115,31 +6401,93 @@ function articleSchema(post) {
 }
 
 function bookSchema(book) {
+  const bookUrl = fullUrl(bookRoute(book));
+  const authorId = `${BASE_URL}${routes.about}#dr-sanjo-cine-mathew`;
   const schema = {
     "@type": "Book",
+    "@id": `${bookUrl}#book`,
     name: book.title,
-    author: {
-      "@id": `${BASE_URL}/#person`
+    headline: book.title,
+    url: bookUrl,
+    mainEntityOfPage: {
+      "@id": `${bookUrl}#webpage`
     },
+    description: book.structuredDataDescription || book.seoDescription,
     image: `${BASE_URL}${book.coverImage}`,
-    url: fullUrl(bookRoute(book)),
-    description: book.seoDescription
+    author: {
+      "@id": authorId
+    },
+    about: [book.primaryTopic, ...book.secondaryTopics],
+    genre: book.category,
+    inLanguage: "en-IN"
   };
   if (book.format === "Kindle Edition") {
     schema.bookFormat = "https://schema.org/EBook";
   }
   if (book.seriesName) {
     schema.isPartOf = {
-      "@type": "BookSeries",
-      name: book.seriesName
+      "@type": "CreativeWorkSeries",
+      "@id": `${BASE_URL}${routes.books}#intentional-life-blueprint-series`,
+      name: book.seriesName,
+      url: fullUrl(routes.books)
     };
     schema.position = book.seriesPosition;
   }
   return schema;
 }
 
+function webpageSchema(page) {
+  const pageUrl = fullUrl(page.route);
+  const schema = {
+    "@type": page.collectionPage ? "CollectionPage" : "WebPage",
+    "@id": `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: page.title,
+    description: page.description,
+    isPartOf: {
+      "@id": `${BASE_URL}/#website`
+    },
+    inLanguage: "en-IN"
+  };
+  if (page.book) {
+    schema.mainEntity = {
+      "@id": `${pageUrl}#book`
+    };
+    schema.about = {
+      "@id": `${pageUrl}#book`
+    };
+  }
+  if (page.route === routes.books) {
+    schema.mainEntity = {
+      "@id": `${pageUrl}#book-list`
+    };
+    schema.about = ["Books by Dr. Sanjo Cine Mathew", "Intentional living", "Psychology", "Transformational fiction"];
+  }
+  return schema;
+}
+
+function booksItemListSchema() {
+  return {
+    "@type": "ItemList",
+    "@id": `${fullUrl(routes.books)}#book-list`,
+    name: "Books by Dr. Sanjo Cine Mathew",
+    itemListOrder: "https://schema.org/ItemListOrderAscending",
+    numberOfItems: books.length,
+    itemListElement: books.map((book, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: fullUrl(bookRoute(book)),
+      item: {
+        "@id": `${fullUrl(bookRoute(book))}#book`,
+        name: book.title
+      }
+    }))
+  };
+}
+
 function renderSchemas(page) {
   const graph = [websiteSchema(), personSchema()];
+  graph.push(webpageSchema(page));
   if (page.breadcrumbs) {
     const crumbs = breadcrumbSchema(page.breadcrumbs);
     if (crumbs) graph.push(crumbs);
@@ -6160,15 +6508,22 @@ function renderSchemas(page) {
   if (page.book) {
     graph.push(bookSchema(page.book));
   }
+  if (page.route === routes.books) {
+    graph.push(booksItemListSchema());
+    books.forEach((book) => graph.push(bookSchema(book)));
+  }
   return JSON.stringify({ "@context": "https://schema.org", "@graph": graph }, null, 2);
 }
 
 function renderPage(page) {
-  const title = page.title;
-  const description = page.description;
+  const title = page.socialTitle || page.title;
+  const documentTitle = page.title;
+  const description = page.socialDescription || page.description;
   const canonical = fullUrl(page.route);
   const bodyClass = page.bodyClass ? ` class="${page.bodyClass}"` : "";
   const ogImage = page.ogImage ? `${BASE_URL}${page.ogImage}` : `${BASE_URL}/assets/imgs/avatar.jpg`;
+  const ogType = page.ogType || (page.article ? "article" : "website");
+  const twitterCard = page.twitterCard || (page.book ? "summary" : "summary_large_image");
   const content = canonicalizeMarkup(page.content);
 
   return canonicalizeMarkup(`<!DOCTYPE html>
@@ -6176,24 +6531,25 @@ function renderPage(page) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${title}</title>
-  <meta name="description" content="${description}">
+  <title>${documentTitle}</title>
+  <meta name="description" content="${page.description}">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <meta name="author" content="Jijish Thomas">
   <meta name="theme-color" content="#1d4f91">
   <link rel="canonical" href="${canonical}">
   <meta property="og:locale" content="en_IN">
-  <meta property="og:type" content="${page.article ? "article" : "website"}">
+  <meta property="og:type" content="${ogType}">
   <meta property="og:site_name" content="Sanjo Cine Mathew">
   <meta property="og:title" content="${title}">
   <meta property="og:description" content="${description}">
   <meta property="og:url" content="${canonical}">
   <meta property="og:image" content="${ogImage}">
   <meta property="og:image:alt" content="${page.ogAlt || "Sanjo Cine Mathew"}">
-  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:card" content="${twitterCard}">
   <meta name="twitter:title" content="${title}">
   <meta name="twitter:description" content="${description}">
   <meta name="twitter:image" content="${ogImage}">
+  <meta name="twitter:image:alt" content="${page.ogAlt || "Sanjo Cine Mathew"}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -6265,7 +6621,7 @@ function renderBooksCarousel() {
                     <span class="book-slide-kicker">${book.eyebrow}</span>
                     <h3>${book.title}</h3>
                     <p class="book-slide-summary">${book.homepageSummary}</p>
-                    <p class="book-slide-author">by ${book.author}</p>
+                    <p class="book-slide-author">by <a href="${book.authorPath}">${book.authorName}</a></p>
                     <div class="outcome-chips">
                       ${book.themes.slice(0, 3).map((theme) => `<span>${theme}</span>`).join("")}
                     </div>
@@ -6320,11 +6676,12 @@ function renderBooksIndexContent() {
       className: "books-index-hero",
       eyebrow: "Books",
       title: "Books by Dr. Sanjo Cine Mathew",
-      copy: "Transformational fiction and practical blueprints for intentional living, thinking, and being.",
+      copy: "Explore transformational fiction and psychology-informed books by Dr. Sanjo Cine Mathew on intentional living, emotional resilience, mental clarity, conscious thinking, and inner harmony.",
       actions: [anchor(bookRoute(books[0]), "Start with The WayMaker Woman", "btn btn-primary"), anchor(bookRoute(books[1]), "Explore the Blueprint Series", "btn btn-secondary")],
       media: { html: renderBookCover(books[0], "book-detail-cover", "eager") },
       panelTitle: "Reader pathway",
-      panelCopy: "The WayMaker Woman stands as transformational fiction. The three blueprint books form the Intentional Life Blueprint Series."
+      panelCopy: "The WayMaker Woman stands as transformational fiction. The three blueprint books form the Intentional Life Blueprint Series.",
+      panelHtml: `<div class="button-row">${anchor(routes.about, "Learn more about Dr. Sanjo Cine Mathew", "btn btn-secondary")}</div>`
     }, renderBreadcrumbs({ route: routes.books, breadcrumbs: [{ label: "Home", route: routes.home }, { label: "Books", route: routes.books }] })),
     `
     <section class="section">
@@ -6378,15 +6735,65 @@ function renderBookListSection(title, items) {
   `;
 }
 
-function renderPurchasePanel(book) {
+﻿function renderPurchasePanel(book) {
   if (!book.purchaseLinks.length) return "";
+  const purchaseLink = (link) => {
+    const className = link.label.includes("Amazon") ? "btn btn-primary" : "btn btn-secondary";
+    return `<a class="${className}" href="${link.url}" target="_blank" rel="noopener noreferrer sponsored" aria-label="${escapeAttr(`${link.label} - opens in a new tab`)}">${link.label} <span aria-hidden="true">↗</span></a>`;
+  };
   return `
-    <aside class="book-purchase-panel reveal" aria-labelledby="purchase-${book.slug}">
+    <aside class="book-purchase-panel" aria-labelledby="purchase-${book.slug}">
       <h2 id="purchase-${book.slug}">Get Your Copy</h2>
-      <p class="muted">Use the verified marketplace links already present on Sanjo.in.</p>
-      <div class="button-row">
-        ${book.purchaseLinks.map((link) => anchor(link.url, `${link.label} ↗`, link.label.includes("Amazon") ? "btn btn-primary" : "btn btn-secondary", `aria-label="${escapeAttr(`${link.label} - opens in a new tab`)}"`)).join("")}
+      <p class="muted">Choose a verified marketplace to explore the available edition.</p>
+      <div class="button-row">${book.purchaseLinks.map(purchaseLink).join("")}</div>
+    </aside>
+  `;
+}
+
+function renderAuthorCard(book) {
+  return `
+    <article class="book-support-card author-card">
+      <h2>About the Author</h2>
+      <div class="author-card-inner">
+        <img src="/assets/imgs/avatar.jpg" alt="Dr. Sanjo Cine Mathew" loading="lazy" decoding="async" width="120" height="120">
+        <div>
+          <h3>${book.authorName}</h3>
+          <p>Dr. Sanjo Cine Mathew writes and teaches at the intersection of counselling psychology, life skills, human development, and intentional transformation.</p>
+          ${anchor(book.authorPath, "Learn more about Dr. Sanjo Cine Mathew", "btn btn-secondary")}
+        </div>
       </div>
+    </article>
+  `;
+}
+
+function renderSupportColumn(book) {
+  const seriesCard = book.seriesName ? `
+    <article class="book-support-card">
+      <span class="book-card-kicker">${bookSeriesLabel(book)}</span>
+      <h2>${book.seriesName}</h2>
+      <p class="muted">A three-book movement through resilience, clarity, and harmony.</p>
+    </article>
+  ` : `
+    <article class="book-support-card">
+      <span class="book-card-kicker">${book.category}</span>
+      <h2>${book.primaryTopic}</h2>
+      <p class="muted">A reflective story about identity, responsibility, courage, and intentional choice.</p>
+    </article>
+  `;
+
+  return `
+    <aside class="book-support-column">
+      ${renderPurchasePanel(book)}
+      <article class="book-support-card quote-card">
+        <h2>${book.tagline ? "Guiding Line" : "Reflection"}</h2>
+        <blockquote>${book.tagline || book.reflectionPrompts[0] || book.shortTitle}</blockquote>
+      </article>
+      ${seriesCard}
+      <article class="book-support-card">
+        <h2>Core Topics</h2>
+        <div class="outcome-chips">${[book.primaryTopic, ...book.secondaryTopics.slice(0, 5)].map((item) => `<span>${item}</span>`).join("")}</div>
+      </article>
+      ${renderAuthorCard(book)}
     </aside>
   `;
 }
@@ -6394,7 +6801,7 @@ function renderPurchasePanel(book) {
 function renderRelatedBooks(book) {
   const related = book.relatedBookSlugs.map(getBook).filter(Boolean);
   return `
-    <section class="section tight">
+    <section class="section book-related-section">
       <div class="container">
         ${sectionHeader({
           eyebrow: "Related Books",
@@ -6403,10 +6810,17 @@ function renderRelatedBooks(book) {
         })}
         <div class="related-books-grid">
           ${related.map((item) => `
-            <a class="related-book reveal" href="${bookRoute(item)}">
-              <img src="${item.coverImage}" alt="${escapeAttr(item.coverAlt)}" loading="lazy" decoding="async" width="120" height="180">
-              <span><strong>${item.title}</strong><small>Explore Book</small></span>
-            </a>
+            <article class="related-book reveal">
+              <a class="related-book-cover" href="${bookRoute(item)}" aria-label="Explore ${escapeAttr(item.title)}">
+                <img src="${item.coverImage}" alt="${escapeAttr(item.coverAlt)}" loading="lazy" decoding="async" width="160" height="240">
+              </a>
+              <div class="related-book-body">
+                <span class="book-card-kicker">${bookSeriesLabel(item)}</span>
+                <h3><a href="${bookRoute(item)}">${item.title}</a></h3>
+                <p>${item.homepageSummary}</p>
+                ${anchor(bookRoute(item), `Explore ${item.shortTitle}`, "btn btn-secondary")}
+              </div>
+            </article>
           `).join("")}
         </div>
       </div>
@@ -6419,9 +6833,21 @@ function renderBookNav(book) {
   const previous = index > 0 ? books[index - 1] : null;
   const next = index >= 0 && index < books.length - 1 ? books[index + 1] : null;
   return `
-    <nav class="post-nav book-nav" aria-label="Previous and next books">
-      ${previous ? `<a href="${bookRoute(previous)}"><span>Previous Book</span><strong>${previous.title}</strong></a>` : "<span></span>"}
-      ${next ? `<a href="${bookRoute(next)}"><span>Next Book</span><strong>${next.title}</strong></a>` : "<span></span>"}
+    <nav class="book-nav" aria-label="Previous and next books">
+      ${previous ? `
+        <a class="book-nav-card" href="${bookRoute(previous)}">
+          <img src="${previous.coverImage}" alt="" loading="lazy" decoding="async" width="64" height="96">
+          <span><small>Previous Book</small><strong>${previous.title}</strong></span>
+          <b aria-hidden="true">←</b>
+        </a>
+      ` : ""}
+      ${next ? `
+        <a class="book-nav-card" href="${bookRoute(next)}">
+          <img src="${next.coverImage}" alt="" loading="lazy" decoding="async" width="64" height="96">
+          <span><small>Next Book</small><strong>${next.title}</strong></span>
+          <b aria-hidden="true">→</b>
+        </a>
+      ` : ""}
     </nav>
   `;
 }
@@ -6433,54 +6859,63 @@ function renderBookDetailContent(book) {
       eyebrow: book.eyebrow,
       title: book.title,
       copy: book.homepageSummary,
-      actions: [anchor(routes.books, "All Books", "btn btn-secondary"), ...(book.purchaseLinks.length ? [anchor(book.purchaseLinks[0].url, "Buy on Amazon ↗", "btn btn-primary", 'aria-label="Buy on Amazon - opens in a new tab"')] : [])],
+      actions: [anchor(routes.books, "View all books by Dr. Sanjo Cine Mathew", "btn btn-secondary")],
       media: { html: renderBookCover(book, "book-detail-cover", "eager") },
-      panelTitle: `by ${book.author}`,
+      panelTitle: `by <a href="${book.authorPath}">${book.authorName}</a>`,
       panelCopy: book.tagline || book.category,
       panelMeta: [bookSeriesLabel(book), ...(book.format ? [book.format] : [])]
     }, renderBreadcrumbs({ route: bookRoute(book), breadcrumbs: [{ label: "Home", route: routes.home }, { label: "Books", route: routes.books }, { label: book.shortTitle, route: bookRoute(book) }] })),
     `
-    <section class="section">
+    <section class="section book-detail-main">
       <div class="container book-detail-layout">
-        <article class="story-card book-prose reveal">
-          <h2>About the Book</h2>
-          ${book.fullDescription.map((paragraph) => `<p>${paragraph}</p>`).join("")}
-          ${renderBookListSection("What You Will Discover", book.readerBenefits)}
-          ${renderBookListSection("Who This Book Is For", book.audience)}
-          ${renderBookListSection("Themes Explored", book.themes)}
-          ${renderBookListSection("Key Takeaways", book.keyTakeaways)}
-          ${renderBookListSection("Reflection Questions", book.reflectionPrompts)}
+        <div class="book-editorial-grid reveal">
+          <article class="book-content-card book-content-card-wide">
+            <h2>About the Book</h2>
+            ${book.fullDescription.map((paragraph) => `<p>${paragraph}</p>`).join("")}
+          </article>
+          <article class="book-content-card">
+            <h2>What You Will Discover</h2>
+            ${list(book.readerBenefits)}
+          </article>
+          <article class="book-content-card">
+            <h2>Who This Book Is For</h2>
+            ${list(book.audience)}
+          </article>
+          <article class="book-content-card">
+            <h2>Themes Explored</h2>
+            <div class="outcome-chips">${book.themes.map((item) => `<span>${item}</span>`).join("")}</div>
+          </article>
+          <article class="book-content-card">
+            <h2>Key Takeaways</h2>
+            ${list(book.keyTakeaways)}
+          </article>
+          <article class="book-content-card">
+            <h2>Reflection Questions</h2>
+            ${list(book.reflectionPrompts)}
+          </article>
           ${book.transformationPath.length ? `
-            <section class="book-section">
+            <article class="book-content-card">
               <h2>${book.seriesName ? "Your Path of Transformation" : "Transformation Path"}</h2>
               <div class="outcome-chips">${book.transformationPath.map((item) => `<span>${item}</span>`).join("")}</div>
-            </section>
+            </article>
           ` : ""}
           ${book.seriesName ? `
-            <section class="book-section">
+            <article class="book-content-card book-content-card-wide">
               <h2>The Intentional Life Blueprint Series</h2>
               <p>${book.title} is ${bookSeriesLabel(book)} in ${book.seriesName}, a movement through resilience, clarity, and harmony.</p>
-            </section>
+              <div class="trilogy-path">
+                ${books.filter((item) => item.seriesName).map((item) => `<a class="trilogy-step" href="${bookRoute(item)}"><strong>${item.shortTitle}</strong><span>${bookSeriesLabel(item)}</span></a>`).join("")}
+              </div>
+            </article>
           ` : ""}
-          <section class="book-section">
-            <h2>About the Author</h2>
-            <p>Dr. Sanjo Cine Mathew writes and teaches at the intersection of counselling psychology, life skills, human development, and intentional transformation.</p>
-          </section>
-        </article>
-        <aside class="book-side-panel">
-          ${renderPurchasePanel(book)}
-          <div class="quote-panel reveal">
-            <blockquote>${book.tagline || book.reflectionPrompts[0] || book.shortTitle}</blockquote>
-            <p>${book.socialDescription}</p>
-            <cite>${book.author}</cite>
-          </div>
-        </aside>
+        </div>
+        ${renderSupportColumn(book)}
       </div>
     </section>
     `,
     renderRelatedBooks(book),
     `
-    <section class="section tight">
+    <section class="section book-nav-section">
       <div class="container">
         ${renderBookNav(book)}
       </div>
@@ -6891,6 +7326,7 @@ const pages = [
         copy: "Counselling Psychologist, Educator, Author, Skill Coach, Learning Facilitator, and Founder of WayMaker Skills™.",
         actions: [
           anchor("/programs/", "Explore Programs", "btn btn-primary"),
+          anchor(routes.books, "View all books by Dr. Sanjo Cine Mathew", "btn btn-secondary"),
           anchor("/contact/", "Work With Sanjo", "btn btn-secondary")
         ],
         media: { image: "/assets/imgs/avatar.jpg", alt: "Dr. Sanjo Cine Mathew portrait" },
@@ -8686,10 +9122,13 @@ const pages = [
     ].join("")
   }),
   page(routes.books, {
-    title: "Books by Dr. Sanjo Cine Mathew | Sanjo Cine Mathew",
-    description: "Explore The WayMaker Woman and The Intentional Life Blueprint Series by Dr. Sanjo Cine Mathew.",
+    title: "Books by Dr. Sanjo Cine Mathew | Intentional Living & Psychology",
+    description: "Explore books by Dr. Sanjo Cine Mathew on intentional living, emotional resilience, mental clarity, intentional thinking, inner harmony, and transformational personal growth.",
+    socialTitle: "Books by Dr. Sanjo Cine Mathew",
+    socialDescription: "Explore transformational fiction and psychology-informed books on intentional living, emotional resilience, mental clarity, and inner harmony.",
     ogImage: books[0].coverImage,
     ogAlt: books[0].coverAlt,
+    collectionPage: true,
     breadcrumbs: [{ label: "Books", route: routes.books }],
     content: renderBooksIndexContent()
   }),
@@ -8698,6 +9137,9 @@ const pages = [
     description: book.seoDescription,
     ogImage: book.coverImage,
     ogAlt: book.coverAlt,
+    socialTitle: book.socialTitle,
+    socialDescription: book.socialDescription,
+    ogType: "book",
     book,
     breadcrumbs: [{ label: "Books", route: routes.books }, { label: book.shortTitle, route: bookRoute(book) }],
     content: renderBookDetailContent(book)
@@ -8857,6 +9299,7 @@ const legacyRedirects = [
   { from: "shop.html", to: bookRoute(books[1]) },
   { from: "shop/index.html", to: bookRoute(books[1]) },
   { from: "shop-the-resilience-response/index.html", to: bookRoute(books[1]) },
+  ...books.map((book) => ({ from: `${legacyBookRoute(book).replace(/^\/|\/$/g, "")}/index.html`, to: bookRoute(book) })),
   { from: "nova-methodology/index.html", to: routes.nova },
   { from: "lq-life-intelligence-quotient/index.html", to: routes.lq },
   ...blogPosts.map((post) => ({ from: `blog/${post.slug}/index.html`, to: `${routes.blog}${post.slug}/` }))
@@ -8940,9 +9383,11 @@ async function writePages() {
 
 async function writeSitemap() {
   const urls = [...pages, ...articlePages].map((item) => {
-    return `  <url>\n    <loc>${fullUrl(item.route)}</loc>\n  </url>`;
+    const book = item.book;
+    const imageXml = book ? `\n    <image:image>\n      <image:loc>${BASE_URL}${book.coverImage}</image:loc>\n      <image:title>${escapeXml(book.title)}</image:title>\n      <image:caption>${escapeXml(book.coverAlt)}</image:caption>\n    </image:image>` : "";
+    return `  <url>\n    <loc>${fullUrl(item.route)}</loc>${imageXml}\n  </url>`;
   });
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join("\n")}\n</urlset>\n`;
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n${urls.join("\n")}\n</urlset>\n`;
   await safeWrite(path.join(OUTPUT_DIR, "sitemap.xml"), xml);
 }
 
