@@ -9339,11 +9339,11 @@ const pages = [
     content: [
       renderHero({
         eyebrow: "WayMaker Skills™",
-        title: "The organization founded by Sanjo Cine Mathew.",
-        copy: "WayMaker Skills™ is the human development and applied intelligence organization founded by Dr. Sanjo Cine Mathew. Sanjo.in is the personal brand site; WayMaker Skills™ is the organization bridge for broader frameworks and scalable work.",
+        title: "Developing People, Possibilities, and Future-Ready Capabilities.",
+        copy: "WayMaker Skills™ is a human development organization dedicated to helping individuals, educators, professionals, and communities grow through learning, leadership, life skills, and applied intelligence. Founded by Dr. Sanjo Cine Mathew, serves as the ecosystem through which transformative frameworks, programs, and initiatives are developed and delivered.",
         actions: [anchor(waymakerLinks.company, "Visit WayMaker Skills™", "btn btn-primary"), anchor(routes.programs, "Explore Related Programs", "btn btn-secondary")],
         media: { image: "/assets/imgs/sanjo-cine-mathew.png", alt: "WayMaker Skills visual identity" },
-        panelTitle: "What WayMaker Skills™ stands for",
+        panelTitle: "Core Pillars",
         panelMeta: ["Human Development", "Applied Intelligence", "Leadership", "Emotional Intelligence", "Future Skills", "Purposeful Growth"]
       }, renderBreadcrumbs({ route: routes.waymaker, breadcrumbs: [{ label: "Home", route: routes.home }, { label: "WayMaker Skills™", route: routes.waymaker }] })),
       `
@@ -9364,22 +9364,22 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "Bridge Clarity",
-            title: "Why this page exists on Sanjo.in.",
-            copy: "Sanjo.in offers the founder context, the personal brand credibility, and the overview of the frameworks. Larger organizational enquiries should move to WayMaker Skills™."
+            eyebrow: "THE CONNECTION",
+            title: "How Sanjo.in and WayMaker Skills™ Work Together.",
+            copy: "Sanjo.in is the personal brand and thought leadership platform of Dr. Sanjo Cine Mathew. WayMaker Skills™ is the organization through which frameworks, programs, and larger initiatives are developed and delivered."
           })}
           ${renderCards([
             {
-              title: "Founder context",
-              copy: "Use Sanjo.in to understand who Sanjo is, what he stands for, and how the personal brand connects to the work."
+              title: "Meet the Founder",
+              copy: "Learn about Sanjo's journey, philosophy, expertise, and the ideas that shape her work."
             },
             {
-              title: "Framework overview",
-              copy: "Use these pages to understand the shape and language of WAMI™, NOVA™, and LQ™ before moving into larger implementations."
+              title: "Explore the Frameworks",
+              copy: "Discover the thinking behind WAMI™, NOVA™, LQ™, and other growth-centered frameworks."
             },
             {
-              title: "Organizational pathway",
-              copy: "Use WayMaker Skills™ when the conversation becomes institutional, multi-program, or company-facing."
+              title: "Engage with WayMaker Skills™",
+              copy: "Explore programs, partnerships, institutional initiatives, and organizational collaborations."
             }
           ], "card", "grid-3")}
         </div>
@@ -9390,23 +9390,23 @@ const pages = [
         <div class="container">
           ${sectionHeader({
             eyebrow: "Frameworks",
-            title: "Featured WayMaker Skills™ frameworks on Sanjo.in.",
-            copy: "These pages give a strong internal overview while still bridging visitors to the intended production URLs on WayMaker Skills™."
+            title: "Frameworks for Intentional Growth and Human Development.",
+            copy: "Discover the signature frameworks that guide learning, self-awareness, leadership, and personal transformation across the WayMaker ecosystem."
           })}
           ${renderCards([
             {
               title: "WAMI™ — Children's Life Skills",
-              copy: "A joyful children's life skills world built around stories, games, activities, confidence, creativity, communication, character, and reflection.",
+              copy: "A creative life skills framework that nurtures confidence, communication, creativity, character, and self-awareness through stories, play, and reflection.",
               links: [anchor(routes.wami, "Read Overview", "btn btn-secondary"), anchor(waymakerLinks.wami, "Learn More at WayMaker Skills™", "btn btn-soft")]
             },
             {
               title: "NOVA™ — Human Development Methodology",
-              copy: "A clear developmental pathway built around Notice, Own, Visualize, and Act.",
+              copy: "A structured pathway for turning awareness into action, helping people grow with greater purpose, ownership, and direction.",
               links: [anchor(routes.nova, "Read Overview", "btn btn-secondary"), anchor(waymakerLinks.nova, "Learn More at WayMaker Skills™", "btn btn-soft")]
             },
             {
               title: "LQ™ — Life Intelligence Quotient Framework",
-              copy: "A five-dimensional framework for how people think, feel, connect, act, and adapt in life.",
+              copy: "A holistic framework for developing self-awareness, emotional intelligence, relationships, purposeful action, and adaptability.",
               links: [anchor(routes.lq, "Read Overview", "btn btn-secondary"), anchor(waymakerLinks.lq, "Learn More at WayMaker Skills™", "btn btn-soft")]
             }
           ], "framework-card", "grid-3")}
@@ -9416,12 +9416,12 @@ const pages = [
       faqSection({
         eyebrow: "WayMaker FAQ",
         title: "How WayMaker Skills™ connects to Sanjo's personal brand.",
-        copy: "These distinctions matter for clarity, trust, and the right next action.",
         items: [
-          { q: "Is Sanjo.in the company website?", a: "No. Sanjo.in is the personal brand website of Dr. Sanjo Cine Mathew." },
-          { q: "What is WayMaker Skills™ then?", a: "WayMaker Skills™ is the company or organization founded by Sanjo, focused on human development, applied intelligence, future skills, and institutional pathways." },
-          { q: "Why are WAMI™, NOVA™, and LQ™ explained on Sanjo.in?", a: "Because they are closely connected to Sanjo's personal brand story and founder identity. Sanjo.in offers a rich overview while the organizational bridge points to WayMaker Skills™." },
-          { q: "Where should large organizational enquiries go?", a: "Visitors can begin here, but large-scale or organizational programmes should also connect through WayMaker Skills™." }
+          { q: "What is the relationship between Sanjo.in and WayMaker Skills™?", a: "Sanjo.in is the personal platform of Dr. Sanjo Cine Mathew, while WayMaker Skills™ is the organization through which many learning, training, and development initiatives are delivered. Together, they reflect a shared mission of empowering intentional growth and human development." },
+          { q: "Is Sanjo.in the company website?", a: "No. Sanjo.in is the personal website of Dr. Sanjo Cine Mathew, showcasing her work, ideas, publications, frameworks, and professional journey." },
+          { q: "What is WayMaker Skills™?", a: "WayMaker Skills™ is the learning and development organization founded by Dr. Sanjo Cine Mathew, focused on human development, life skills, leadership, well-being, and future-ready learning pathways." },
+          { q: "Why are WAMI™, NOVA™, and LQ™ featured on Sanjo.in?", a: "WAMI™, NOVA™, and LQ™ are signature frameworks created by Sanjo. They are featured here because they represent the ideas, methodologies, and learning philosophies that shape her work and the broader WayMaker ecosystem." },
+          { q: "Where should organizational enquiries go?", a: "You may start the conversation through Sanjo.in. For large-scale partnerships, institutional programmes, or organizational collaborations, enquiries may be directed to WayMaker Skills™." }
         ]
       }),
       ctaBand({
@@ -9871,47 +9871,30 @@ const pages = [
       renderHero({
         eyebrow: "Resume / Credentials",
         title: "Professional Credentials",
-        copy: "Knowledge becomes valuable when it creates growth, resilience, and positive change in people's lives.",
+        copy: "Professional background and Academic credentials.",
         actions: [anchor("/contact/", "Invite Sanjo for a Program", "btn btn-primary"), anchor("/about/", "About Sanjo", "btn btn-secondary")],
         media: { image: "/assets/imgs/avatar.jpg", alt: "Portrait of Sanjo Cine Mathew" },
         panelTitle: "Highlights",
-        panelList: ["Ph.D. in Counselling Psychology", "Director & Founder - WayMaker Skills™", "Asia Book of Records Awardee", "50+ certifications and training credentials"]
+        panelList: ["20+ Years Experience", "10,000+ Students Mentored", "5,000+ Teachers & Parents Trained"]
       }, renderBreadcrumbs({ route: "/resume/", breadcrumbs: [{ label: "Home", route: "/" }, { label: "Resume / Credentials", route: "/resume/" }] })),
-      renderRecognitionSection({
-        className: "resume-recognition-section",
-        eyebrow: "Publications & Honours",
-        heading: "Award-Recognised Authorship and Published Work.",
-        description: "Alongside work in counselling psychology, education, facilitation, and human development, Dr. Sanjo Cine Mathew is the author of four published books and an Asia Book of Records Awardee.",
-        facts: [
-          "Author of four published books",
-          "The WayMaker Woman",
-          "Intentional Life Blueprint trilogy",
-          "Asia Book of Records Awardee"
-        ],
-        ctaLabel: "View Books, Certificates & Recognition",
-        ctaHref: routes.books,
-        compact: true,
-        carousel: true,
-        previewCertificate: getBooksCertificates()[0]
-      }),
       `
       <section class="section">
         <div class="container list-columns">
           <article class="story-card reveal">
-            <h3>Professional Experience</h3>
+            <h2>Professional Experience</h2>
             ${list([
-              "Director & Founder - WayMaker Skills™",
-              "Consultant Psychologist - Worked with schools",
-              "Resource Teacher Trainer - CBSE schools",
-              "Biology Subject Matter Expert - Growing Stars Infotech Pvt. Ltd.",
-              "Counsellor & Trainer - Various organizations",
-              "Soft Skills Trainer - Corporate and institutional programs",
-              "Leadership Trainer for professionals",
-              "Team Building, Outbound & Inbound Training Facilitator"
+              "Director & Founder &mdash; Way Maker Skill Solutions",
+              "Consultant Psychologist &mdash; Worked with various schools",
+              "Resource Teacher Trainer &mdash; CBSE Schools",
+              "Biology Subject Matter Expert &mdash; Growing Stars Infotech Pvt. Ltd.",
+              "Counsellor & Trainer &mdash; Various organisations",
+              "Soft Skills Trainer &mdash; Corporate and Institutional Training Programs",
+              "Leadership Trainer for Professionals &mdash; Delivered training in Aviation, Healthcare, Manufacturing, Consulting, and other professional sectors",
+              "Team Building, Outbound & Inbound Training Facilitator &mdash; Psychology-based experiential learning and professional development programs"
             ])}
           </article>
           <article class="story-card reveal">
-            <h3>Education</h3>
+            <h2>Education</h2>
             ${list([
               "Ph.D. in Counselling Psychology",
               "M.Sc. in Psychology",
@@ -9930,9 +9913,9 @@ const pages = [
       `,
       `
       <section class="section">
-        <div class="container list-columns">
+        <div class="container">
           <article class="story-card reveal">
-            <h3>Certifications</h3>
+            <h2>Certifications</h2>
             ${list([
               "Certified Corporate Trainer",
               "Certified Shadow Healing Facilitator",
@@ -9942,19 +9925,9 @@ const pages = [
               "Certified Life Coach",
               "Certified Fitness Mentor",
               "Meditation Instructor Trainer",
-              "International Certification in Special Education",
+              "International Certification in Special Education (SETT)",
               "International Certification in Educational Administration and Management"
-            ])}
-          </article>
-          <article class="story-card reveal">
-            <h3>Publications, Presentations & Honors</h3>
-            ${list([
-              "Psycho-Social Issues of Middle-Aged Working Women in Cochin City Based on Stress",
-              "Study on Physicochemical and Phycological Characteristics of Temple Ponds in Ernakulam, Kerala",
-              "Assistive Technology in Dementia Care",
-              "Psychosocial Stress Issues",
-              "Asia Book of Records Awardee"
-            ])}
+            ], "bullet-list resume-bullet-columns")}
           </article>
         </div>
       </section>
@@ -9962,21 +9935,54 @@ const pages = [
       `
       <section class="section">
         <div class="container comparison">
-          <article class="card reveal">
-            <h3>Professional Affiliations</h3>
-            ${list(["APA International Affiliate", "IAAP", "Counsellor Council of India", "Global Association of Behavior Management"])}
+          <article class="story-card reveal">
+            <h2>Publications</h2>
+            ${list([
+              "Psycho-Social Issues of Middle-Aged Working Women in Cochin City Based on Stress (2018).",
+              "Study on Physicochemical and Phycological Characteristics of Temple Ponds in Ernakulam, Kerala (2008)."
+            ])}
           </article>
-          <article class="quote-panel reveal">
-            <blockquote>Credentials matter most when they translate into real human outcomes.</blockquote>
-            <p>Sanjo's academic, training, and facilitation background directly supports the quality and range of his work across audiences.</p>
-            <cite>Dr. Sanjo Cine Mathew</cite>
+          <article class="story-card reveal">
+            <h2>Conference Presentations</h2>
+            ${list([
+              "Presented a paper on Assistive Technology in Dementia Care at a UGC National Seminar.",
+              "Presented a paper on Psychosocial Stress Issues at a National Seminar, Thrissur."
+            ])}
           </article>
         </div>
       </section>
       `,
+         `
+      <section class="section">
+        <div class="container">
+          <article class="story-card reveal">
+            <h2>Professional Affiliations</h2>
+            ${list([
+              "International Affiliate, American Psychological Association (APA).",
+              "Member, International Association of Applied Psychology (IAAP).",
+              "Member, Counsellor Council of India (CCI).",
+              "Member, Global Association of Behavior Management (GABM)."
+            ])}
+          </article>
+        </div>
+      </section>
+      `,
+      renderRecognitionSection({
+        className: "resume-recognition-section",
+        eyebrow: "Honors & Recognitions",
+        heading: "Two-Time Asia Book of Records Awardee",
+        description: "Honoured as a Two-Time Asia Book of Records Awardee for contributing to landmark publishing initiatives that achieved the maximum number of books published in a single day and the maximum number of eBooks published on World Book Day. These achievements reflect a commitment to inspiring learning, empowering authorship, and making knowledge accessible to a wider audience.",
+        facts: [],
+        ctaLabel: "View Books, Certificates & Recognition",
+        ctaHref: routes.books,
+        compact: true,
+        carousel: true,
+        previewCertificate: getBooksCertificates()[0]
+      }),
+   
       ctaBand({
-        title: "Invite Sanjo for a programme or consultation.",
-        copy: "Use the credentials page as a reference point and then start a conversation about fit, audience, and outcomes.",
+        title: "Partner with Sanjo for learning, leadership, and well-being initiatives.",
+        copy: "From leadership development and communication training to resilience, wellness, and inclusion programmes, every engagement is tailored to your audience and desired outcomes.",
         actions: [
           anchor("/contact/", "Contact", "btn btn-soft"),
           anchor("/book-consultation/", "Book a Consultation", "btn btn-secondary")
