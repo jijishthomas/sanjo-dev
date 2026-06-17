@@ -401,7 +401,9 @@
 
   function bindImageFallbacks() {
     document.querySelectorAll("img").forEach(function (image) {
+      if (image.closest("[data-lightbox]")) return;
       image.addEventListener("error", function () {
+        if (!image.getAttribute("src")) return;
         const fallback = document.createElement("div");
         fallback.className = image.className ? image.className + " fallback-thumb" : "fallback-thumb";
         fallback.setAttribute("role", "img");
@@ -573,6 +575,126 @@
     });
   }
 
+  function bindRecognitionCarousel() {
+    document.querySelectorAll("[data-recognition-carousel]").forEach(function (carousel) {
+      const slides = Array.from(carousel.querySelectorAll("[data-recognition-slide]"));
+      const previous = carousel.querySelector("[data-recognition-prev]");
+      const next = carousel.querySelector("[data-recognition-next]");
+      const current = carousel.querySelector("[data-recognition-current]");
+      const total = carousel.querySelector("[data-recognition-total]");
+      const selectors = Array.from(carousel.querySelectorAll("[data-recognition-select]"));
+      if (!slides.length) return;
+
+      let activeIndex = 0;
+      let timer = 0;
+      let pointerInside = false;
+      let focusInside = false;
+
+      function render() {
+        slides.forEach(function (slide, index) {
+          const active = index === activeIndex;
+          slide.classList.toggle("active", active);
+          slide.setAttribute("aria-hidden", String(!active));
+          slide.querySelectorAll("a, button").forEach(function (node) {
+            if (active) {
+              node.removeAttribute("tabindex");
+            } else {
+              node.setAttribute("tabindex", "-1");
+            }
+          });
+        });
+
+        selectors.forEach(function (button, index) {
+          const active = index === activeIndex;
+          button.classList.toggle("active", active);
+          button.setAttribute("aria-selected", String(active));
+          button.setAttribute("tabindex", active ? "0" : "-1");
+        });
+
+        if (current) current.textContent = String(activeIndex + 1).padStart(2, "0");
+        if (total) total.textContent = String(slides.length).padStart(2, "0");
+      }
+
+      function goTo(index, manual) {
+        activeIndex = (index + slides.length) % slides.length;
+        render();
+        if (manual) restart();
+      }
+
+      function stop() {
+        if (!timer) return;
+        window.clearInterval(timer);
+        timer = 0;
+      }
+
+      function start() {
+        stop();
+        if (prefersReducedMotion || pointerInside || focusInside || slides.length < 2) return;
+        timer = window.setInterval(function () {
+          goTo(activeIndex + 1, false);
+        }, 5000);
+      }
+
+      function restart() {
+        stop();
+        window.setTimeout(start, 250);
+      }
+
+      if (previous) previous.addEventListener("click", function () { goTo(activeIndex - 1, true); });
+      if (next) next.addEventListener("click", function () { goTo(activeIndex + 1, true); });
+
+      selectors.forEach(function (button, index) {
+        button.addEventListener("click", function () { goTo(index, true); });
+        button.addEventListener("keydown", function (event) {
+          if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+            event.preventDefault();
+            selectors[(index + 1) % selectors.length].focus();
+            goTo(index + 1, true);
+          }
+          if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+            event.preventDefault();
+            selectors[(index - 1 + selectors.length) % selectors.length].focus();
+            goTo(index - 1, true);
+          }
+        });
+      });
+
+      carousel.addEventListener("keydown", function (event) {
+        if (event.target && event.target.hasAttribute && event.target.hasAttribute("data-recognition-select")) return;
+        if (event.key === "ArrowRight") {
+          event.preventDefault();
+          goTo(activeIndex + 1, true);
+        }
+        if (event.key === "ArrowLeft") {
+          event.preventDefault();
+          goTo(activeIndex - 1, true);
+        }
+      });
+
+      carousel.addEventListener("pointerenter", function () {
+        pointerInside = true;
+        stop();
+      });
+      carousel.addEventListener("pointerleave", function () {
+        pointerInside = false;
+        start();
+      });
+      carousel.addEventListener("focusin", function () {
+        focusInside = true;
+        stop();
+      });
+      carousel.addEventListener("focusout", function () {
+        window.setTimeout(function () {
+          focusInside = carousel.contains(document.activeElement);
+          if (!focusInside) start();
+        }, 0);
+      });
+
+      render();
+      start();
+    });
+  }
+
   setYear();
   handleScrollHeader();
   bindDrawer();
@@ -585,6 +707,7 @@
   bindBlogFilters();
   bindCopyLinks();
   bindBooksCarousel();
+  bindRecognitionCarousel();
   bindImageFallbacks();
   window.addEventListener("scroll", handleScrollHeader, { passive: true });
 })();

@@ -74,7 +74,7 @@ export const BOOK_TITLES = [
   "Harness the Harmony"
 ];
 export const BOOKS_PORTRAIT = {
-  image: "",
+  image: "https://placehold.co/400",
   alt: "Portrait of Dr. Sanjo Cine Mathew"
 };
 export const BOOKS_RECOGNITION = {
@@ -85,15 +85,15 @@ export const BOOKS_RECOGNITION = {
   certificates: [
     {
       id: "certificate-01",
-      image: "/assets/imgs/books/books-record.jpeg",
-      alt: "Asia Book of Records certificate displayed for Dr. Sanjo Cine Mathew",
+      image: "/assets/imgs/books/certificate-1.jpeg",
+      alt: "Certificate image for Dr. Sanjo Cine Mathew's published works",
       label: "Certificate 01",
       title: "Asia Book of Records Recognition"
     },
     {
       id: "certificate-02",
-      image: "/assets/imgs/books/certificates/asia-book-of-records-certificate-02.jpg",
-      alt: "Certificate recognising the published works of Dr. Sanjo Cine Mathew",
+      image: "/assets/imgs/books/certificate-2.jpeg",
+      alt: "Certificate recognising Dr. Sanjo Cine Mathew's authorship and published books",
       label: "Certificate 02",
       title: "Literary Recognition Certificate"
     }

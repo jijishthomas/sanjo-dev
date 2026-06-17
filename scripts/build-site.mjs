@@ -3437,10 +3437,15 @@ body {
 
 .books-author-credential {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: auto minmax(0, 1fr);
   gap: 14px;
   align-items: center;
   padding: 16px 0;
+}
+
+.books-author-credential:not(:first-child) {
+  padding-left: 18px;
+  border-left: 1px solid rgba(255, 255, 255, 0.16);
 }
 
 .books-author-credential-icon .icon-mark {
@@ -3471,12 +3476,6 @@ body {
 .books-author-credential-copy span {
   color: rgba(246, 244, 238, 0.72);
   font-size: 0.92rem;
-}
-
-.books-author-credential-divider {
-  width: 1px;
-  min-height: 48px;
-  background: rgba(255, 255, 255, 0.16);
 }
 
 .books-author-portrait {
@@ -3828,6 +3827,17 @@ body {
   font-weight: 800;
 }
 
+.books-showcase .btn-soft {
+  color: #fff8ec;
+  background: rgba(255, 243, 218, 0.14);
+  border-color: rgba(240, 199, 103, 0.26);
+}
+
+.books-showcase .btn-soft:hover,
+.books-showcase .btn-soft:focus-visible {
+  background: rgba(255, 243, 218, 0.2);
+}
+
 .books-certificate-action:disabled {
   background: rgba(22, 35, 63, 0.06);
   color: var(--muted);
@@ -3878,6 +3888,60 @@ body {
 .recognition-preview-card {
   color: inherit;
   text-align: left;
+  width: 100%;
+}
+
+.recognition-carousel {
+  display: grid;
+  gap: 14px;
+}
+
+.recognition-carousel-slides {
+  position: relative;
+}
+
+.recognition-carousel-slide {
+  display: none;
+}
+
+.recognition-carousel-slide.active {
+  display: block;
+}
+
+.recognition-carousel-controls {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+}
+
+.recognition-carousel-selectors {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  grid-column: 2;
+}
+
+.recognition-carousel-selector {
+  width: 11px;
+  height: 11px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(29, 79, 145, 0.18);
+  transition: transform var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+
+.recognition-carousel-selector.active,
+.recognition-carousel-selector:hover,
+.recognition-carousel-selector:focus-visible {
+  background: var(--secondary);
+  transform: scale(1.15);
+}
+
+.recognition-carousel-controls .book-carousel-count {
+  justify-self: end;
 }
 
 .recognition-preview-frame {
@@ -4887,8 +4951,9 @@ body {
     padding: 14px 0;
   }
 
-  .books-author-credential-divider {
-    display: none;
+  .books-author-credential:not(:first-child) {
+    padding-left: 0;
+    border-left: 0;
   }
 
   .books-hero-books {
@@ -5670,7 +5735,9 @@ const SITE_JS = String.raw`
 
   function bindImageFallbacks() {
     document.querySelectorAll("img").forEach(function (image) {
+      if (image.closest("[data-lightbox]")) return;
       image.addEventListener("error", function () {
+        if (!image.getAttribute("src")) return;
         const fallback = document.createElement("div");
         fallback.className = image.className ? image.className + " fallback-thumb" : "fallback-thumb";
         fallback.setAttribute("role", "img");
@@ -5842,6 +5909,126 @@ const SITE_JS = String.raw`
     });
   }
 
+  function bindRecognitionCarousel() {
+    document.querySelectorAll("[data-recognition-carousel]").forEach(function (carousel) {
+      const slides = Array.from(carousel.querySelectorAll("[data-recognition-slide]"));
+      const previous = carousel.querySelector("[data-recognition-prev]");
+      const next = carousel.querySelector("[data-recognition-next]");
+      const current = carousel.querySelector("[data-recognition-current]");
+      const total = carousel.querySelector("[data-recognition-total]");
+      const selectors = Array.from(carousel.querySelectorAll("[data-recognition-select]"));
+      if (!slides.length) return;
+
+      let activeIndex = 0;
+      let timer = 0;
+      let pointerInside = false;
+      let focusInside = false;
+
+      function render() {
+        slides.forEach(function (slide, index) {
+          const active = index === activeIndex;
+          slide.classList.toggle("active", active);
+          slide.setAttribute("aria-hidden", String(!active));
+          slide.querySelectorAll("a, button").forEach(function (node) {
+            if (active) {
+              node.removeAttribute("tabindex");
+            } else {
+              node.setAttribute("tabindex", "-1");
+            }
+          });
+        });
+
+        selectors.forEach(function (button, index) {
+          const active = index === activeIndex;
+          button.classList.toggle("active", active);
+          button.setAttribute("aria-selected", String(active));
+          button.setAttribute("tabindex", active ? "0" : "-1");
+        });
+
+        if (current) current.textContent = String(activeIndex + 1).padStart(2, "0");
+        if (total) total.textContent = String(slides.length).padStart(2, "0");
+      }
+
+      function goTo(index, manual) {
+        activeIndex = (index + slides.length) % slides.length;
+        render();
+        if (manual) restart();
+      }
+
+      function stop() {
+        if (!timer) return;
+        window.clearInterval(timer);
+        timer = 0;
+      }
+
+      function start() {
+        stop();
+        if (prefersReducedMotion || pointerInside || focusInside || slides.length < 2) return;
+        timer = window.setInterval(function () {
+          goTo(activeIndex + 1, false);
+        }, 5000);
+      }
+
+      function restart() {
+        stop();
+        window.setTimeout(start, 250);
+      }
+
+      if (previous) previous.addEventListener("click", function () { goTo(activeIndex - 1, true); });
+      if (next) next.addEventListener("click", function () { goTo(activeIndex + 1, true); });
+
+      selectors.forEach(function (button, index) {
+        button.addEventListener("click", function () { goTo(index, true); });
+        button.addEventListener("keydown", function (event) {
+          if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+            event.preventDefault();
+            selectors[(index + 1) % selectors.length].focus();
+            goTo(index + 1, true);
+          }
+          if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+            event.preventDefault();
+            selectors[(index - 1 + selectors.length) % selectors.length].focus();
+            goTo(index - 1, true);
+          }
+        });
+      });
+
+      carousel.addEventListener("keydown", function (event) {
+        if (event.target && event.target.hasAttribute && event.target.hasAttribute("data-recognition-select")) return;
+        if (event.key === "ArrowRight") {
+          event.preventDefault();
+          goTo(activeIndex + 1, true);
+        }
+        if (event.key === "ArrowLeft") {
+          event.preventDefault();
+          goTo(activeIndex - 1, true);
+        }
+      });
+
+      carousel.addEventListener("pointerenter", function () {
+        pointerInside = true;
+        stop();
+      });
+      carousel.addEventListener("pointerleave", function () {
+        pointerInside = false;
+        start();
+      });
+      carousel.addEventListener("focusin", function () {
+        focusInside = true;
+        stop();
+      });
+      carousel.addEventListener("focusout", function () {
+        window.setTimeout(function () {
+          focusInside = carousel.contains(document.activeElement);
+          if (!focusInside) start();
+        }, 0);
+      });
+
+      render();
+      start();
+    });
+  }
+
   setYear();
   handleScrollHeader();
   bindDrawer();
@@ -5854,6 +6041,7 @@ const SITE_JS = String.raw`
   bindBlogFilters();
   bindCopyLinks();
   bindBooksCarousel();
+  bindRecognitionCarousel();
   bindImageFallbacks();
   window.addEventListener("scroll", handleScrollHeader, { passive: true });
 })();
@@ -7479,7 +7667,9 @@ function bookSeriesLabel(book) {
 }
 
 function publicAssetExists(assetPath) {
-  return Boolean(assetPath) && existsSync(path.join(ROOT, assetPath.replace(/^\//, "")));
+  if (!assetPath) return false;
+  if (/^https?:\/\//i.test(assetPath)) return true;
+  return existsSync(path.join(ROOT, assetPath.replace(/^\//, "")));
 }
 
 function getBooksPortrait() {
@@ -7589,14 +7779,13 @@ function renderBooksHeroBook(book, index) {
 function renderAuthorCredentials() {
   return `
     <ul class="books-author-credentials" aria-label="Author credentials">
-      ${BOOK_AUTHOR_CREDENTIALS.map((item, index) => `
+      ${BOOK_AUTHOR_CREDENTIALS.map((item) => `
         <li class="books-author-credential">
           <span class="books-author-credential-icon">${iconSvg(item.icon)}</span>
           <span class="books-author-credential-copy">
             <strong>${item.label}</strong>
             <span>${item.supportingLabel}</span>
           </span>
-          ${index < BOOK_AUTHOR_CREDENTIALS.length - 1 ? '<span class="books-author-credential-divider" aria-hidden="true"></span>' : ""}
         </li>
       `).join("")}
     </ul>
@@ -7679,9 +7868,11 @@ function renderRecognitionSection({
   ctaHref,
   className = "",
   compact = false,
-  previewCertificate = null
+  previewCertificate = null,
+  carousel = false
 }) {
   const certificate = previewCertificate && previewCertificate.isAvailable ? previewCertificate : null;
+  const certificates = getBooksCertificates().filter((item) => item.isAvailable);
   return `
     <section class="section ${className}">
       <div class="container">
@@ -7696,7 +7887,33 @@ function renderRecognitionSection({
             <div class="button-row">${anchor(ctaHref, ctaLabel, "btn btn-primary")}</div>
           </div>
           <div class="recognition-panel-visual">
-            ${certificate ? `
+            ${carousel && certificates.length ? `
+              <div class="recognition-carousel" data-recognition-carousel tabindex="0" aria-roledescription="carousel" aria-label="Recognition certificates">
+                <div class="recognition-carousel-slides">
+                  ${certificates.map((item, index) => `
+                    <article class="recognition-carousel-slide${index === 0 ? " active" : ""}" data-recognition-slide aria-hidden="${index === 0 ? "false" : "true"}">
+                      <button class="recognition-preview-card" type="button" data-lightbox-src="${item.image}" data-lightbox-alt="${escapeAttr(item.alt)}" data-lightbox-label="${escapeAttr(`${item.title} preview`)}">
+                        <span class="recognition-preview-kicker">${item.label}</span>
+                        <div class="recognition-preview-frame">
+                          <img src="${item.image}" alt="${escapeAttr(item.alt)}" loading="lazy" decoding="async" width="1200" height="850">
+                        </div>
+                        <span class="recognition-preview-title">${item.title}</span>
+                      </button>
+                    </article>
+                  `).join("")}
+                </div>
+                <div class="recognition-carousel-controls" aria-label="Recognition certificate controls">
+                  <button class="book-arrow" type="button" data-recognition-prev aria-label="Show previous certificate">←</button>
+                  <div class="recognition-carousel-selectors" role="tablist" aria-label="Choose a certificate">
+                    ${certificates.map((item, index) => `
+                      <button class="recognition-carousel-selector${index === 0 ? " active" : ""}" type="button" role="tab" data-recognition-select aria-selected="${index === 0 ? "true" : "false"}" aria-label="Show ${escapeAttr(item.label)}" tabindex="${index === 0 ? "0" : "-1"}"></button>
+                    `).join("")}
+                  </div>
+                  <div class="book-carousel-count" aria-hidden="true"><span data-recognition-current>01</span> / <span data-recognition-total>${String(certificates.length).padStart(2, "0")}</span></div>
+                  <button class="book-arrow" type="button" data-recognition-next aria-label="Show next certificate">→</button>
+                </div>
+              </div>
+            ` : certificate ? `
               <button class="recognition-preview-card" type="button" data-lightbox-src="${certificate.image}" data-lightbox-alt="${escapeAttr(certificate.alt)}" data-lightbox-label="${escapeAttr(`${certificate.title} preview`)}">
                 <span class="recognition-preview-kicker">${certificate.label}</span>
                 <div class="recognition-preview-frame">
@@ -7722,7 +7939,7 @@ function renderSharedLightbox() {
   return `
     <div class="gallery-lightbox" data-lightbox aria-hidden="true">
       <div class="gallery-lightbox-inner" role="dialog" aria-modal="true" aria-label="Image preview">
-        <button class="gallery-close" type="button" aria-label="Close image preview" data-lightbox-close>×</button>
+        <button class="gallery-close" type="button" aria-label="Close image preview" data-lightbox-close>&times;</button>
         <img src="" alt="">
       </div>
     </div>
@@ -8382,6 +8599,21 @@ const pages = [
       </section>
       `,
       renderBooksCarousel(),
+      renderRecognitionSection({
+        className: "home-recognition-section",
+        eyebrow: "Authorship & Recognition",
+        heading: "Published Books with Recognised Literary Achievement.",
+        description: "Explore the published collection of four books and the certificate-backed recognition connected to Dr. Sanjo Cine Mathew's authorship journey.",
+        facts: [
+          "Four published books",
+          "Transformational fiction and intentional-living titles",
+          "Asia Book of Records Awardee"
+        ],
+        ctaLabel: "Explore Books & Recognition",
+        ctaHref: routes.books,
+        carousel: true,
+        previewCertificate: getBooksCertificates()[0]
+      }),
       `
       <section class="section">
         <div class="container">
@@ -8482,6 +8714,7 @@ const pages = [
         ],
         ctaLabel: "Explore Books & Recognition",
         ctaHref: routes.books,
+        carousel: true,
         previewCertificate: getBooksCertificates()[0]
       }),
       `
@@ -9658,6 +9891,7 @@ const pages = [
         ctaLabel: "View Books, Certificates & Recognition",
         ctaHref: routes.books,
         compact: true,
+        carousel: true,
         previewCertificate: getBooksCertificates()[0]
       }),
       `

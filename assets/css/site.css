@@ -3402,10 +3402,15 @@ body {
 
 .books-author-credential {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: auto minmax(0, 1fr);
   gap: 14px;
   align-items: center;
   padding: 16px 0;
+}
+
+.books-author-credential:not(:first-child) {
+  padding-left: 18px;
+  border-left: 1px solid rgba(255, 255, 255, 0.16);
 }
 
 .books-author-credential-icon .icon-mark {
@@ -3436,12 +3441,6 @@ body {
 .books-author-credential-copy span {
   color: rgba(246, 244, 238, 0.72);
   font-size: 0.92rem;
-}
-
-.books-author-credential-divider {
-  width: 1px;
-  min-height: 48px;
-  background: rgba(255, 255, 255, 0.16);
 }
 
 .books-author-portrait {
@@ -3793,6 +3792,17 @@ body {
   font-weight: 800;
 }
 
+.books-showcase .btn-soft {
+  color: #fff8ec;
+  background: rgba(255, 243, 218, 0.14);
+  border-color: rgba(240, 199, 103, 0.26);
+}
+
+.books-showcase .btn-soft:hover,
+.books-showcase .btn-soft:focus-visible {
+  background: rgba(255, 243, 218, 0.2);
+}
+
 .books-certificate-action:disabled {
   background: rgba(22, 35, 63, 0.06);
   color: var(--muted);
@@ -3843,6 +3853,60 @@ body {
 .recognition-preview-card {
   color: inherit;
   text-align: left;
+  width: 100%;
+}
+
+.recognition-carousel {
+  display: grid;
+  gap: 14px;
+}
+
+.recognition-carousel-slides {
+  position: relative;
+}
+
+.recognition-carousel-slide {
+  display: none;
+}
+
+.recognition-carousel-slide.active {
+  display: block;
+}
+
+.recognition-carousel-controls {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+}
+
+.recognition-carousel-selectors {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  grid-column: 2;
+}
+
+.recognition-carousel-selector {
+  width: 11px;
+  height: 11px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(29, 79, 145, 0.18);
+  transition: transform var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+
+.recognition-carousel-selector.active,
+.recognition-carousel-selector:hover,
+.recognition-carousel-selector:focus-visible {
+  background: var(--secondary);
+  transform: scale(1.15);
+}
+
+.recognition-carousel-controls .book-carousel-count {
+  justify-self: end;
 }
 
 .recognition-preview-frame {
@@ -4852,8 +4916,9 @@ body {
     padding: 14px 0;
   }
 
-  .books-author-credential-divider {
-    display: none;
+  .books-author-credential:not(:first-child) {
+    padding-left: 0;
+    border-left: 0;
   }
 
   .books-hero-books {

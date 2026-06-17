@@ -326,13 +326,43 @@
           </div>
           <div class="recognition-panel-visual">
             
-              <button class="recognition-preview-card" type="button" data-lightbox-src="/assets/imgs/books/books-record.jpeg" data-lightbox-alt="Asia Book of Records certificate displayed for Dr. Sanjo Cine Mathew" data-lightbox-label="Asia Book of Records Recognition preview">
-                <span class="recognition-preview-kicker">Certificate 01</span>
-                <div class="recognition-preview-frame">
-                  <img src="/assets/imgs/books/books-record.jpeg" alt="Asia Book of Records certificate displayed for Dr. Sanjo Cine Mathew" loading="lazy" decoding="async" width="1200" height="850">
+              <div class="recognition-carousel" data-recognition-carousel tabindex="0" aria-roledescription="carousel" aria-label="Recognition certificates">
+                <div class="recognition-carousel-slides">
+                  
+                    <article class="recognition-carousel-slide active" data-recognition-slide aria-hidden="false">
+                      <button class="recognition-preview-card" type="button" data-lightbox-src="/assets/imgs/books/certificate-1.jpeg" data-lightbox-alt="Certificate image for Dr. Sanjo Cine Mathew's published works" data-lightbox-label="Asia Book of Records Recognition preview">
+                        <span class="recognition-preview-kicker">Certificate 01</span>
+                        <div class="recognition-preview-frame">
+                          <img src="/assets/imgs/books/certificate-1.jpeg" alt="Certificate image for Dr. Sanjo Cine Mathew's published works" loading="lazy" decoding="async" width="1200" height="850">
+                        </div>
+                        <span class="recognition-preview-title">Asia Book of Records Recognition</span>
+                      </button>
+                    </article>
+                  
+                    <article class="recognition-carousel-slide" data-recognition-slide aria-hidden="true">
+                      <button class="recognition-preview-card" type="button" data-lightbox-src="/assets/imgs/books/certificate-2.jpeg" data-lightbox-alt="Certificate recognising Dr. Sanjo Cine Mathew's authorship and published books" data-lightbox-label="Literary Recognition Certificate preview">
+                        <span class="recognition-preview-kicker">Certificate 02</span>
+                        <div class="recognition-preview-frame">
+                          <img src="/assets/imgs/books/certificate-2.jpeg" alt="Certificate recognising Dr. Sanjo Cine Mathew's authorship and published books" loading="lazy" decoding="async" width="1200" height="850">
+                        </div>
+                        <span class="recognition-preview-title">Literary Recognition Certificate</span>
+                      </button>
+                    </article>
+                  
                 </div>
-                <span class="recognition-preview-title">Asia Book of Records Recognition</span>
-              </button>
+                <div class="recognition-carousel-controls" aria-label="Recognition certificate controls">
+                  <button class="book-arrow" type="button" data-recognition-prev aria-label="Show previous certificate">←</button>
+                  <div class="recognition-carousel-selectors" role="tablist" aria-label="Choose a certificate">
+                    
+                      <button class="recognition-carousel-selector active" type="button" role="tab" data-recognition-select aria-selected="true" aria-label="Show Certificate 01" tabindex="0"></button>
+                    
+                      <button class="recognition-carousel-selector" type="button" role="tab" data-recognition-select aria-selected="false" aria-label="Show Certificate 02" tabindex="-1"></button>
+                    
+                  </div>
+                  <div class="book-carousel-count" aria-hidden="true"><span data-recognition-current>01</span> / <span data-recognition-total>02</span></div>
+                  <button class="book-arrow" type="button" data-recognition-next aria-label="Show next certificate">→</button>
+                </div>
+              </div>
             
           </div>
         </div>
@@ -465,7 +495,7 @@
   
     <div class="gallery-lightbox" data-lightbox aria-hidden="true">
       <div class="gallery-lightbox-inner" role="dialog" aria-modal="true" aria-label="Image preview">
-        <button class="gallery-close" type="button" aria-label="Close image preview" data-lightbox-close>×</button>
+        <button class="gallery-close" type="button" aria-label="Close image preview" data-lightbox-close>&times;</button>
         <img src="" alt="">
       </div>
     </div>
