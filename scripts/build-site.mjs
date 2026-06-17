@@ -40,7 +40,12 @@ const SITE_CSS = String.raw`
   --radius: 26px;
   --radius-lg: 36px;
   --radius-sm: 18px;
-  --container: min(1400px, calc(100vw - 32px));
+  --site-max-width: 1440px;
+  --site-gutter: clamp(16px, 3vw, 48px);
+  --site-content-width: min(calc(100% - (2 * var(--site-gutter))), var(--site-max-width));
+  --site-section-copy-width: 1040px;
+  --site-reading-width: 960px;
+  --container: var(--site-content-width);
   --font-body: "Manrope", sans-serif;
   --font-display: "Fraunces", serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -192,8 +197,9 @@ ol {
   isolation: isolate;
 }
 
-.container {
-  width: var(--container);
+.container,
+.site-container {
+  width: var(--site-content-width);
   margin-inline: auto;
 }
 
@@ -211,7 +217,7 @@ ol {
   display: grid;
   gap: 14px;
   margin-bottom: 28px;
-  max-width: 1040px;
+  max-width: var(--site-section-copy-width);
 }
 
 .section-header.centered {
@@ -1366,7 +1372,7 @@ ol {
 .blog-post-header {
   display: grid;
   gap: 16px;
-  max-width: 1040px;
+  max-width: var(--site-section-copy-width);
 }
 
 .divider {
@@ -1387,7 +1393,12 @@ ol {
   --shadow-card: 0 20px 42px rgba(20, 38, 67, 0.1);
   --radius-card: 22px;
   --radius-section: 32px;
-  --container: min(1400px, calc(100vw - 32px));
+  --site-max-width: 1440px;
+  --site-gutter: clamp(16px, 3vw, 48px);
+  --site-content-width: min(calc(100% - (2 * var(--site-gutter))), var(--site-max-width));
+  --site-section-copy-width: 1040px;
+  --site-reading-width: 960px;
+  --container: var(--site-content-width);
 }
 
 body {
@@ -1409,7 +1420,7 @@ body {
 .section-header {
   gap: 12px;
   margin-bottom: 22px;
-  max-width: 1040px;
+  max-width: var(--site-section-copy-width);
 }
 
 .section-header h2,
@@ -1932,7 +1943,8 @@ body {
 
 .site-header .container,
 .footer .container {
-  width: min(1180px, calc(100vw - 48px));
+  width: var(--site-content-width);
+  margin-inline: auto;
 }
 
 .header-inner {
@@ -2308,7 +2320,7 @@ body {
 }
 
 .site-header .container {
-  width: min(1240px, calc(100vw - 48px));
+  width: var(--site-content-width);
   margin-inline: auto;
 }
 
@@ -2596,12 +2608,13 @@ body {
 }
 
 .article-layout {
-  grid-template-columns: minmax(0, 960px) minmax(260px, 340px);
+  grid-template-columns: minmax(0, var(--site-reading-width)) minmax(260px, 340px);
+  justify-content: space-between;
   align-items: start;
 }
 
 .article-content {
-  max-width: 960px;
+  max-width: var(--site-reading-width);
   font-size: clamp(1.02rem, 1vw, 1.1rem);
   line-height: 1.75;
 }
@@ -4247,7 +4260,7 @@ body {
 
   .site-header .container,
   .footer .container {
-    width: min(100% - 32px, 1180px);
+    width: var(--site-content-width);
   }
 
   .header-inner {
@@ -5320,7 +5333,7 @@ const fallbackBlogPosts = [
     title: "Why Life Skills Matter More Than Ever",
     category: "Life Skills",
     readTime: "5 min read",
-    image: "/assets/imgs/blog1.jpg",
+    image: "/assets/imgs/blog.png",
     excerpt: "Why technical knowledge alone is no longer enough, and what practical life intelligence looks like in daily decisions.",
     intro: "Life skills are no longer optional extras. They are the bridge between what people know and how they actually live, relate, decide, and grow.",
     points: [
@@ -6403,7 +6416,7 @@ function articleSchema(post) {
     "@type": "BlogPosting",
     headline: post.title,
     description: post.excerpt,
-    image: `${BASE_URL}${post.image || "/assets/imgs/blog1.jpg"}`,
+    image: `${BASE_URL}${post.image || "/assets/imgs/blog.png"}`,
     url: fullUrl(`${routes.blog}${post.slug}/`),
     datePublished: post.date,
     keywords: post.tags,
@@ -7586,19 +7599,19 @@ const pages = [
     content: [
       renderHero({
         eyebrow: "Programs",
-        title: "Programs Built Around Human Growth.",
+        title: "Growth Pathways for Every Stage of Life.",
         copy: "Sanjo's programs draw from psychology, education, coaching, human development, and practical life experience. Each pathway is designed to create meaningful growth in a specific context while remaining adaptable to individual and organizational need.",
         actions: [anchor("/contact/", "Enquire Now", "btn btn-primary"), anchor("/book-consultation/", "Book a Consultation", "btn btn-secondary")],
         media: { image: "/assets/imgs/program-banner-header.png", alt: "Sanjo Cine Mathew program banner" },
-        panelTitle: "Program categories",
-        panelMeta: ["Students", "Parents", "Women", "Professionals", "Corporates", "Schools", "Personal Growth"]
+        panelTitle: "Designed For",
+        panelMeta: ["Students", "Parents", "Educators", "Professionals", "Leaders", "Organizations"]
       }, renderBreadcrumbs({ route: routes.programs, breadcrumbs: [{ label: "Home", route: routes.home }, { label: "Programs", route: routes.programs }] })),
       `
       <section class="section">
         <div class="container">
           ${sectionHeader({
             eyebrow: "Program Index",
-            title: "Signature interventions across audiences and outcomes.",
+            title: "Transformative Programs for Every Stage of Growth.",
             copy: "Each card points to the most relevant details page and a direct enquiry path."
           })}
           ${programCards(signaturePrograms)}
@@ -7610,8 +7623,8 @@ const pages = [
         <div class="container">
           ${sectionHeader({
             eyebrow: "How Programs Are Delivered",
-            title: "One vision. Multiple delivery formats.",
-            copy: "Every audience is different. Programs can be adapted as focused conversations, workshops, interventions, or long-term developmental journeys."
+            title: "One Vision. Multiple Pathways for Growth.",
+            copy: "Every individual, team, and community has unique needs. Programs are designed as personalized mentoring, interactive workshops, focused interventions, or long-term growth journeys."
           })}
           ${renderCards([
             { title: "One-to-One Support", copy: "Personalized guidance and mentoring." },
@@ -8644,15 +8657,15 @@ const pages = [
   page(routes.blog, {
     title: "Blog & Insights | Sanjo Cine Mathew",
     description: "Insights on counselling, life skills, emotional intelligence, parenting, leadership, communication, learning, and human development.",
-    ogImage: "/assets/imgs/blog1.jpg",
+    ogImage: "/assets/imgs/blog.png",
     content: [
       renderHero({
         className: "blog-library-hero",
         eyebrow: "Blog / Insights",
-        title: "Insights on growth, life skills, leadership, parenting, and human development.",
-        copy: "A content-rich blog index with practical reflections, future-ready thinking, and psychology-informed guidance shaped around Sanjo's core work.",
+        title: "Insights on Growth, Leadership, and Human Development.",
+        copy: "Explore practical reflections, psychology-informed insights, and future-ready ideas designed to support meaningful growth in life, learning, and leadership. ",
         actions: [anchor("/resources/", "Explore Resources", "btn btn-primary"), anchor("/contact/", "Discuss a Topic", "btn btn-secondary")],
-        media: { image: "/assets/imgs/blog1.jpg", alt: "Insight and reading themed visual" },
+        media: { image: "/assets/imgs/blog.png", alt: "Insight and reading themed visual" },
         panelTitle: "Initial article themes",
         panelMeta: ["Life Skills", "Parenting", "Leadership", "Communication"]
       }, renderBreadcrumbs({ route: routes.blog, breadcrumbs: [{ label: "Home", route: routes.home }, { label: "Blog / Insights", route: routes.blog }] })),
@@ -8661,8 +8674,8 @@ const pages = [
         <div class="container blog-hub" data-blog-hub>
           ${sectionHeader({
             eyebrow: "Explore Insights",
-            title: "Search the imported old blog and newer Sanjo.in articles.",
-            copy: "The blog now reads from a JSON file, so new posts can be added by adding one object to the data file."
+            title: "Explore Thoughtful Insights for Meaningful Growth.",
+            copy: "Discover articles, reflections, and practical guidance shaped by psychology, education, leadership, and human development."
           })}
           <div class="blog-controls blog-search-card reveal">
             <div class="blog-search-wrap">
@@ -8684,12 +8697,15 @@ const pages = [
               <div class="featured-blog-grid">
                 ${getBlogSelections().featured.map((post) => renderBlogCard(post, { featured: true, cta: "Read Featured", result: false })).join("")}
                 <aside class="story-card reveal">
-                  <h3>Hi, I am Sanjo!</h3>
-                  <p class="muted">I write about counselling, life skills, emotional intelligence, parenting, leadership, learning, and practical pathways for intentional living.</p>
+                  <h3>Meet Sanjo</h3>
+                  <p class="muted">Counselling psychologist, educator, author, and founder of WayMaker Skills. Sharing practical insights on growth, learning, leadership, parenting, and intentional living.</p>
                   <div class="button-row">
                     ${anchor(routes.contact, "Discuss a Topic", "btn btn-soft")}
-                    ${anchor(routes.consultation, "Book a Consultation", "btn btn-secondary")}
+                    ${anchor(routes.about, "About Sanjo", "btn btn-secondary")}
                   </div>
+                  <br/>
+                  <br/>
+                  <h2 class="muted">Growth is not about becoming someone else. It is about becoming more of who you are capable of being. <br/> — Sanjo</h2>
                 </aside>
               </div>
               <div class="blog-lanes">
@@ -8747,7 +8763,7 @@ const pages = [
               </div>
               <div class="blog-side-block">
                 <h3>Consultation</h3>
-                <p class="muted">Turn an insight into a practical next step for your context.</p>
+                <p class="muted">Let's explore the next step in your growth journey.</p>
                 <div class="button-row">${anchor(routes.consultation, "Book a Consultation", "btn btn-primary")}</div>
               </div>
             </aside>
@@ -8768,8 +8784,8 @@ const pages = [
       </section>
       `,
       ctaBand({
-        title: "Use the blog as a doorway into deeper work.",
-        copy: "If a topic resonates, continue through a consultation, programme enquiry, or a more focused learning pathway.",
+        title: "Growth Begins with Insight.",
+        copy: "Meaningful change starts with a new perspective. Continue your journey through guided conversations, transformative programs, and purposeful learning experiences.",
         actions: [
           anchor("/contact/", "Send a Message", "btn btn-soft"),
           anchor("/programs/", "Explore Programs", "btn btn-secondary")
@@ -9275,7 +9291,7 @@ const articlePages = blogPosts.map((post) =>
   page(`${routes.blog}${post.slug}/`, {
     title: `${post.title} | Sanjo Cine Mathew`,
     description: post.excerpt,
-    ogImage: post.image || "/assets/imgs/blog1.jpg",
+    ogImage: post.image || "/assets/imgs/blog.png",
     bodyClass: "page-blog-detail",
     article: post,
     breadcrumbs: [
