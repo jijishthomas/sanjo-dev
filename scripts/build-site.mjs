@@ -10161,12 +10161,12 @@ const pages = [
     content: [
       renderHero({
         eyebrow: "Contact",
-        title: "Let us build your next transformation roadmap.",
-        copy: "Reach out for counselling, coaching, school programmes, parenting support, women empowerment pathways, or organizational learning conversations.",
+        title: "Let us build your next Transformation roadmap.",
+        copy: "Whether you're seeking personal growth, planning a learning initiative, or creating meaningful change within a community or organization, every transformation begins with a conversation.",
         actions: [anchor("mailto:biosanjo@gmail.com", "Email Now", "btn btn-primary"), anchor("https://wa.me/919645343777", "WhatsApp", "btn btn-secondary")],
         media: { image: "/assets/imgs/avatar.jpg", alt: "Sanjo Cine Mathew portrait" },
-        panelTitle: "Contact methods",
-        panelList: ["WhatsApp: +91 96453 43777", "Email: biosanjo@gmail.com", "Email: waymakerskills@gmail.com", "WayMaker Skills™ collaboration enquiries welcome"]
+        panelTitle: "Areas of Support",
+        panelList: ["Counselling & Coaching", "Personal Growth & Well-being", "School & Parent Programmes", "Leadership & Communication Development", "Women Empowerment Initiatives", "Workshops, Training & Keynote Sessions"]
       }, renderBreadcrumbs({ route: "/contact/", breadcrumbs: [{ label: "Home", route: "/" }, { label: "Contact", route: "/contact/" }] })),
       `
       <section class="section">
