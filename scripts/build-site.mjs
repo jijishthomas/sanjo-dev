@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { cp, mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { BOOKS_ROUTE, books, bookRoute } from "../data/books.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -3012,6 +3013,424 @@ body {
   box-shadow: 0 28px 58px rgba(0, 0, 0, 0.28);
 }
 
+.books-carousel-shell {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(24px, 4vw, 38px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at 78% 42%, rgba(200, 145, 43, 0.2), transparent 22%),
+    radial-gradient(circle at 8% 82%, rgba(66, 185, 173, 0.2), transparent 24%),
+    linear-gradient(135deg, rgba(15, 31, 57, 0.98), rgba(14, 122, 114, 0.94));
+  color: #fff;
+  box-shadow: 0 30px 70px rgba(20, 38, 67, 0.2);
+}
+
+.books-carousel-shell::before,
+.books-carousel-shell::after {
+  content: "";
+  position: absolute;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.books-carousel-shell::before {
+  right: -64px;
+  top: -76px;
+  width: 230px;
+  height: 230px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.books-carousel-shell::after {
+  left: -74px;
+  bottom: -92px;
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.11), transparent 68%);
+}
+
+.books-carousel-head {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 10px;
+  max-width: 760px;
+  margin-bottom: 20px;
+}
+
+.books-carousel-head .eyebrow,
+.books-carousel-head h2,
+.books-carousel-head p {
+  color: #fff;
+}
+
+.books-carousel-head h2,
+.book-detail-title,
+.books-index-title {
+  font-family: var(--font-display);
+  line-height: 1.08;
+}
+
+.books-carousel-head h2 {
+  font-size: clamp(2rem, 4vw, 3.4rem);
+}
+
+.books-carousel-head p {
+  color: rgba(255, 255, 255, 0.84);
+}
+
+.books-carousel {
+  position: relative;
+  z-index: 1;
+}
+
+.book-slides {
+  position: relative;
+  min-height: 470px;
+}
+
+.book-slide {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1.28fr) minmax(300px, 0.72fr);
+  gap: clamp(22px, 4vw, 54px);
+  align-items: center;
+  opacity: 0;
+  transform: translateX(18px);
+  pointer-events: none;
+  transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease);
+}
+
+.book-slide.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.book-slide-copy {
+  display: grid;
+  gap: 16px;
+  max-width: 820px;
+}
+
+.book-slide-kicker,
+.book-series-badge,
+.book-card-kicker {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.book-slide h3 {
+  max-width: 850px;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.6vw, 4.15rem);
+  line-height: 1.04;
+}
+
+.book-slide-summary {
+  max-width: 720px;
+  color: rgba(255, 255, 255, 0.84);
+  font-size: clamp(1.02rem, 1.4vw, 1.16rem);
+}
+
+.book-slide-author {
+  color: rgba(255, 255, 255, 0.78);
+  font-weight: 800;
+}
+
+.book-slide .outcome-chips span {
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
+.book-slide .btn-soft {
+  color: #102541;
+  background: #fff3da;
+  min-width: 154px;
+}
+
+.book-slide-cover {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 390px;
+}
+
+.book-slide-cover::before {
+  content: "";
+  position: absolute;
+  width: min(88%, 350px);
+  aspect-ratio: 1;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.18), transparent 62%),
+    repeating-radial-gradient(circle, rgba(255, 255, 255, 0.11) 0 1px, transparent 1px 18px);
+  animation: ringFloat 8s ease-in-out infinite;
+}
+
+.book-slide-cover img,
+.book-detail-cover img,
+.book-card-cover img,
+.related-book img {
+  object-fit: contain;
+}
+
+.book-slide-cover img {
+  position: relative;
+  z-index: 1;
+  width: min(285px, 78vw);
+  max-height: 390px;
+  border-radius: 16px;
+  box-shadow: 0 32px 70px rgba(0, 0, 0, 0.34);
+  animation: softFloat 7s ease-in-out infinite;
+}
+
+.books-carousel-controls {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  margin-top: 22px;
+}
+
+.book-arrow {
+  width: 48px;
+  height: 48px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  cursor: pointer;
+}
+
+.book-arrow:hover,
+.book-arrow:focus-visible,
+.book-selector:hover,
+.book-selector:focus-visible,
+.book-selector.active {
+  border-color: rgba(255, 255, 255, 0.58);
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.book-selector-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.book-selector {
+  min-height: 60px;
+  padding: 9px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+}
+
+.book-selector span {
+  display: block;
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.book-selector strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.9rem;
+}
+
+.book-carousel-count {
+  color: rgba(255, 255, 255, 0.78);
+  font-weight: 900;
+  text-align: right;
+}
+
+.books-index-hero,
+.book-detail-hero {
+  background:
+    radial-gradient(circle at 82% 20%, rgba(200, 145, 43, 0.2), transparent 25%),
+    radial-gradient(circle at 12% 78%, rgba(14, 122, 114, 0.2), transparent 28%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(232, 246, 248, 0.94));
+}
+
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.book-card {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
+
+.book-card-cover {
+  display: grid;
+  place-items: center;
+  min-height: 240px;
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at center, rgba(14, 122, 114, 0.12), transparent 58%),
+    linear-gradient(135deg, #f6fbfb, #fff6e8);
+}
+
+.book-card-cover img {
+  width: min(180px, 82%);
+  max-height: 230px;
+}
+
+.book-card-kicker {
+  border-color: rgba(29, 79, 145, 0.12);
+  background: rgba(29, 79, 145, 0.08);
+  color: var(--primary);
+}
+
+.book-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.22rem;
+  line-height: 1.16;
+}
+
+.trilogy-path,
+.book-purchase-panel,
+.book-side-panel {
+  display: grid;
+  gap: 14px;
+}
+
+.trilogy-step {
+  display: grid;
+  gap: 4px;
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(22, 35, 63, 0.08);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.book-detail-hero .page-hero-grid {
+  grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
+}
+
+.book-detail-cover {
+  display: grid;
+  place-items: center;
+  min-height: 360px;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 50% 46%, rgba(14, 122, 114, 0.18), transparent 58%),
+    linear-gradient(135deg, #eef8fb, #fff4dc);
+}
+
+.book-detail-cover img {
+  width: min(275px, 78%);
+  max-height: 380px;
+  border-radius: 16px;
+  box-shadow: 0 28px 60px rgba(20, 38, 67, 0.2);
+}
+
+.book-detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.92fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.book-prose {
+  display: grid;
+  gap: 16px;
+  max-width: 78ch;
+}
+
+.book-prose h2,
+.book-section h2,
+.book-purchase-panel h2,
+.book-side-panel h2 {
+  font-family: var(--font-display);
+  line-height: 1.12;
+}
+
+.book-section {
+  display: grid;
+  gap: 14px;
+}
+
+.book-section + .book-section {
+  margin-top: 24px;
+}
+
+.book-purchase-panel {
+  padding: 22px;
+  border: 1px solid rgba(200, 145, 43, 0.22);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at top right, rgba(200, 145, 43, 0.16), transparent 30%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(255, 249, 236, 0.9));
+  box-shadow: var(--shadow-soft);
+}
+
+.book-purchase-panel .btn-primary,
+.book-purchase-panel .btn-secondary {
+  width: 100%;
+}
+
+.related-books-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.related-book {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid rgba(22, 35, 63, 0.08);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.related-book img {
+  width: 82px;
+  max-height: 116px;
+}
+
+.related-book strong {
+  display: block;
+  line-height: 1.22;
+}
+
+.book-nav {
+  margin-top: 26px;
+}
+
 .blog-library-hero {
   background:
     radial-gradient(circle at 14% 72%, rgba(14, 122, 114, 0.18), transparent 26%),
@@ -3469,6 +3888,61 @@ body {
     border-radius: 24px;
   }
 
+  .books-carousel-shell {
+    padding: 22px;
+    border-radius: 24px;
+  }
+
+  .book-slides {
+    min-height: 760px;
+  }
+
+  .book-slide {
+    grid-template-columns: 1fr;
+    align-content: start;
+    gap: 18px;
+  }
+
+  .book-slide-copy {
+    order: 1;
+  }
+
+  .book-slide-cover {
+    order: 2;
+    min-height: 300px;
+  }
+
+  .book-slide-cover img {
+    width: min(225px, 74vw);
+    max-height: 310px;
+  }
+
+  .books-carousel-controls {
+    grid-template-columns: 48px minmax(0, 1fr) 48px;
+  }
+
+  .book-selector-list {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .book-carousel-count {
+    grid-column: 2;
+    grid-row: 1;
+    text-align: center;
+  }
+
+  .books-grid,
+  .related-books-grid,
+  .book-detail-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .book-detail-hero .page-hero-grid {
+    grid-template-columns: 1fr;
+  }
+
   .book-cover-wrap {
     min-height: 260px;
   }
@@ -3615,6 +4089,35 @@ body {
 
   .page-hero::after {
     display: none;
+  }
+
+  .books-carousel-shell {
+    padding: 18px;
+  }
+
+  .book-slides {
+    min-height: 830px;
+  }
+
+  .book-slide h3 {
+    font-size: clamp(1.7rem, 10vw, 2.35rem);
+  }
+
+  .book-selector-list {
+    grid-template-columns: 1fr;
+  }
+
+  .book-selector strong {
+    white-space: normal;
+  }
+
+  .related-book {
+    grid-template-columns: 68px minmax(0, 1fr);
+  }
+
+  .related-book img {
+    width: 68px;
+    max-height: 100px;
   }
 }
 
@@ -4036,6 +4539,148 @@ const SITE_JS = String.raw`
     });
   }
 
+  function bindBooksCarousel() {
+    document.querySelectorAll("[data-books-carousel]").forEach(function (carousel) {
+      const slides = Array.from(carousel.querySelectorAll("[data-book-slide]"));
+      const selectors = Array.from(carousel.querySelectorAll("[data-book-select]"));
+      const previous = carousel.querySelector("[data-book-prev]");
+      const next = carousel.querySelector("[data-book-next]");
+      const current = carousel.querySelector("[data-book-current]");
+      const total = carousel.querySelector("[data-book-total]");
+      if (!slides.length) return;
+
+      let activeIndex = 0;
+      let timer = 0;
+      let pointerInside = false;
+      let focusInside = false;
+      let touchStartX = 0;
+      let touchStartY = 0;
+
+      function render(manual) {
+        slides.forEach(function (slide, index) {
+          const active = index === activeIndex;
+          slide.classList.toggle("active", active);
+          slide.setAttribute("aria-hidden", String(!active));
+          slide.querySelectorAll("a, button").forEach(function (node) {
+            if (active) {
+              node.removeAttribute("tabindex");
+            } else {
+              node.setAttribute("tabindex", "-1");
+            }
+          });
+        });
+
+        selectors.forEach(function (button, index) {
+          const active = index === activeIndex;
+          button.classList.toggle("active", active);
+          button.setAttribute("aria-selected", String(active));
+          button.setAttribute("tabindex", active ? "0" : "-1");
+        });
+
+        if (current) current.textContent = String(activeIndex + 1).padStart(2, "0");
+        if (total) total.textContent = String(slides.length).padStart(2, "0");
+        if (manual) restart();
+      }
+
+      function goTo(index, manual) {
+        activeIndex = (index + slides.length) % slides.length;
+        render(Boolean(manual));
+      }
+
+      function stop() {
+        if (!timer) return;
+        window.clearInterval(timer);
+        timer = 0;
+      }
+
+      function start() {
+        stop();
+        if (prefersReducedMotion || pointerInside || focusInside || slides.length < 2) return;
+        timer = window.setInterval(function () {
+          goTo(activeIndex + 1, false);
+        }, 7000);
+      }
+
+      function restart() {
+        stop();
+        window.setTimeout(start, 350);
+      }
+
+      if (previous) previous.addEventListener("click", function () { goTo(activeIndex - 1, true); });
+      if (next) next.addEventListener("click", function () { goTo(activeIndex + 1, true); });
+
+      selectors.forEach(function (button, index) {
+        button.addEventListener("click", function () { goTo(index, true); });
+        button.addEventListener("keydown", function (event) {
+          if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+            event.preventDefault();
+            selectors[(index + 1) % selectors.length].focus();
+            goTo(index + 1, true);
+          }
+          if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+            event.preventDefault();
+            selectors[(index - 1 + selectors.length) % selectors.length].focus();
+            goTo(index - 1, true);
+          }
+          if (event.key === "Home") {
+            event.preventDefault();
+            selectors[0].focus();
+            goTo(0, true);
+          }
+          if (event.key === "End") {
+            event.preventDefault();
+            selectors[selectors.length - 1].focus();
+            goTo(selectors.length - 1, true);
+          }
+        });
+      });
+
+      carousel.addEventListener("keydown", function (event) {
+        if (event.target && event.target.hasAttribute && event.target.hasAttribute("data-book-select")) return;
+        if (event.key === "ArrowRight") {
+          goTo(activeIndex + 1, true);
+        }
+        if (event.key === "ArrowLeft") {
+          goTo(activeIndex - 1, true);
+        }
+      });
+
+      carousel.addEventListener("pointerenter", function () {
+        pointerInside = true;
+        stop();
+      });
+      carousel.addEventListener("pointerleave", function () {
+        pointerInside = false;
+        start();
+      });
+      carousel.addEventListener("focusin", function () {
+        focusInside = true;
+        stop();
+      });
+      carousel.addEventListener("focusout", function () {
+        window.setTimeout(function () {
+          focusInside = carousel.contains(document.activeElement);
+          if (!focusInside) start();
+        }, 0);
+      });
+      carousel.addEventListener("touchstart", function (event) {
+        if (!event.touches || !event.touches.length) return;
+        touchStartX = event.touches[0].clientX;
+        touchStartY = event.touches[0].clientY;
+      }, { passive: true });
+      carousel.addEventListener("touchend", function (event) {
+        if (!event.changedTouches || !event.changedTouches.length) return;
+        const dx = event.changedTouches[0].clientX - touchStartX;
+        const dy = event.changedTouches[0].clientY - touchStartY;
+        if (Math.abs(dx) < 42 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
+        goTo(dx < 0 ? activeIndex + 1 : activeIndex - 1, true);
+      }, { passive: true });
+
+      render(false);
+      start();
+    });
+  }
+
   setYear();
   handleScrollHeader();
   bindDrawer();
@@ -4047,6 +4692,7 @@ const SITE_JS = String.raw`
   bindForms();
   bindBlogFilters();
   bindCopyLinks();
+  bindBooksCarousel();
   bindImageFallbacks();
   window.addEventListener("scroll", handleScrollHeader, { passive: true });
 })();
@@ -4079,6 +4725,7 @@ const routes = {
   gallery: "/gallery/",
   blog: "/blog-insights/",
   blogAlias: "/blog/",
+  books: BOOKS_ROUTE,
   contact: "/contact/",
   consultation: "/book-consultation/",
   resources: "/resources/",
@@ -4095,8 +4742,9 @@ const canonicalRouteMap = {
   [routes.blogAlias]: routes.blog,
   [routes.novaAlias]: routes.nova,
   [routes.lqAlias]: routes.lq,
-  [routes.shopAlias]: routes.shop,
-  [routes.shopBookAlias]: routes.shop
+  [routes.shop]: bookRoute(books[1]),
+  [routes.shopAlias]: bookRoute(books[1]),
+  [routes.shopBookAlias]: bookRoute(books[1])
 };
 
 const primaryNav = [
@@ -4106,6 +4754,7 @@ const primaryNav = [
   { label: "Programs", route: routes.programs },
   { label: "WayMaker Skills™", route: routes.waymaker },
   { label: "Blog", route: routes.blog },
+  { label: "Books", route: routes.books },
   { label: "More", route: "#more" }
 ];
 
@@ -4125,9 +4774,9 @@ const allRoutesNav = [
   { label: "Resume / Credentials", route: routes.resume },
   { label: "Gallery", route: routes.gallery },
   { label: "Blog / Insights", route: routes.blog },
+  { label: "Books", route: routes.books },
   { label: "Contact", route: routes.contact },
   { label: "Book a Consultation", route: routes.consultation },
-  { label: "Shop", route: routes.shop },
   { label: "Resources", route: routes.resources },
   { label: "Impact", route: routes.impact },
   { label: "FAQ", route: routes.faq }
@@ -4151,7 +4800,7 @@ const frameworkMenu = [
 const moreMenu = [
   { label: "Resume", route: routes.resume, description: "Professional background and credentials." },
   { label: "Gallery", route: routes.gallery, description: "Workshops, schools, and learning moments." },
-  { label: "Shop", route: routes.shop, description: "The Resilience Response book page." },
+  { label: "Books", route: routes.books, description: "Books by Dr. Sanjo Cine Mathew." },
   { label: "Contact", route: routes.contact, description: "Email, WhatsApp, and enquiry form." }
 ];
 
@@ -4533,6 +5182,10 @@ const blogPosts = (importedBlogPosts.length ? importedBlogPosts : fallbackBlogPo
 
 const routeToLabel = Object.fromEntries(allRoutesNav.map((item) => [item.route, item.label]));
 routeToLabel[routes.blogAlias] = "Blog / Insights";
+routeToLabel[routes.books] = "Books";
+books.forEach((book) => {
+  routeToLabel[bookRoute(book)] = book.title;
+});
 routeToLabel[routes.shopAlias] = "Books & Publications";
 routeToLabel[routes.shopBookAlias] = "The Resilience Response";
 routeToLabel[routes.aboutAlias] = "About Sanjo";
@@ -4550,7 +5203,7 @@ const footerColumns = [
       { label: "Resume / Credentials", href: routes.resume },
       { label: "Gallery", href: routes.gallery },
       { label: "Blog / Insights", href: routes.blog },
-      { label: "Books & Publications", href: routes.shop },
+      { label: "Books & Publications", href: routes.books },
       { label: "Contact", href: routes.contact }
     ]
   },
@@ -4968,7 +5621,7 @@ function renderPrimaryNav(page) {
     }
 
     if (item.route === "#more") {
-      const active = [routes.resume, routes.gallery, routes.shop, routes.contact].includes(normalizeRoute(page.route)) ? "active" : "";
+      const active = [routes.resume, routes.gallery, routes.books, routes.contact].includes(normalizeRoute(page.route)) || normalizeRoute(page.route).startsWith(routes.books) ? "active" : "";
       return `
         <details class="nav-group ${active}">
           <summary class="nav-group-summary" aria-haspopup="true" aria-expanded="false">
@@ -5009,7 +5662,7 @@ function renderMobileNav(page) {
     <a class="${isSectionActive(page, routes.blog) ? "active" : ""}" href="${routes.blog}"${ariaCurrent(page, routes.blog)}>Blog</a>
     <a class="${isSectionActive(page, routes.resume) ? "active" : ""}" href="${routes.resume}"${ariaCurrent(page, routes.resume)}>Resume</a>
     <a class="${isSectionActive(page, routes.gallery) ? "active" : ""}" href="${routes.gallery}"${ariaCurrent(page, routes.gallery)}>Gallery</a>
-    <a class="${isSectionActive(page, routes.shop) ? "active" : ""}" href="${routes.shop}"${ariaCurrent(page, routes.shop)}>Shop</a>
+    <a class="${isSectionActive(page, routes.books) ? "active" : ""}" href="${routes.books}"${ariaCurrent(page, routes.books)}>Books</a>
     <a class="${isSectionActive(page, routes.contact) ? "active" : ""}" href="${routes.contact}"${ariaCurrent(page, routes.contact)}>Contact</a>
   `;
 }
@@ -5037,6 +5690,9 @@ function isSectionActive(page, route) {
   }
   if (route === routes.blog) {
     return normalizeRoute(page.route).startsWith(routes.blog);
+  }
+  if (route === routes.books) {
+    return normalizeRoute(page.route).startsWith(routes.books);
   }
   return normalizeRoute(page.route) === normalizeRoute(route);
 }
@@ -5458,19 +6114,28 @@ function articleSchema(post) {
   };
 }
 
-function bookSchema() {
-  return {
+function bookSchema(book) {
+  const schema = {
     "@type": "Book",
-    name: "The Resilience Response: The Blueprint for Intentional Living",
+    name: book.title,
     author: {
       "@id": `${BASE_URL}/#person`
     },
-    image: `${BASE_URL}/blog/images/post/the-resilience-response-sanjo-blog.png`,
-    isbn: "9789334282962",
-    bookFormat: ["EBook", "Paperback"],
-    url: fullUrl(routes.shop),
-    description: "A practical read on intentional living, emotional resilience, and growth-oriented mindset building."
+    image: `${BASE_URL}${book.coverImage}`,
+    url: fullUrl(bookRoute(book)),
+    description: book.seoDescription
   };
+  if (book.format === "Kindle Edition") {
+    schema.bookFormat = "https://schema.org/EBook";
+  }
+  if (book.seriesName) {
+    schema.isPartOf = {
+      "@type": "BookSeries",
+      name: book.seriesName
+    };
+    schema.position = book.seriesPosition;
+  }
+  return schema;
 }
 
 function renderSchemas(page) {
@@ -5492,8 +6157,8 @@ function renderSchemas(page) {
   if (page.article) {
     graph.push(articleSchema(page.article));
   }
-  if (page.route === routes.shop) {
-    graph.push(bookSchema());
+  if (page.book) {
+    graph.push(bookSchema(page.book));
   }
   return JSON.stringify({ "@context": "https://schema.org", "@graph": graph }, null, 2);
 }
@@ -5564,6 +6229,264 @@ function page(route, data) {
     breadcrumbs: route === "/" ? null : [{ label: "Home", route: "/" }, ...(data.breadcrumbs || [{ label: routeToLabel[route] || data.title.replace(/ \|.*/, ""), route }])],
     ...data
   };
+}
+
+function getBook(slug) {
+  return books.find((book) => book.slug === slug);
+}
+
+function bookSeriesLabel(book) {
+  return book.seriesPosition ? `Book ${book.seriesPosition} of 3` : book.category;
+}
+
+function renderBookCover(book, className = "book-card-cover", loading = "lazy") {
+  return `
+    <div class="${className}">
+      <img src="${book.coverImage}" alt="${escapeAttr(book.coverAlt)}" loading="${loading}" decoding="async" width="420" height="640">
+    </div>
+  `;
+}
+
+function renderBooksCarousel() {
+  return `
+    <section class="section section-ornate" aria-labelledby="books-carousel-title">
+      <div class="container">
+        <div class="books-carousel-shell reveal" data-books-carousel>
+          <div class="books-carousel-head">
+            <p class="eyebrow">Books by Dr. Sanjo Cine Mathew</p>
+            <h2 id="books-carousel-title">Stories and blueprints for intentional living.</h2>
+            <p>Explore transformational fiction and the Intentional Life Blueprint series in the order designed for the reader's journey.</p>
+          </div>
+          <div class="books-carousel" tabindex="0" aria-roledescription="carousel" aria-label="Books by Dr. Sanjo Cine Mathew">
+            <div class="book-slides">
+              ${books.map((book, index) => `
+                <article class="book-slide${index === 0 ? " active" : ""}" data-book-slide aria-label="${index + 1} of ${books.length}: ${escapeAttr(book.title)}"${index === 0 ? "" : ' aria-hidden="true"'}>
+                  <div class="book-slide-copy">
+                    <span class="book-slide-kicker">${book.eyebrow}</span>
+                    <h3>${book.title}</h3>
+                    <p class="book-slide-summary">${book.homepageSummary}</p>
+                    <p class="book-slide-author">by ${book.author}</p>
+                    <div class="outcome-chips">
+                      ${book.themes.slice(0, 3).map((theme) => `<span>${theme}</span>`).join("")}
+                    </div>
+                    <div class="button-row">
+                      ${anchor(bookRoute(book), "Explore Book", "btn btn-soft")}
+                      ${anchor(routes.books, "View All Books", "btn btn-secondary")}
+                    </div>
+                  </div>
+                  <div class="book-slide-cover">
+                    ${book.seriesPosition ? `<span class="book-series-badge">${bookSeriesLabel(book)}</span>` : ""}
+                    <img src="${book.coverImage}" alt="${escapeAttr(book.coverAlt)}" loading="${index === 0 ? "eager" : "lazy"}" decoding="async" width="420" height="640">
+                  </div>
+                </article>
+              `).join("")}
+            </div>
+            <div class="books-carousel-controls" aria-label="Book carousel controls">
+              <button class="book-arrow" type="button" data-book-prev aria-label="Show previous book">←</button>
+              <div class="book-carousel-count" aria-hidden="true"><span data-book-current>01</span> / <span data-book-total>04</span></div>
+              <button class="book-arrow" type="button" data-book-next aria-label="Show next book">→</button>
+              <div class="book-selector-list" role="tablist" aria-label="Choose a book">
+                ${books.map((book, index) => `
+                  <button class="book-selector${index === 0 ? " active" : ""}" type="button" role="tab" data-book-select aria-selected="${index === 0 ? "true" : "false"}" aria-label="Show ${escapeAttr(book.title)}" tabindex="${index === 0 ? "0" : "-1"}">
+                    <span>${String(index + 1).padStart(2, "0")}</span>
+                    <strong>${book.shortTitle}</strong>
+                  </button>
+                `).join("")}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderBookCard(book) {
+  return `
+    <article class="card book-card reveal">
+      ${renderBookCover(book)}
+      <span class="book-card-kicker">${bookSeriesLabel(book)}</span>
+      <h3>${book.title}</h3>
+      <p>${book.homepageSummary}</p>
+      <div class="button-row">${anchor(bookRoute(book), "Explore Book", "btn btn-secondary")}</div>
+    </article>
+  `;
+}
+
+function renderBooksIndexContent() {
+  const trilogy = books.filter((book) => book.seriesName);
+  return [
+    renderHero({
+      className: "books-index-hero",
+      eyebrow: "Books",
+      title: "Books by Dr. Sanjo Cine Mathew",
+      copy: "Transformational fiction and practical blueprints for intentional living, thinking, and being.",
+      actions: [anchor(bookRoute(books[0]), "Start with The WayMaker Woman", "btn btn-primary"), anchor(bookRoute(books[1]), "Explore the Blueprint Series", "btn btn-secondary")],
+      media: { html: renderBookCover(books[0], "book-detail-cover", "eager") },
+      panelTitle: "Reader pathway",
+      panelCopy: "The WayMaker Woman stands as transformational fiction. The three blueprint books form the Intentional Life Blueprint Series."
+    }, renderBreadcrumbs({ route: routes.books, breadcrumbs: [{ label: "Home", route: routes.home }, { label: "Books", route: routes.books }] })),
+    `
+    <section class="section">
+      <div class="container">
+        ${sectionHeader({
+          eyebrow: "All Books",
+          title: "Explore the complete book collection.",
+          copy: "Presented in the intended reading order, beginning with The WayMaker Woman."
+        })}
+        <div class="books-grid">
+          ${books.map(renderBookCard).join("")}
+        </div>
+      </div>
+    </section>
+    `,
+    `
+    <section class="section tight">
+      <div class="container split-panel">
+        <article class="story-card reveal">
+          ${sectionHeader({
+            eyebrow: "Transformational Fiction",
+            title: books[0].title,
+            copy: books[0].homepageSummary
+          })}
+          <div class="button-row">${anchor(bookRoute(books[0]), "Explore Book", "btn btn-primary")}</div>
+        </article>
+        <aside class="quote-panel reveal">
+          <blockquote>The Intentional Life Blueprint Series</blockquote>
+          <div class="trilogy-path">
+            ${trilogy.map((book) => `
+              <a class="trilogy-step" href="${bookRoute(book)}">
+                <strong>${book.shortTitle}</strong>
+                <span>${book.subtitle.replace("The Blueprint for ", "")}</span>
+              </a>
+            `).join("")}
+          </div>
+        </aside>
+      </div>
+    </section>
+    `
+  ].join("");
+}
+
+function renderBookListSection(title, items) {
+  if (!items || !items.length) return "";
+  return `
+    <section class="book-section">
+      <h2>${title}</h2>
+      ${list(items)}
+    </section>
+  `;
+}
+
+function renderPurchasePanel(book) {
+  if (!book.purchaseLinks.length) return "";
+  return `
+    <aside class="book-purchase-panel reveal" aria-labelledby="purchase-${book.slug}">
+      <h2 id="purchase-${book.slug}">Get Your Copy</h2>
+      <p class="muted">Use the verified marketplace links already present on Sanjo.in.</p>
+      <div class="button-row">
+        ${book.purchaseLinks.map((link) => anchor(link.url, `${link.label} ↗`, link.label.includes("Amazon") ? "btn btn-primary" : "btn btn-secondary", `aria-label="${escapeAttr(`${link.label} - opens in a new tab`)}"`)).join("")}
+      </div>
+    </aside>
+  `;
+}
+
+function renderRelatedBooks(book) {
+  const related = book.relatedBookSlugs.map(getBook).filter(Boolean);
+  return `
+    <section class="section tight">
+      <div class="container">
+        ${sectionHeader({
+          eyebrow: "Related Books",
+          title: "Continue exploring.",
+          copy: "Related books are shown in the intended collection order without repeating the current book."
+        })}
+        <div class="related-books-grid">
+          ${related.map((item) => `
+            <a class="related-book reveal" href="${bookRoute(item)}">
+              <img src="${item.coverImage}" alt="${escapeAttr(item.coverAlt)}" loading="lazy" decoding="async" width="120" height="180">
+              <span><strong>${item.title}</strong><small>Explore Book</small></span>
+            </a>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderBookNav(book) {
+  const index = books.findIndex((item) => item.slug === book.slug);
+  const previous = index > 0 ? books[index - 1] : null;
+  const next = index >= 0 && index < books.length - 1 ? books[index + 1] : null;
+  return `
+    <nav class="post-nav book-nav" aria-label="Previous and next books">
+      ${previous ? `<a href="${bookRoute(previous)}"><span>Previous Book</span><strong>${previous.title}</strong></a>` : "<span></span>"}
+      ${next ? `<a href="${bookRoute(next)}"><span>Next Book</span><strong>${next.title}</strong></a>` : "<span></span>"}
+    </nav>
+  `;
+}
+
+function renderBookDetailContent(book) {
+  return [
+    renderHero({
+      className: "book-detail-hero",
+      eyebrow: book.eyebrow,
+      title: book.title,
+      copy: book.homepageSummary,
+      actions: [anchor(routes.books, "All Books", "btn btn-secondary"), ...(book.purchaseLinks.length ? [anchor(book.purchaseLinks[0].url, "Buy on Amazon ↗", "btn btn-primary", 'aria-label="Buy on Amazon - opens in a new tab"')] : [])],
+      media: { html: renderBookCover(book, "book-detail-cover", "eager") },
+      panelTitle: `by ${book.author}`,
+      panelCopy: book.tagline || book.category,
+      panelMeta: [bookSeriesLabel(book), ...(book.format ? [book.format] : [])]
+    }, renderBreadcrumbs({ route: bookRoute(book), breadcrumbs: [{ label: "Home", route: routes.home }, { label: "Books", route: routes.books }, { label: book.shortTitle, route: bookRoute(book) }] })),
+    `
+    <section class="section">
+      <div class="container book-detail-layout">
+        <article class="story-card book-prose reveal">
+          <h2>About the Book</h2>
+          ${book.fullDescription.map((paragraph) => `<p>${paragraph}</p>`).join("")}
+          ${renderBookListSection("What You Will Discover", book.readerBenefits)}
+          ${renderBookListSection("Who This Book Is For", book.audience)}
+          ${renderBookListSection("Themes Explored", book.themes)}
+          ${renderBookListSection("Key Takeaways", book.keyTakeaways)}
+          ${renderBookListSection("Reflection Questions", book.reflectionPrompts)}
+          ${book.transformationPath.length ? `
+            <section class="book-section">
+              <h2>${book.seriesName ? "Your Path of Transformation" : "Transformation Path"}</h2>
+              <div class="outcome-chips">${book.transformationPath.map((item) => `<span>${item}</span>`).join("")}</div>
+            </section>
+          ` : ""}
+          ${book.seriesName ? `
+            <section class="book-section">
+              <h2>The Intentional Life Blueprint Series</h2>
+              <p>${book.title} is ${bookSeriesLabel(book)} in ${book.seriesName}, a movement through resilience, clarity, and harmony.</p>
+            </section>
+          ` : ""}
+          <section class="book-section">
+            <h2>About the Author</h2>
+            <p>Dr. Sanjo Cine Mathew writes and teaches at the intersection of counselling psychology, life skills, human development, and intentional transformation.</p>
+          </section>
+        </article>
+        <aside class="book-side-panel">
+          ${renderPurchasePanel(book)}
+          <div class="quote-panel reveal">
+            <blockquote>${book.tagline || book.reflectionPrompts[0] || book.shortTitle}</blockquote>
+            <p>${book.socialDescription}</p>
+            <cite>${book.author}</cite>
+          </div>
+        </aside>
+      </div>
+    </section>
+    `,
+    renderRelatedBooks(book),
+    `
+    <section class="section tight">
+      <div class="container">
+        ${renderBookNav(book)}
+      </div>
+    </section>
+    `
+  ].join("");
 }
 
 const homeFaq = [
@@ -5903,34 +6826,7 @@ const pages = [
         </div>
       </section>
       `,
-      `
-      <section class="section section-ornate">
-        <div class="container">
-          <div class="book-showcase split-panel reveal">
-            ${decorLayer("book-decor")}
-            <article class="stack">
-              ${sectionHeader({
-                eyebrow: "Featured Book",
-                title: "The Resilience Response: The Blueprint for Intentional Living",
-                copy: "A practical read on intentional living, emotional resilience, and growth-oriented mindset building."
-              })}
-              <p>by Dr. Sanjo Cine Mathew</p>
-              <div class="outcome-chips">
-                ${["Intentional living", "Emotional resilience", "Growth mindset"].map((item) => `<span>${item}</span>`).join("")}
-              </div>
-              <div class="button-row">
-                ${anchor(routes.shop, "View Book", "btn btn-soft")}
-                ${anchor("https://www.amazon.in/Resilience-Response-Blueprint-Intentional-Living-ebook/dp/B0FSF7NF6M/ref=tmm_kin_swatch_0", "Buy / Explore", "btn btn-secondary")}
-                ${anchor(routes.consultation, "Pair with Consultation", "btn btn-secondary")}
-              </div>
-            </article>
-            <div class="book-cover-wrap">
-              <img src="/blog/images/post/the-resilience-response-sanjo-blog.png" alt="The Resilience Response book cover by Dr. Sanjo Cine Mathew" loading="lazy" decoding="async">
-            </div>
-          </div>
-        </div>
-      </section>
-      `,
+      renderBooksCarousel(),
       `
       <section class="section">
         <div class="container">
@@ -7789,93 +8685,23 @@ const pages = [
       })
     ].join("")
   }),
-  page(routes.shop, {
-    title: "The Resilience Response: The Blueprint for Intentional Living | Sanjo Cine Mathew",
-    description: "Buy The Resilience Response by Dr. Sanjo Cine Mathew, a practical book on intentional living, emotional resilience, and growth-oriented mindset building.",
-    ogImage: "/blog/images/post/the-resilience-response-sanjo-blog.png",
-    breadcrumbs: [{ label: "Books & Publications", route: routes.shop }],
-    content: [
-      renderHero({
-        eyebrow: "Featured Book",
-        title: "The Resilience Response: The Blueprint for Intentional Living",
-        copy: "A practical read on intentional living, emotional resilience, and growth-oriented mindset building.",
-        actions: [
-          anchor("https://www.amazon.in/Resilience-Response-Blueprint-Intentional-Living-ebook/dp/B0FSF7NF6M/ref=tmm_kin_swatch_0", "Buy the Book", "btn btn-primary"),
-          anchor(routes.consultation, "Book a Consultation", "btn btn-secondary"),
-          anchor(routes.programs, "Explore Related Programs", "btn btn-soft")
-        ],
-        media: { image: "/blog/images/post/the-resilience-response-sanjo-blog.png", alt: "The Resilience Response book cover by Dr. Sanjo Cine Mathew" },
-        panelTitle: "by Dr. Sanjo Cine Mathew",
-        panelCopy: "Pair the book with a consultation for deeper personalized transformation support.",
-        panelMeta: ["Kindle", "Paperback", "Intentional Living", "Emotional Resilience"]
-      }, renderBreadcrumbs({ route: routes.shop, breadcrumbs: [{ label: "Home", route: "/" }, { label: "Books & Publications", route: routes.shop }] })),
-      `
-      <section class="section">
-        <div class="container shop-grid">
-          <article class="story-card reveal">
-            ${sectionHeader({
-              eyebrow: "Buy the Book",
-              title: "Choose your preferred marketplace.",
-              copy: "The old Sanjo.in shop links are restored here in a polished book page."
-            })}
-            <div class="store-grid">
-              ${[
-                ["Amazon India", [
-                  anchor("https://www.amazon.in/Resilience-Response-Blueprint-Intentional-Living-ebook/dp/B0FSF7NF6M/ref=tmm_kin_swatch_0", "Kindle", "btn btn-secondary"),
-                  anchor("https://www.amazon.in/Resilience-Response-Blueprint-Intentional-Living/dp/9334282967/ref=tmm_pap_swatch_0", "Paperback", "btn btn-secondary")
-                ]],
-                ["Amazon US", [
-                  anchor("https://www.amazon.com/Resilience-Response-Blueprint-Intentional-Living-ebook/dp/B0FSF7NF6M/ref=tmm_kin_swatch_0", "Kindle", "btn btn-secondary"),
-                  anchor("https://www.amazon.com/Resilience-Response-Blueprint-Intentional-Living/dp/B0FTTB5LNL/ref=tmm_pap_swatch_0", "Paperback", "btn btn-secondary")
-                ]],
-                ["Other Stores", [
-                  anchor("https://store.pothi.com/book/dr-sanjo-cine-mathew-resilience-response-blueprint-intentional-living/", "Pothi.com", "btn btn-secondary"),
-                  anchor("https://www.flipkart.com/resilience-response-blueprint-intentional-living/p/itmc9300863e51ed?pid=9789334282962", "Flipkart", "btn btn-secondary")
-                ]]
-              ].map(([title, buttons]) => `
-                <div class="store-card">
-                  <h3>${title}</h3>
-                  <div class="button-row">${buttons.join("")}</div>
-                </div>
-              `).join("")}
-            </div>
-          </article>
-          <aside class="quote-panel reveal">
-            <blockquote>Rise Above. Respond Intentionally. Live Powerfully.</blockquote>
-            <p>Students, professionals, educators, and growth-seekers who want practical tools for resilient, intentional living will find this book a grounded companion.</p>
-            <cite>Available in Kindle and Paperback</cite>
-          </aside>
-        </div>
-      </section>
-      `,
-      `
-      <section class="section">
-        <div class="container">
-          ${sectionHeader({
-            eyebrow: "Pair the Book With Guidance",
-            title: "Continue your growth journey with related programs.",
-            copy: "The book can stand alone, or it can become a doorway into deeper counselling, mentoring, student support, or parenting guidance."
-          })}
-          ${renderCards([
-            { title: "Clarity Crest Counselling / C3", copy: "Personalized coaching for clarity, purpose, decision-making, and goal mastery.", links: [anchor(`${routes.counselling}#c3-program`, "Explore C3", "btn btn-secondary")] },
-            { title: "Personal Effectiveness Mentorship", copy: "Life skills, leadership, personality growth, assessment-led guidance, and action planning.", links: [anchor(`${routes.programs}#personal-effectiveness-mentorship`, "Explore Mentorship", "btn btn-secondary")] },
-            { title: "Overcome Exam Stress", copy: "Smart learning tools to reduce stress, improve confidence, and build emotionally steady preparation.", links: [anchor(`${routes.schools}#exam-stress`, "Explore Exam Stress", "btn btn-secondary")] },
-            { title: "Parenting With Passion", copy: "Practical frameworks for emotional foundations, communication, positive discipline, and child growth.", links: [anchor(`${routes.schools}#parenting-with-passion`, "Explore Parenting", "btn btn-secondary")] }
-          ], "program-card", "grid-4")}
-        </div>
-      </section>
-      `,
-      ctaBand({
-        title: "Buy the book, then go deeper where guidance is needed.",
-        copy: "Use the book as a practical starting point for intentional living, resilience, and personal transformation.",
-        actions: [
-          anchor("https://www.amazon.in/Resilience-Response-Blueprint-Intentional-Living-ebook/dp/B0FSF7NF6M/ref=tmm_kin_swatch_0", "Buy the Book", "btn btn-soft"),
-          anchor(routes.consultation, "Book a Consultation", "btn btn-secondary"),
-          anchor(routes.programs, "Explore Related Programs", "btn btn-secondary")
-        ]
-      })
-    ].join("")
-  })
+  page(routes.books, {
+    title: "Books by Dr. Sanjo Cine Mathew | Sanjo Cine Mathew",
+    description: "Explore The WayMaker Woman and The Intentional Life Blueprint Series by Dr. Sanjo Cine Mathew.",
+    ogImage: books[0].coverImage,
+    ogAlt: books[0].coverAlt,
+    breadcrumbs: [{ label: "Books", route: routes.books }],
+    content: renderBooksIndexContent()
+  }),
+  ...books.map((book) => page(bookRoute(book), {
+    title: book.seoTitle,
+    description: book.seoDescription,
+    ogImage: book.coverImage,
+    ogAlt: book.coverAlt,
+    book,
+    breadcrumbs: [{ label: "Books", route: routes.books }, { label: book.shortTitle, route: bookRoute(book) }],
+    content: renderBookDetailContent(book)
+  }))
 ];
 
 function relatedPostsFor(post, count = 3) {
@@ -8028,8 +8854,9 @@ const legacyRedirects = [
   { from: "feedback/index.html", to: routes.contact },
   { from: "about/index.html", to: routes.about },
   { from: "waymaker-skills/index.html", to: routes.waymaker },
-  { from: "shop.html", to: routes.shop },
-  { from: "shop-the-resilience-response/index.html", to: routes.shop },
+  { from: "shop.html", to: bookRoute(books[1]) },
+  { from: "shop/index.html", to: bookRoute(books[1]) },
+  { from: "shop-the-resilience-response/index.html", to: bookRoute(books[1]) },
   { from: "nova-methodology/index.html", to: routes.nova },
   { from: "lq-life-intelligence-quotient/index.html", to: routes.lq },
   ...blogPosts.map((post) => ({ from: `blog/${post.slug}/index.html`, to: `${routes.blog}${post.slug}/` }))

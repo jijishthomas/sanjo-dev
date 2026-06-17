@@ -395,6 +395,148 @@
     });
   }
 
+  function bindBooksCarousel() {
+    document.querySelectorAll("[data-books-carousel]").forEach(function (carousel) {
+      const slides = Array.from(carousel.querySelectorAll("[data-book-slide]"));
+      const selectors = Array.from(carousel.querySelectorAll("[data-book-select]"));
+      const previous = carousel.querySelector("[data-book-prev]");
+      const next = carousel.querySelector("[data-book-next]");
+      const current = carousel.querySelector("[data-book-current]");
+      const total = carousel.querySelector("[data-book-total]");
+      if (!slides.length) return;
+
+      let activeIndex = 0;
+      let timer = 0;
+      let pointerInside = false;
+      let focusInside = false;
+      let touchStartX = 0;
+      let touchStartY = 0;
+
+      function render(manual) {
+        slides.forEach(function (slide, index) {
+          const active = index === activeIndex;
+          slide.classList.toggle("active", active);
+          slide.setAttribute("aria-hidden", String(!active));
+          slide.querySelectorAll("a, button").forEach(function (node) {
+            if (active) {
+              node.removeAttribute("tabindex");
+            } else {
+              node.setAttribute("tabindex", "-1");
+            }
+          });
+        });
+
+        selectors.forEach(function (button, index) {
+          const active = index === activeIndex;
+          button.classList.toggle("active", active);
+          button.setAttribute("aria-selected", String(active));
+          button.setAttribute("tabindex", active ? "0" : "-1");
+        });
+
+        if (current) current.textContent = String(activeIndex + 1).padStart(2, "0");
+        if (total) total.textContent = String(slides.length).padStart(2, "0");
+        if (manual) restart();
+      }
+
+      function goTo(index, manual) {
+        activeIndex = (index + slides.length) % slides.length;
+        render(Boolean(manual));
+      }
+
+      function stop() {
+        if (!timer) return;
+        window.clearInterval(timer);
+        timer = 0;
+      }
+
+      function start() {
+        stop();
+        if (prefersReducedMotion || pointerInside || focusInside || slides.length < 2) return;
+        timer = window.setInterval(function () {
+          goTo(activeIndex + 1, false);
+        }, 7000);
+      }
+
+      function restart() {
+        stop();
+        window.setTimeout(start, 350);
+      }
+
+      if (previous) previous.addEventListener("click", function () { goTo(activeIndex - 1, true); });
+      if (next) next.addEventListener("click", function () { goTo(activeIndex + 1, true); });
+
+      selectors.forEach(function (button, index) {
+        button.addEventListener("click", function () { goTo(index, true); });
+        button.addEventListener("keydown", function (event) {
+          if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+            event.preventDefault();
+            selectors[(index + 1) % selectors.length].focus();
+            goTo(index + 1, true);
+          }
+          if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+            event.preventDefault();
+            selectors[(index - 1 + selectors.length) % selectors.length].focus();
+            goTo(index - 1, true);
+          }
+          if (event.key === "Home") {
+            event.preventDefault();
+            selectors[0].focus();
+            goTo(0, true);
+          }
+          if (event.key === "End") {
+            event.preventDefault();
+            selectors[selectors.length - 1].focus();
+            goTo(selectors.length - 1, true);
+          }
+        });
+      });
+
+      carousel.addEventListener("keydown", function (event) {
+        if (event.target && event.target.hasAttribute && event.target.hasAttribute("data-book-select")) return;
+        if (event.key === "ArrowRight") {
+          goTo(activeIndex + 1, true);
+        }
+        if (event.key === "ArrowLeft") {
+          goTo(activeIndex - 1, true);
+        }
+      });
+
+      carousel.addEventListener("pointerenter", function () {
+        pointerInside = true;
+        stop();
+      });
+      carousel.addEventListener("pointerleave", function () {
+        pointerInside = false;
+        start();
+      });
+      carousel.addEventListener("focusin", function () {
+        focusInside = true;
+        stop();
+      });
+      carousel.addEventListener("focusout", function () {
+        window.setTimeout(function () {
+          focusInside = carousel.contains(document.activeElement);
+          if (!focusInside) start();
+        }, 0);
+      });
+      carousel.addEventListener("touchstart", function (event) {
+        if (!event.touches || !event.touches.length) return;
+        touchStartX = event.touches[0].clientX;
+        touchStartY = event.touches[0].clientY;
+      }, { passive: true });
+      carousel.addEventListener("touchend", function (event) {
+        if (!event.changedTouches || !event.changedTouches.length) return;
+        const dx = event.changedTouches[0].clientX - touchStartX;
+        const dy = event.changedTouches[0].clientY - touchStartY;
+        if (Math.abs(dx) < 42 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
+        goTo(dx < 0 ? activeIndex + 1 : activeIndex - 1, true);
+      }, { passive: true });
+
+      render(false);
+      start();
+    });
+  }
+
   setYear();
   handleScrollHeader();
   bindDrawer();
@@ -406,6 +548,7 @@
   bindForms();
   bindBlogFilters();
   bindCopyLinks();
+  bindBooksCarousel();
   bindImageFallbacks();
   window.addEventListener("scroll", handleScrollHeader, { passive: true });
 })();
