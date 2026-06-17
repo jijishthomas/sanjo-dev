@@ -7494,7 +7494,7 @@ const pages = [
   page("/expertise/", {
     title: "Expertise | Sanjo Cine Mathew",
     description: "Explore Sanjo Cine Mathew's expertise in counselling psychology, leadership, emotional intelligence, life skills, corporate training, student development, parenting, and human development.",
-    ogImage: "/assets/imgs/header_small.jpg",
+    ogImage: "/assets/imgs/Expertise.png",
     service: {
       name: "Human development, counselling, and learning facilitation expertise",
       description: "Integrated expertise across counselling psychology, leadership, life skills, parenting, student development, and corporate learning."
@@ -7502,20 +7502,20 @@ const pages = [
     content: [
       renderHero({
         eyebrow: "Expertise",
-        title: "Expertise across psychology, education, leadership, and life skills.",
+        title: "Expertise across Psychology, Education, Leadership, and Life skills.",
         copy: "Helping individuals, families, educators, leaders, and organizations grow through psychology-based, practical, and purpose-driven development.",
         actions: [anchor("/programs/", "Explore Programs", "btn btn-primary"), anchor("/contact/", "Discuss Your Context", "btn btn-secondary")],
-        media: { image: "/assets/imgs/header_small.jpg", alt: "Sanjo Cine Mathew teaching and facilitating" },
-        panelTitle: "The Principles Behind My Work",
-        panelList: ["Psychology-based", "Human-centered", "Experiential", "Practical", "Purpose-driven"]
+        media: { image: "/assets/imgs/Expertise.png", alt: "Sanjo Cine Mathew teaching and facilitating" },
+        panelTitle: "The Foundations of My Approach",
+        panelList: ["Psychology-Informed", "Human-Centered", "Experience-Led Learning", "Practical Application", "Purpose-Driven Growth"]
       }, renderBreadcrumbs({ route: "/expertise/", breadcrumbs: [{ label: "Home", route: "/" }, { label: "Expertise", route: "/expertise/" }] })),
       `
       <section class="section">
         <div class="container">
           ${sectionHeader({
             eyebrow: "Expertise Grid",
-            title: "Core domains of Sanjo's work.",
-            copy: "Each area connects to specific audience needs, program formats, and measurable developmental outcomes."
+            title: "Areas of Expertise",
+            copy: "Each domain represents a unique route toward growth, capability, and meaningful impact."
           })}
           ${renderCards(expertiseAreas.map((item) => ({
             title: item.title,
@@ -7531,23 +7531,23 @@ const pages = [
           <div class="story-card reveal">
             ${sectionHeader({
               eyebrow: "Approach",
-              title: "Different Audiences. Shared Development Principles.",
-              copy: "Whether working with individuals, families, educators, leaders, or organizations, the goal remains the same: meaningful and sustainable growth."
+              title: "Different Paths. Shared Principles.",
+              copy: "While every audience faces unique challenges, the principles that drive meaningful growth remain remarkably consistent: awareness, clarity, capability, purpose, and action."
             })}
             ${list([
-              "Begin with context rather than assumptions.",
-              "Translate insight into practical action.",
-              "Use experiential learning to deepen engagement.",
-              "Focus on measurable and meaningful outcomes."
+              "Begin with understanding, not assumptions.",
+              "Transform insight into practical action.",
+              "Learn through experience and reflection.",
+              "Focus on meaningful, measurable growth."
             ])}
           </div>
           ${renderCards([
-            { title: "Students", copy: "Confidence, life skills, focus, study habits, and future readiness." },
-            { title: "Parents", copy: "Communication, emotional guidance, discipline, and developmental clarity." },
-            { title: "Teachers", copy: "Capacity building, learner connection, and reflective classroom practice." },
-            { title: "Women", copy: "Identity, confidence, clarity, emotional strength, and empowerment." },
-            { title: "Professionals", copy: "Personal effectiveness, communication, leadership presence, and adaptability." },
-            { title: "Leaders & Teams", copy: "Culture, collaboration, emotional intelligence, and performance under change." }
+            { title: "Students", copy: "Confidence, focus, life skills, and future readiness." },
+            { title: "Parents", copy: "Communication, guidance, and developmental support." },
+            { title: "Teachers", copy: "Capacity building, learner engagement, and classroom effectiveness." },
+            { title: "Women", copy: "Confidence, identity, resilience, and empowerment." },
+            { title: "Professionals", copy: "Communication, adaptability, leadership, and effectiveness." },
+            { title: "Leaders & Teams", copy: "Culture, collaboration, emotional intelligence, and performance." }
           ], "audience-card", "grid-2")}
         </div>
       </section>
@@ -7558,17 +7558,19 @@ const pages = [
         copy: "Common questions from individuals, families, schools, and organizations exploring growth, learning, leadership, and development pathways.",
         items: [
           { q: "Can one program combine multiple expertise areas?", a: "Yes. Real-world challenges rarely fit into a single category. Many programs integrate psychology, communication, emotional intelligence, leadership, learning, and human development principles." },
-          { q: "Are these expertise areas limited to workshops?", a: "No. They may be applied through counselling, coaching, mentoring, training, consulting, speaking engagements, or longer-term development initiatives." },
-          { q: "How do I know which pathway is right for me?", a: "A conversation helps identify the most relevant focus area based on your goals, context, audience, and desired outcomes." },
-          { q: "Do individuals and organizations require different approaches?", a: "Yes. While the underlying principles remain consistent, the design, delivery, and outcomes are adapted to suit the specific audience and context." }
+          { q: "Are these expertise areas limited to workshops?", a: "No. Depending on the need, support may be delivered through workshops, coaching, mentoring, assessments, consultations, training programs, or long-term development initiatives." },
+          { q: "How do I know which area is right for me?", a: "The best starting point is your current goal or challenge. The focus may be personal growth, learning, leadership, well-being, communication, or team development. From there, an appropriate pathway can be identified." },
+          { q: "Do you work with individuals as well as organizations?", a: "Yes. Services are designed for students, parents, educators, professionals, leaders, teams, institutions, and organizations." },
+          { q: "Are programs customized?", a: "Whenever possible, programs are adapted to the audience, context, objectives, and desired outcomes to ensure meaningful and relevant learning experiences." },
+          { q: "Can expertise areas be integrated into a larger development journey?", a: "Absolutely. Many clients begin with one area and later integrate leadership, communication, emotional intelligence, well-being, or learning strategies as part of a broader growth journey." },
         ]
       }),
       ctaBand({
-        title: "Turn expertise into the right next step.",
-        copy: "Explore the pathway that best fits your goals, audience, and context.",
+        title: "Every Journey Starts with a Conversation.",
+        copy: "The right pathway depends on your goals, challenges, audience, and aspirations. Together, we can identify the most meaningful next step.",
         actions: [
-          anchor("/programs/", "See Programs", "btn btn-soft"),
-          anchor("/contact/", "Contact Sanjo", "btn btn-secondary")
+          anchor("/programs/", "Explore Programs", "btn btn-soft"),
+          anchor("/contact/", "Book a Consultation", "btn btn-secondary")
         ]
       })
     ].join("")
