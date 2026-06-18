@@ -74,7 +74,7 @@ export const BOOK_TITLES = [
   "Harness the Harmony"
 ];
 export const BOOKS_PORTRAIT = {
-  image: "https://placehold.co/400",
+  image: "/assets/imgs/sanjo-cine-mathew-portrait.jpeg",
   alt: "Portrait of Dr. Sanjo Cine Mathew"
 };
 export const BOOKS_RECOGNITION = {

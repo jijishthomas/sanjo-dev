@@ -285,10 +285,8 @@
     if (!hub) return;
 
     const search = hub.querySelector("[data-blog-search]");
-    const cards = Array.from(hub.querySelectorAll("[data-blog-card]"));
-    const resultCards = Array.from(hub.querySelectorAll("[data-blog-result]"));
-    const buttons = Array.from(hub.querySelectorAll("[data-blog-category]"));
-    const tagButtons = Array.from(hub.querySelectorAll("[data-blog-tag]"));
+    const dataNode = hub.querySelector("[data-blog-posts]");
+    const grid = hub.querySelector("[data-blog-grid]");
     const clearButtons = Array.from(hub.querySelectorAll("[data-blog-clear]"));
     const searchClearButton = hub.querySelector("[data-blog-search-clear]");
     const tagToggleButton = hub.querySelector("[data-blog-tag-toggle]");
@@ -296,6 +294,7 @@
     const count = hub.querySelector("[data-blog-count]");
     const total = hub.querySelector("[data-blog-total]");
     const empty = hub.querySelector("[data-blog-empty]");
+    const posts = dataNode ? JSON.parse(dataNode.textContent || "[]") : [];
     const params = new URLSearchParams(window.location.search);
     let activeCategory = "All";
     let activeTag = "";
@@ -305,7 +304,89 @@
     if (search && params.get("search")) search.value = params.get("search");
 
     function normalize(value) {
-      return String(value || "").trim().toLowerCase();
+      return String(value || "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function escapeAttr(value) {
+      return escapeHtml(value);
+    }
+
+    function fallbackLabel(title) {
+      return String(title || "Insight")
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map(function (part) { return part.charAt(0); })
+        .join("")
+        .toUpperCase() || "IN";
+    }
+
+    function renderPostImage(post) {
+      if (!post.image) {
+        return '<div class="blog-card-media fallback-thumb" role="img" aria-label="' + escapeAttr(post.imageAlt) + '"><span>' + escapeHtml(fallbackLabel(post.title)) + "</span></div>";
+      }
+      return '<img class="blog-card-media" src="' + escapeAttr(post.image) + '" alt="' + escapeAttr(post.imageAlt) + '" loading="lazy" decoding="async" data-fallback-thumb data-fallback-label="' + escapeAttr(fallbackLabel(post.title)) + '">';
+    }
+
+    function renderTagButtons(post) {
+      return (post.tags || []).slice(0, 3).map(function (tag) {
+        return '<button class="tag-filter" type="button" data-blog-tag="' + escapeAttr(tag) + '">' + escapeHtml(tag) + "</button>";
+      }).join("");
+    }
+
+    function renderCard(post) {
+      const meta = ['<span class="meta-pill">' + escapeHtml(post.category) + "</span>", '<span class="meta-pill">' + escapeHtml(post.readTime) + "</span>", '<span class="meta-pill">' + escapeHtml(post.date) + "</span>"].join("");
+      const tags = (post.tags || []).length ? '<div class="blog-card-tags">' + renderTagButtons(post) + "</div>" : "";
+      return [
+        '<article class="blog-card" data-blog-card data-blog-result data-category="', escapeAttr(post.category), '" data-tags="', escapeAttr((post.tags || []).join("|")), '" data-search="', escapeAttr(post.searchText || ""), '">',
+        renderPostImage(post),
+        '<div class="meta-row">', meta, "</div>",
+        '<h3><a class="blog-card-title-link" href="', escapeAttr(post.url), '">', escapeHtml(post.title), "</a></h3>",
+        "<p>", escapeHtml(post.excerpt), "</p>",
+        tags,
+        '<div class="button-row"><a class="btn btn-secondary" href="', escapeAttr(post.url), '">Read More</a></div>',
+        "</article>"
+      ].join("");
+    }
+
+    function bindGridImageFallbacks() {
+      if (!grid) return;
+      grid.querySelectorAll("img[data-fallback-thumb]").forEach(function (image) {
+        if (image.dataset.fallbackBound === "true") return;
+        image.dataset.fallbackBound = "true";
+        image.addEventListener("error", function () {
+          if (!image.getAttribute("src")) return;
+          const fallback = document.createElement("div");
+          fallback.className = image.className ? image.className + " fallback-thumb" : "fallback-thumb";
+          fallback.setAttribute("role", "img");
+          fallback.setAttribute("aria-label", image.alt || "Insight thumbnail");
+          const label = document.createElement("span");
+          label.textContent = image.getAttribute("data-fallback-label") || "Insight";
+          fallback.appendChild(label);
+          image.replaceWith(fallback);
+        }, { once: true });
+      });
+    }
+
+    function getCategoryButtons() {
+      return Array.from(hub.querySelectorAll("[data-blog-category]"));
+    }
+
+    function getTagButtons() {
+      return Array.from(hub.querySelectorAll("[data-blog-tag]"));
     }
 
     function setUrl(query) {
@@ -320,72 +401,91 @@
     }
 
     function syncActiveButtons() {
-      buttons.forEach(function (button) {
-        button.classList.toggle("active", button.getAttribute("data-blog-category") === activeCategory);
+      getCategoryButtons().forEach(function (button) {
+        const isActive = normalize(button.getAttribute("data-blog-category")) === normalize(activeCategory);
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-pressed", String(isActive));
       });
-      tagButtons.forEach(function (button) {
-        button.classList.toggle("active", normalize(button.getAttribute("data-blog-tag")) === normalize(activeTag));
+      getTagButtons().forEach(function (button) {
+        const isActive = normalize(button.getAttribute("data-blog-tag")) === normalize(activeTag);
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-pressed", String(isActive));
+      });
+    }
+
+    function getFilteredPosts() {
+      const rawQuery = search ? search.value : "";
+      const normalizedQuery = normalize(rawQuery);
+      return posts.filter(function (post) {
+        const categoryMatches = normalize(activeCategory) === "all" || normalize(post.categoryKey || post.category) === normalize(activeCategory);
+        const tagMatches = !activeTag || (post.tagKeys || []).includes(normalize(activeTag));
+        const searchMatches = !normalizedQuery || normalize(post.searchText || "").includes(normalizedQuery);
+        return categoryMatches && tagMatches && searchMatches;
       });
     }
 
     function applyFilters() {
-      const query = search ? search.value.trim().toLowerCase() : "";
-      let visibleResults = 0;
-      cards.forEach(function (card) {
-        const categoryMatches = activeCategory === "All" || card.getAttribute("data-category") === activeCategory;
-        const tagList = normalize(card.getAttribute("data-tags"));
-        const tagMatches = !activeTag || tagList.split("|").includes(normalize(activeTag));
-        const searchMatches = !query || (card.getAttribute("data-search") || "").includes(query);
-        const show = categoryMatches && tagMatches && searchMatches;
-        card.hidden = !show;
-        if (show && card.hasAttribute("data-blog-result")) visibleResults += 1;
-      });
-      if (count) count.textContent = String(visibleResults);
-      if (total) total.textContent = String(resultCards.length);
-      if (empty) empty.hidden = visibleResults !== 0;
+      const query = search ? search.value.trim() : "";
+      const filteredPosts = getFilteredPosts();
+      const isFiltering = normalize(query).length > 0 || normalize(activeCategory) !== "all" || normalize(activeTag).length > 0;
+      if (grid) {
+        grid.innerHTML = filteredPosts.map(renderCard).join("");
+        grid.hidden = filteredPosts.length === 0;
+      }
+      bindGridImageFallbacks();
+      if (count) count.textContent = String(filteredPosts.length);
+      if (total) total.textContent = String(posts.length);
+      if (empty) empty.hidden = filteredPosts.length !== 0;
+      hub.classList.toggle("is-filtering", isFiltering);
       clearButtons.forEach(function (button) {
-        button.hidden = activeCategory === "All" && !activeTag && !query;
+        button.hidden = !isFiltering;
       });
-      if (searchClearButton) searchClearButton.hidden = !query;
+      if (searchClearButton) {
+        const searchActive = normalize(query).length > 0;
+        searchClearButton.hidden = !searchActive;
+        searchClearButton.disabled = !searchActive;
+      }
       syncActiveButtons();
       setUrl(query);
     }
 
-    buttons.forEach(function (button) {
-      button.addEventListener("click", function () {
-        activeCategory = button.getAttribute("data-blog-category") || "All";
+    hub.addEventListener("click", function (event) {
+      const categoryButton = event.target.closest("[data-blog-category]");
+      if (categoryButton) {
+        activeCategory = categoryButton.getAttribute("data-blog-category") || "All";
         applyFilters();
-      });
-    });
+        return;
+      }
 
-    tagButtons.forEach(function (button) {
-      button.addEventListener("click", function () {
-        const tag = button.getAttribute("data-blog-tag") || "";
+      const tagButton = event.target.closest("[data-blog-tag]");
+      if (tagButton) {
+        const tag = tagButton.getAttribute("data-blog-tag") || "";
         activeTag = normalize(activeTag) === normalize(tag) ? "" : tag;
         applyFilters();
-      });
+        return;
+      }
+
+      const clearSearch = event.target.closest("[data-blog-search-clear]");
+      if (clearSearch) {
+        if (search) search.value = "";
+        applyFilters();
+        if (search) search.focus();
+        return;
+      }
+
+      const clearFilters = event.target.closest("[data-blog-clear]");
+      if (clearFilters) {
+        activeCategory = "All";
+        activeTag = "";
+        if (search) search.value = "";
+        applyFilters();
+        if (search) search.focus();
+      }
     });
 
     if (search) {
       search.addEventListener("input", applyFilters);
     }
-
-    if (searchClearButton) {
-      searchClearButton.addEventListener("click", function () {
-        if (search) search.value = "";
-        applyFilters();
-        if (search) search.focus();
-      });
-    }
-
-    clearButtons.forEach(function (clearButton) {
-      clearButton.addEventListener("click", function () {
-        activeCategory = "All";
-        activeTag = "";
-        if (search) search.value = "";
-        applyFilters();
-      });
-    });
 
     if (tagToggleButton && extraTags) {
       tagToggleButton.addEventListener("click", function () {
@@ -396,6 +496,7 @@
       });
     }
 
+    bindGridImageFallbacks();
     applyFilters();
   }
 
@@ -435,6 +536,7 @@
 
   function bindBooksCarousel() {
     document.querySelectorAll("[data-books-carousel]").forEach(function (carousel) {
+      const slidesTrack = carousel.querySelector(".book-slides");
       const slides = Array.from(carousel.querySelectorAll("[data-book-slide]"));
       const selectors = Array.from(carousel.querySelectorAll("[data-book-select]"));
       const previous = carousel.querySelector("[data-book-prev]");
@@ -449,6 +551,15 @@
       let focusInside = false;
       let touchStartX = 0;
       let touchStartY = 0;
+
+      function syncHeight() {
+        if (!slidesTrack) return;
+        const activeSlide = slides[activeIndex];
+        if (!activeSlide) return;
+        window.requestAnimationFrame(function () {
+          slidesTrack.style.height = activeSlide.offsetHeight + "px";
+        });
+      }
 
       function render(manual) {
         slides.forEach(function (slide, index) {
@@ -473,6 +584,7 @@
 
         if (current) current.textContent = String(activeIndex + 1).padStart(2, "0");
         if (total) total.textContent = String(slides.length).padStart(2, "0");
+        syncHeight();
         if (manual) restart();
       }
 
@@ -569,6 +681,9 @@
         if (Math.abs(dx) < 42 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
         goTo(dx < 0 ? activeIndex + 1 : activeIndex - 1, true);
       }, { passive: true });
+
+      window.addEventListener("resize", syncHeight);
+      window.addEventListener("load", syncHeight, { once: true });
 
       render(false);
       start();

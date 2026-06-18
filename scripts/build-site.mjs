@@ -448,6 +448,55 @@ ol {
   object-fit: cover;
 }
 
+.hero-media.is-logo-media {
+  display: grid;
+  place-items: center;
+  min-height: 180px;
+  padding: 24px;
+}
+
+.hero-media.is-logo-media img {
+  width: auto;
+  height: clamp(120px, 16vw, 150px);
+  max-width: 50%;
+  object-fit: contain;
+}
+
+.waymaker-logo-panel {
+  display: grid;
+  place-items: center;
+  padding: clamp(14px, 2vw, 22px);
+  border-radius: calc(var(--radius-card) - 8px);
+  border: 1px solid rgba(14, 122, 114, 0.18);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    0 14px 34px rgba(18, 63, 66, 0.08);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.waymaker-logo-panel img {
+  display: block;
+  width: min(100%, var(--waymaker-logo-max-width, 280px));
+  height: auto;
+  aspect-ratio: 1268 / 1241;
+  object-fit: contain;
+  object-position: center;
+}
+
+.waymaker-logo-panel.is-inline img {
+  max-width: clamp(200px, 18vw, 250px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .waymaker-logo-panel:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.82),
+      0 18px 34px rgba(20, 38, 67, 0.11);
+  }
+}
+
 .hero-panel-title {
   font-size: 1.35rem;
 }
@@ -565,6 +614,79 @@ ol {
   gap: 10px;
 }
 
+.waymaker-bridge .quote-panel {
+  display: grid;
+  gap: 0;
+  align-items: start;
+}
+
+.waymaker-bridge .quote-panel > .waymaker-logo-panel {
+  margin-inline: auto;
+}
+
+.waymaker-founder-header {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.waymaker-bridge .quote-panel blockquote {
+  margin: 0;
+  text-align: center;
+  font-size: clamp(1.65rem, 2.2vw, 2.15rem);
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+.waymaker-divider {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 14px;
+}
+
+.waymaker-divider::before,
+.waymaker-divider::after {
+  content: "";
+  width: 38px;
+  height: 2px;
+  border-radius: 999px;
+}
+
+.waymaker-divider::before {
+  background: rgba(14, 122, 114, 0.72);
+}
+
+.waymaker-divider::after {
+  background: rgba(191, 149, 63, 0.82);
+}
+
+.waymaker-divider span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(14, 122, 114, 0.82);
+  box-shadow: 0 0 0 4px rgba(14, 122, 114, 0.08);
+}
+
+.waymaker-bridge .quote-panel > p {
+  margin: 24px 0 0;
+  max-width: 62ch;
+  line-height: 1.7;
+}
+
+.waymaker-bridge .quote-panel .chips {
+  margin-top: 26px;
+  gap: 10px 12px;
+}
+
+.waymaker-bridge .quote-panel .button-row {
+  margin-top: 24px;
+  gap: 12px;
+}
+
 .split-panel {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
@@ -660,23 +782,31 @@ ol {
   gap: 18px;
 }
 
-.brand-lockup {
-  display: grid;
-  gap: 4px;
+.site-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+  min-width: 0;
   margin-right: auto;
 }
 
-.brand-lockup strong {
-  font-family: var(--font-display);
-  font-size: 1.32rem;
-  line-height: 1;
+.site-brand__logo {
+  display: block;
+  width: auto;
+  height: clamp(38px, 3vw, 46px);
+  max-width: min(100%, 180px);
+  object-fit: contain;
+  object-position: left center;
 }
 
-.brand-lockup span {
-  color: var(--muted);
-  font-size: 0.85rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+.site-brand__text {
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 1.18rem;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .primary-nav {
@@ -1075,10 +1205,19 @@ ol {
   margin-bottom: 30px;
 }
 
+.blog-main,
+.blog-default-content,
+.blog-results-section {
+  display: grid;
+  gap: 24px;
+  align-content: start;
+}
+
 .featured-blog-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.8fr);
   gap: 22px;
+  align-items: start;
 }
 
 .blog-card-featured img {
@@ -1206,6 +1345,23 @@ ol {
 
 .story-card {
   padding: 28px;
+}
+
+.story-quote {
+  margin: 18px 0 0;
+  font-family: var(--font-display);
+  font-size: 1.28rem;
+  line-height: 1.4;
+}
+
+.story-card > br {
+  display: none;
+}
+
+.story-card h2.muted {
+  margin-top: 18px;
+  font-size: 1.28rem;
+  line-height: 1.4;
 }
 
 .stack {
@@ -1576,14 +1732,6 @@ body {
 
 .header-row {
   gap: 12px;
-}
-
-.brand-lockup strong {
-  font-size: 1.2rem;
-}
-
-.brand-lockup span {
-  font-size: 0.72rem;
 }
 
 .primary-nav {
@@ -1972,25 +2120,18 @@ body {
   gap: 28px;
 }
 
-.brand-lockup {
-  flex: 0 0 184px;
-  gap: 5px;
+.site-brand {
+  flex: 0 0 auto;
   margin-right: 0;
 }
 
-.brand-lockup strong {
-  color: var(--color-navy);
-  font-size: 1.22rem;
-  line-height: 1.02;
-  white-space: nowrap;
+.site-brand__logo {
+  height: clamp(28px, 2.3vw, 34px);
+  max-width: 60px;
 }
 
-.brand-lockup span {
-  color: rgba(94, 105, 131, 0.9);
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  line-height: 1.15;
+.site-brand__text {
+  font-size: clamp(1.02rem, 1.2vw, 1.22rem);
 }
 
 .primary-nav {
@@ -2004,11 +2145,11 @@ body {
 .primary-nav > a,
 .nav-group-summary {
   position: relative;
-  min-height: 38px;
+  min-height: 40px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 0;
+  padding: 0 0 8px;
   border-radius: 0;
   background: transparent;
   color: rgba(22, 35, 63, 0.74);
@@ -2024,7 +2165,7 @@ body {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 5px;
+  bottom: 0;
   height: 2px;
   border-radius: 999px;
   background: linear-gradient(90deg, var(--primary), var(--secondary));
@@ -2340,15 +2481,15 @@ body {
 
 .header-row {
   display: grid;
-  grid-template-columns: minmax(190px, auto) minmax(0, 1fr) auto;
+  grid-template-columns: minmax(230px, auto) minmax(0, 1fr) auto;
   align-items: center;
   gap: 24px;
   min-width: 0;
 }
 
-.brand-lockup {
-  min-width: 190px;
-  max-width: 230px;
+.site-brand {
+  min-width: 0;
+  max-width: 260px;
 }
 
 .primary-nav {
@@ -3641,17 +3782,19 @@ body {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 18px;
-  align-items: end;
+  align-items: stretch;
 }
 
 .books-hero-book {
+  display: flex;
   min-width: 0;
 }
 
 .books-hero-book-link {
-  display: grid;
-  align-content: start;
+  display: flex;
+  flex-direction: column;
   gap: 10px;
+  width: 100%;
   height: 100%;
   padding: 18px 18px 20px;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -4058,9 +4201,11 @@ body {
 }
 
 .book-card {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 14px;
-  align-content: start;
+  align-items: stretch;
+  height: 100%;
 }
 
 .book-card-cover {
@@ -4088,6 +4233,10 @@ body {
   font-family: var(--font-display);
   font-size: 1.22rem;
   line-height: 1.16;
+}
+
+.book-card .button-row {
+  margin-top: auto;
 }
 
 .trilogy-path,
@@ -4453,12 +4602,24 @@ body {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
 }
 
+.blog-search-wrap:focus-within {
+  border-color: rgba(29, 79, 145, 0.28);
+  box-shadow: 0 0 0 4px rgba(29, 79, 145, 0.12);
+}
+
 .blog-search-icon {
-  width: 46px;
-  flex: 0 0 46px;
+  width: 40px;
+  flex: 0 0 40px;
   display: inline-flex;
+  align-items: center;
   justify-content: center;
   color: var(--secondary);
+  margin-left: 6px;
+}
+
+.blog-search-icon svg {
+  width: 20px;
+  height: 20px;
 }
 
 .blog-search-wrap input {
@@ -4468,7 +4629,14 @@ body {
   border: 0;
   box-shadow: none;
   background: transparent;
-  padding: 13px 8px 13px 0;
+  align-self: stretch;
+  padding: 0 8px 0 2px;
+  font-size: 0.96rem;
+  line-height: 1;
+}
+
+.blog-search-wrap input:focus {
+  outline: none;
 }
 
 .blog-search-clear {
@@ -4479,6 +4647,7 @@ body {
   background: rgba(20, 38, 67, 0.08);
   color: var(--primary);
   cursor: pointer;
+  line-height: 1;
   font-weight: 900;
 }
 
@@ -4529,6 +4698,19 @@ body {
 
 .blog-layout {
   gap: 28px;
+}
+
+.blog-hub.is-filtering .blog-layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.blog-hub.is-filtering .blog-default-content,
+.blog-hub.is-filtering .blog-sidebar {
+  display: none;
+}
+
+.blog-hub.is-filtering .blog-results-header {
+  margin-top: 0;
 }
 
 .blog-sidebar {
@@ -4596,6 +4778,18 @@ body {
   line-height: 1.24;
 }
 
+.blog-card-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.blog-card-title-link:hover,
+.blog-card-title-link:focus-visible {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .blog-card p {
   display: -webkit-box;
   overflow: hidden;
@@ -4651,12 +4845,17 @@ body {
 .blog-empty-card {
   display: grid;
   gap: 14px;
-  margin-top: 18px;
+  margin-top: 0;
   padding: 26px;
   border: 1px solid rgba(200, 145, 43, 0.2);
   border-radius: 24px;
   background: linear-gradient(135deg, rgba(255, 249, 236, 0.92), rgba(238, 248, 247, 0.86));
   box-shadow: var(--shadow-soft);
+}
+
+[data-blog-grid][hidden],
+.blog-empty-card[hidden] {
+  display: none;
 }
 
 .article-hero .page-hero-grid {
@@ -4793,6 +4992,17 @@ body {
     grid-template-columns: 1fr;
   }
 
+  .blog-layout,
+  .featured-blog-grid,
+  .blog-lanes {
+    grid-template-columns: 1fr;
+  }
+
+  .blog-sidebar,
+  .article-side-card {
+    position: static;
+  }
+
   .footer-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -4912,6 +5122,11 @@ body {
   .waymaker-bridge,
   .blog-search-card {
     border-radius: 24px;
+  }
+
+  .blog-search-card {
+    gap: 14px;
+    padding: 16px;
   }
 
   .books-showcase {
@@ -5053,6 +5268,10 @@ body {
     padding: 26px;
   }
 
+  .waymaker-logo-panel.is-inline img {
+    max-width: clamp(180px, 24vw, 225px);
+  }
+
   .hero-stats {
     grid-template-columns: 1fr 1fr;
   }
@@ -5060,6 +5279,10 @@ body {
   .blog-results-header {
     display: grid;
     align-items: start;
+  }
+
+  .story-quote {
+    font-size: 1.12rem;
   }
 
   .footer-shell,
@@ -5083,6 +5306,31 @@ body {
     padding: 20px;
   }
 
+  .waymaker-bridge .quote-panel > p,
+  .waymaker-bridge .quote-panel .chips,
+  .waymaker-bridge .quote-panel .button-row {
+    margin-top: 22px;
+  }
+
+  .waymaker-logo-panel.is-inline {
+    width: min(100%, 210px);
+  }
+
+  .waymaker-logo-panel.is-inline img {
+    max-width: 210px;
+  }
+
+  .waymaker-founder-header {
+    margin-top: 20px;
+    gap: 10px;
+  }
+
+  .waymaker-bridge .quote-panel .button-row {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
   .site-header .container,
   .footer .container {
     width: var(--site-content-width);
@@ -5098,15 +5346,20 @@ body {
     gap: 12px;
   }
 
-  .brand-lockup {
+  .site-brand {
     flex-basis: auto;
-    max-width: calc(100% - 62px);
+    max-width: min(62vw, 220px);
     min-width: 0;
     padding-right: 0;
   }
 
-  .brand-lockup strong {
-    white-space: normal;
+  .site-brand__logo {
+    height: clamp(26px, 7vw, 32px);
+    max-width: 54px;
+  }
+
+  .site-brand__text {
+    font-size: clamp(0.98rem, 4vw, 1.1rem);
   }
 
   .header-actions {
@@ -5180,8 +5433,17 @@ body {
     align-items: stretch;
   }
 
-  .brand-lockup strong {
-    font-size: 1.16rem;
+  .site-brand {
+    max-width: min(68vw, 210px);
+  }
+
+  .site-brand__logo {
+    height: clamp(24px, 7vw, 30px);
+    max-width: 50px;
+  }
+
+  .site-brand__text {
+    font-size: clamp(0.94rem, 4.5vw, 1.04rem);
   }
 
   .page-hero::after {
@@ -5619,10 +5881,8 @@ const SITE_JS = String.raw`
     if (!hub) return;
 
     const search = hub.querySelector("[data-blog-search]");
-    const cards = Array.from(hub.querySelectorAll("[data-blog-card]"));
-    const resultCards = Array.from(hub.querySelectorAll("[data-blog-result]"));
-    const buttons = Array.from(hub.querySelectorAll("[data-blog-category]"));
-    const tagButtons = Array.from(hub.querySelectorAll("[data-blog-tag]"));
+    const dataNode = hub.querySelector("[data-blog-posts]");
+    const grid = hub.querySelector("[data-blog-grid]");
     const clearButtons = Array.from(hub.querySelectorAll("[data-blog-clear]"));
     const searchClearButton = hub.querySelector("[data-blog-search-clear]");
     const tagToggleButton = hub.querySelector("[data-blog-tag-toggle]");
@@ -5630,6 +5890,7 @@ const SITE_JS = String.raw`
     const count = hub.querySelector("[data-blog-count]");
     const total = hub.querySelector("[data-blog-total]");
     const empty = hub.querySelector("[data-blog-empty]");
+    const posts = dataNode ? JSON.parse(dataNode.textContent || "[]") : [];
     const params = new URLSearchParams(window.location.search);
     let activeCategory = "All";
     let activeTag = "";
@@ -5639,7 +5900,89 @@ const SITE_JS = String.raw`
     if (search && params.get("search")) search.value = params.get("search");
 
     function normalize(value) {
-      return String(value || "").trim().toLowerCase();
+      return String(value || "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function escapeAttr(value) {
+      return escapeHtml(value);
+    }
+
+    function fallbackLabel(title) {
+      return String(title || "Insight")
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map(function (part) { return part.charAt(0); })
+        .join("")
+        .toUpperCase() || "IN";
+    }
+
+    function renderPostImage(post) {
+      if (!post.image) {
+        return '<div class="blog-card-media fallback-thumb" role="img" aria-label="' + escapeAttr(post.imageAlt) + '"><span>' + escapeHtml(fallbackLabel(post.title)) + "</span></div>";
+      }
+      return '<img class="blog-card-media" src="' + escapeAttr(post.image) + '" alt="' + escapeAttr(post.imageAlt) + '" loading="lazy" decoding="async" data-fallback-thumb data-fallback-label="' + escapeAttr(fallbackLabel(post.title)) + '">';
+    }
+
+    function renderTagButtons(post) {
+      return (post.tags || []).slice(0, 3).map(function (tag) {
+        return '<button class="tag-filter" type="button" data-blog-tag="' + escapeAttr(tag) + '">' + escapeHtml(tag) + "</button>";
+      }).join("");
+    }
+
+    function renderCard(post) {
+      const meta = ['<span class="meta-pill">' + escapeHtml(post.category) + "</span>", '<span class="meta-pill">' + escapeHtml(post.readTime) + "</span>", '<span class="meta-pill">' + escapeHtml(post.date) + "</span>"].join("");
+      const tags = (post.tags || []).length ? '<div class="blog-card-tags">' + renderTagButtons(post) + "</div>" : "";
+      return [
+        '<article class="blog-card" data-blog-card data-blog-result data-category="', escapeAttr(post.category), '" data-tags="', escapeAttr((post.tags || []).join("|")), '" data-search="', escapeAttr(post.searchText || ""), '">',
+        renderPostImage(post),
+        '<div class="meta-row">', meta, "</div>",
+        '<h3><a class="blog-card-title-link" href="', escapeAttr(post.url), '">', escapeHtml(post.title), "</a></h3>",
+        "<p>", escapeHtml(post.excerpt), "</p>",
+        tags,
+        '<div class="button-row"><a class="btn btn-secondary" href="', escapeAttr(post.url), '">Read More</a></div>',
+        "</article>"
+      ].join("");
+    }
+
+    function bindGridImageFallbacks() {
+      if (!grid) return;
+      grid.querySelectorAll("img[data-fallback-thumb]").forEach(function (image) {
+        if (image.dataset.fallbackBound === "true") return;
+        image.dataset.fallbackBound = "true";
+        image.addEventListener("error", function () {
+          if (!image.getAttribute("src")) return;
+          const fallback = document.createElement("div");
+          fallback.className = image.className ? image.className + " fallback-thumb" : "fallback-thumb";
+          fallback.setAttribute("role", "img");
+          fallback.setAttribute("aria-label", image.alt || "Insight thumbnail");
+          const label = document.createElement("span");
+          label.textContent = image.getAttribute("data-fallback-label") || "Insight";
+          fallback.appendChild(label);
+          image.replaceWith(fallback);
+        }, { once: true });
+      });
+    }
+
+    function getCategoryButtons() {
+      return Array.from(hub.querySelectorAll("[data-blog-category]"));
+    }
+
+    function getTagButtons() {
+      return Array.from(hub.querySelectorAll("[data-blog-tag]"));
     }
 
     function setUrl(query) {
@@ -5654,72 +5997,91 @@ const SITE_JS = String.raw`
     }
 
     function syncActiveButtons() {
-      buttons.forEach(function (button) {
-        button.classList.toggle("active", button.getAttribute("data-blog-category") === activeCategory);
+      getCategoryButtons().forEach(function (button) {
+        const isActive = normalize(button.getAttribute("data-blog-category")) === normalize(activeCategory);
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-pressed", String(isActive));
       });
-      tagButtons.forEach(function (button) {
-        button.classList.toggle("active", normalize(button.getAttribute("data-blog-tag")) === normalize(activeTag));
+      getTagButtons().forEach(function (button) {
+        const isActive = normalize(button.getAttribute("data-blog-tag")) === normalize(activeTag);
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-pressed", String(isActive));
+      });
+    }
+
+    function getFilteredPosts() {
+      const rawQuery = search ? search.value : "";
+      const normalizedQuery = normalize(rawQuery);
+      return posts.filter(function (post) {
+        const categoryMatches = normalize(activeCategory) === "all" || normalize(post.categoryKey || post.category) === normalize(activeCategory);
+        const tagMatches = !activeTag || (post.tagKeys || []).includes(normalize(activeTag));
+        const searchMatches = !normalizedQuery || normalize(post.searchText || "").includes(normalizedQuery);
+        return categoryMatches && tagMatches && searchMatches;
       });
     }
 
     function applyFilters() {
-      const query = search ? search.value.trim().toLowerCase() : "";
-      let visibleResults = 0;
-      cards.forEach(function (card) {
-        const categoryMatches = activeCategory === "All" || card.getAttribute("data-category") === activeCategory;
-        const tagList = normalize(card.getAttribute("data-tags"));
-        const tagMatches = !activeTag || tagList.split("|").includes(normalize(activeTag));
-        const searchMatches = !query || (card.getAttribute("data-search") || "").includes(query);
-        const show = categoryMatches && tagMatches && searchMatches;
-        card.hidden = !show;
-        if (show && card.hasAttribute("data-blog-result")) visibleResults += 1;
-      });
-      if (count) count.textContent = String(visibleResults);
-      if (total) total.textContent = String(resultCards.length);
-      if (empty) empty.hidden = visibleResults !== 0;
+      const query = search ? search.value.trim() : "";
+      const filteredPosts = getFilteredPosts();
+      const isFiltering = normalize(query).length > 0 || normalize(activeCategory) !== "all" || normalize(activeTag).length > 0;
+      if (grid) {
+        grid.innerHTML = filteredPosts.map(renderCard).join("");
+        grid.hidden = filteredPosts.length === 0;
+      }
+      bindGridImageFallbacks();
+      if (count) count.textContent = String(filteredPosts.length);
+      if (total) total.textContent = String(posts.length);
+      if (empty) empty.hidden = filteredPosts.length !== 0;
+      hub.classList.toggle("is-filtering", isFiltering);
       clearButtons.forEach(function (button) {
-        button.hidden = activeCategory === "All" && !activeTag && !query;
+        button.hidden = !isFiltering;
       });
-      if (searchClearButton) searchClearButton.hidden = !query;
+      if (searchClearButton) {
+        const searchActive = normalize(query).length > 0;
+        searchClearButton.hidden = !searchActive;
+        searchClearButton.disabled = !searchActive;
+      }
       syncActiveButtons();
       setUrl(query);
     }
 
-    buttons.forEach(function (button) {
-      button.addEventListener("click", function () {
-        activeCategory = button.getAttribute("data-blog-category") || "All";
+    hub.addEventListener("click", function (event) {
+      const categoryButton = event.target.closest("[data-blog-category]");
+      if (categoryButton) {
+        activeCategory = categoryButton.getAttribute("data-blog-category") || "All";
         applyFilters();
-      });
-    });
+        return;
+      }
 
-    tagButtons.forEach(function (button) {
-      button.addEventListener("click", function () {
-        const tag = button.getAttribute("data-blog-tag") || "";
+      const tagButton = event.target.closest("[data-blog-tag]");
+      if (tagButton) {
+        const tag = tagButton.getAttribute("data-blog-tag") || "";
         activeTag = normalize(activeTag) === normalize(tag) ? "" : tag;
         applyFilters();
-      });
+        return;
+      }
+
+      const clearSearch = event.target.closest("[data-blog-search-clear]");
+      if (clearSearch) {
+        if (search) search.value = "";
+        applyFilters();
+        if (search) search.focus();
+        return;
+      }
+
+      const clearFilters = event.target.closest("[data-blog-clear]");
+      if (clearFilters) {
+        activeCategory = "All";
+        activeTag = "";
+        if (search) search.value = "";
+        applyFilters();
+        if (search) search.focus();
+      }
     });
 
     if (search) {
       search.addEventListener("input", applyFilters);
     }
-
-    if (searchClearButton) {
-      searchClearButton.addEventListener("click", function () {
-        if (search) search.value = "";
-        applyFilters();
-        if (search) search.focus();
-      });
-    }
-
-    clearButtons.forEach(function (clearButton) {
-      clearButton.addEventListener("click", function () {
-        activeCategory = "All";
-        activeTag = "";
-        if (search) search.value = "";
-        applyFilters();
-      });
-    });
 
     if (tagToggleButton && extraTags) {
       tagToggleButton.addEventListener("click", function () {
@@ -5730,6 +6092,7 @@ const SITE_JS = String.raw`
       });
     }
 
+    bindGridImageFallbacks();
     applyFilters();
   }
 
@@ -5769,6 +6132,7 @@ const SITE_JS = String.raw`
 
   function bindBooksCarousel() {
     document.querySelectorAll("[data-books-carousel]").forEach(function (carousel) {
+      const slidesTrack = carousel.querySelector(".book-slides");
       const slides = Array.from(carousel.querySelectorAll("[data-book-slide]"));
       const selectors = Array.from(carousel.querySelectorAll("[data-book-select]"));
       const previous = carousel.querySelector("[data-book-prev]");
@@ -5783,6 +6147,15 @@ const SITE_JS = String.raw`
       let focusInside = false;
       let touchStartX = 0;
       let touchStartY = 0;
+
+      function syncHeight() {
+        if (!slidesTrack) return;
+        const activeSlide = slides[activeIndex];
+        if (!activeSlide) return;
+        window.requestAnimationFrame(function () {
+          slidesTrack.style.height = activeSlide.offsetHeight + "px";
+        });
+      }
 
       function render(manual) {
         slides.forEach(function (slide, index) {
@@ -5807,6 +6180,7 @@ const SITE_JS = String.raw`
 
         if (current) current.textContent = String(activeIndex + 1).padStart(2, "0");
         if (total) total.textContent = String(slides.length).padStart(2, "0");
+        syncHeight();
         if (manual) restart();
       }
 
@@ -5903,6 +6277,9 @@ const SITE_JS = String.raw`
         if (Math.abs(dx) < 42 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
         goTo(dx < 0 ? activeIndex + 1 : activeIndex - 1, true);
       }, { passive: true });
+
+      window.addEventListener("resize", syncHeight);
+      window.addEventListener("load", syncHeight, { once: true });
 
       render(false);
       start();
@@ -6272,6 +6649,24 @@ const galleryItems = [
     category: "Training Events",
     title: "School training event",
     caption: "An institutional learning intervention shaped around growth mindset and classroom culture."
+  },
+  {
+    file: "diversity-equity-inclusion-building-inclusive-teams.jpeg",
+    category: "Corporate Training",
+    title: "Corporate Training event",
+    caption: "Diversity, equity, and inclusion through team connection, empathy, and practical action."
+  },
+  {
+    file: "executive-leadership-presence-storytelling-influence-beyond-authority.jpeg",
+    category: "Corporate Training",
+    title: "Corporate training event",
+    caption: "Executive leadership development through presence, storytelling, and influence beyond authority."
+  },
+  {
+    file: "team-alignement-workshop-collaboartive-lab-experience.png",
+    category: "Corporate Training",
+    title: "Corporate training event",
+    caption: "Team alignment and culture-building through a collaborative lab experience focused on communication, connection, and clarity."
   }
 ];
 
@@ -6808,11 +7203,59 @@ function decorLayer(extraClass = "") {
 }
 
 function blogFilterText(post) {
-  return escapeAttr(`${post.title} ${post.excerpt} ${post.category} ${post.tags.join(" ")} ${post.author}`.toLowerCase());
+  return escapeAttr(blogSearchText(post));
 }
 
 function blogTagsAttr(post) {
   return escapeAttr(post.tags.map((tag) => tag.toLowerCase()).join("|"));
+}
+
+function normalizeBlogValue(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function blogSearchText(post) {
+  return normalizeBlogValue([
+    post.title,
+    post.excerpt,
+    post.intro,
+    post.category,
+    post.tags.join(" "),
+    post.author,
+    stripHtml(post.content)
+  ].join(" "));
+}
+
+function blogUrl(post) {
+  return `${routes.blog}${post.slug}/`;
+}
+
+function blogClientPayload(post) {
+  return {
+    slug: post.slug,
+    title: post.title,
+    excerpt: post.excerpt,
+    category: post.category,
+    categoryKey: normalizeBlogValue(post.category),
+    tags: post.tags,
+    tagKeys: post.tags.map((tag) => normalizeBlogValue(tag)),
+    readTime: post.readTime,
+    date: post.date,
+    image: post.image,
+    imageAlt: post.imageAlt,
+    url: blogUrl(post),
+    searchText: blogSearchText(post)
+  };
+}
+
+function safeJsonForHtml(value) {
+  return JSON.stringify(value)
+    .replace(/</g, "\\u003c")
+    .replace(/>/g, "\\u003e")
+    .replace(/&/g, "\\u0026");
 }
 
 function escapeHtml(value) {
@@ -6842,15 +7285,16 @@ function renderTagButtons(post, limit = 3) {
 }
 
 function renderBlogCard(post, { featured = false, cta = "Read More", reveal = true, result = true } = {}) {
+  const detailUrl = blogUrl(post);
   return `
     <article class="blog-card${featured ? " blog-card-featured" : ""}${reveal ? " reveal" : ""}" data-blog-card${result ? " data-blog-result" : ""} data-category="${escapeAttr(post.category)}" data-tags="${blogTagsAttr(post)}" data-search="${blogFilterText(post)}">
       ${renderPostImage(post)}
       ${metaPills(featured ? ["Featured Article", post.category, post.readTime, post.date] : [post.category, post.readTime, post.date])}
-      <h3>${post.title}</h3>
+      <h3><a class="blog-card-title-link" href="${detailUrl}">${post.title}</a></h3>
       <p>${post.excerpt}</p>
       ${post.tags.length ? `<div class="blog-card-tags">${renderTagButtons(post, 3)}</div>` : ""}
       <div class="button-row">
-        <a class="btn ${featured ? "btn-primary" : "btn-secondary"}" href="${routes.blog}${post.slug}/">${cta}</a>
+        <a class="btn ${featured ? "btn-primary" : "btn-secondary"}" href="${detailUrl}">${cta}</a>
       </div>
     </article>
   `;
@@ -6928,6 +7372,16 @@ function sectionHeader({ eyebrow, title, copy, centered = false }) {
 
 function metaPills(items) {
   return `<div class="meta-row">${items.map((item) => `<span class="meta-pill">${item}</span>`).join("")}</div>`;
+}
+
+function renderWaymakerLogoPanel({ className = "", loading = "lazy", maxWidth = "" } = {}) {
+  const classes = ["waymaker-logo-panel", className].filter(Boolean).join(" ");
+  const style = maxWidth ? ` style="--waymaker-logo-max-width:${maxWidth}"` : "";
+  return `
+    <div class="${classes}"${style}>
+      <img src="/assets/imgs/waymaker-logo.jpeg" alt="WayMaker Skills™ — Redefining Paths. Empowering Growth." loading="${loading}" decoding="async" width="1268" height="1241">
+    </div>
+  `;
 }
 
 function ariaCurrent(page, route) {
@@ -7067,8 +7521,9 @@ function renderHeader(page) {
     <header class="site-header" data-site-header>
       <div class="container header-inner">
         <div class="header-row">
-          <a class="brand-lockup" href="${routes.home}">
-            <strong>Sanjo Cine Mathew</strong>
+          <a class="site-brand" href="${routes.home}" aria-label="Sanjo Cine Mathew - Home">
+            <img class="site-brand__logo" src="/assets/imgs/sanjo-logo.png" alt="" width="454" height="682" decoding="async" aria-hidden="true">
+            <span class="site-brand__text">Sanjo Cine Mathew</span>
           </a>
           <nav class="primary-nav" aria-label="Primary navigation">
             ${renderPrimaryNav(page)}
@@ -7151,6 +7606,7 @@ function renderBreadcrumbs(page) {
 }
 
 function renderHero(hero, withBreadcrumbs = "") {
+  const mediaClass = hero.media?.image === "/assets/imgs/sanjo-logo.png" ? " hero-media is-logo-media" : " hero-media";
   return `
     <section class="hero-section">
       <div class="container">
@@ -7180,7 +7636,7 @@ function renderHero(hero, withBreadcrumbs = "") {
             </div>
             <aside class="hero-panel">
               ${hero.media ? `
-                <div class="hero-media">
+                <div class="${mediaClass.trim()}">
                   ${hero.media.html || (hero.media.image ? `<img src="${hero.media.image}" alt="${hero.media.alt}">` : "")}
                 </div>
               ` : ""}
@@ -7392,7 +7848,7 @@ function personSchema() {
     name: "Dr. Sanjo Cine Mathew",
     alternateName: "Sanjo Cine Mathew",
     url: fullUrl(routes.about),
-    image: `${BASE_URL}/assets/imgs/avatar.jpg`,
+    image: `${BASE_URL}/assets/imgs/sanjo-logo.png`,
     jobTitle: "Counselling Psychologist, Skill Coach, Learning Facilitator, Human Development Practitioner, and Founder of WayMaker Skills™",
     description: "Dr. Sanjo Cine Mathew is a counselling psychologist in India, skill coach, learning facilitator, author, and founder of WayMaker Skills™.",
     sameAs: socialLinks.map((link) => link.href),
@@ -7591,7 +8047,7 @@ function renderPage(page) {
   const description = page.socialDescription || page.description;
   const canonical = fullUrl(page.route);
   const bodyClass = page.bodyClass ? ` class="${page.bodyClass}"` : "";
-  const ogImage = page.ogImage ? `${BASE_URL}${page.ogImage}` : `${BASE_URL}/assets/imgs/avatar.jpg`;
+  const ogImage = page.ogImage ? `${BASE_URL}${page.ogImage}` : `${BASE_URL}/assets/imgs/sanjo-logo.png`;
   const ogType = page.ogType || (page.article ? "article" : "website");
   const twitterCard = page.twitterCard || (page.book ? "summary" : "summary_large_image");
   const content = canonicalizeMarkup(page.content);
@@ -8092,7 +8548,7 @@ function renderAuthorCard(book) {
     <article class="book-support-card author-card">
       <h2>About the Author</h2>
       <div class="author-card-inner">
-        <img src="/assets/imgs/avatar.jpg" alt="Dr. Sanjo Cine Mathew" loading="lazy" decoding="async" width="120" height="120">
+        <img src="/assets/imgs/sanjo-logo.png" alt="Dr. Sanjo Cine Mathew" loading="lazy" decoding="async" width="120" height="120">
         <div>
           <h3>${book.authorName}</h3>
           <p>Dr. Sanjo Cine Mathew writes and teaches at the intersection of counselling psychology, life skills, human development, and intentional transformation.</p>
@@ -8435,7 +8891,7 @@ const pages = [
   page("/", {
     title: "Sanjo Cine Mathew | Counselling Psychologist, Skill Coach & Founder of WayMaker Skills™",
     description: "Discover Dr. Sanjo Cine Mathew, counselling psychologist in India, skill coach, learning facilitator, human development practitioner, author, and founder of WayMaker Skills™.",
-    ogImage: "/assets/imgs/avatar.jpg",
+    ogImage: "/assets/imgs/sanjo-logo.png",
     bodyClass: "page-home",
     content: [
       renderHero({
@@ -8457,7 +8913,7 @@ const pages = [
           { label: "Certifications", value: 50, suffix: "+" }
         ],
         media: {
-          image: "/assets/imgs/avatar.jpg",
+          image: "/assets/imgs/sanjo-logo.png",
           alt: "Portrait of Dr. Sanjo Cine Mathew"
         },
         panelTitle: "The Strategist for Transformative Growth",
@@ -8535,7 +8991,11 @@ const pages = [
           ${decorLayer("bridge-decor")}
           <div class="split-panel">
           <div class="quote-panel reveal">
-            <blockquote>Founder of WayMaker Skills™</blockquote>
+            ${renderWaymakerLogoPanel({ className: "is-inline", loading: "lazy", maxWidth: "250px" })}
+            <header class="waymaker-founder-header">
+              <blockquote>Founder of WayMaker Skills™</blockquote>
+              <div class="waymaker-divider" aria-hidden="true"><span></span></div>
+            </header>
             <p>WayMaker Skills™ is the human development and applied intelligence organization founded by Sanjo Cine Mathew. It helps learners, educators, families, professionals, leaders, and organizations build future-ready skills, leadership, emotional intelligence, communication, purpose, and growth.</p>
             <div class="chips">
               ${["Human Development", "Applied Intelligence", "Leadership", "Emotional Intelligence", "Future Skills", "Purposeful Growth"].map((item) => `<span class="chip">${item}</span>`).join("")}
@@ -8670,7 +9130,7 @@ const pages = [
   page(routes.about, {
     title: "About Sanjo Cine Mathew | Counselling Psychologist & Founder of WayMaker Skills™",
     description: "Learn about Dr. Sanjo Cine Mathew, counselling psychologist, educator, human development practitioner, author, and founder of WayMaker Skills™.",
-    ogImage: "/assets/imgs/avatar.jpg",
+    ogImage: "/assets/imgs/sanjo-logo.png",
     content: [
       renderHero({
         eyebrow: "About Sanjo",
@@ -8683,7 +9143,7 @@ const pages = [
           anchor(routes.books, "View all books by Dr. Sanjo Cine Mathew", "btn btn-secondary"),
           anchor("/contact/", "Work With Sanjo", "btn btn-secondary")
         ],
-        media: { image: "/assets/imgs/avatar.jpg", alt: "Dr. Sanjo Cine Mathew portrait" },
+        media: { image: "/assets/imgs/sanjo-logo.png", alt: "Dr. Sanjo Cine Mathew portrait" },
         panelTitle: "The Strategist for Transformative Growth",
         panelCopy: "Dr. Sanjo Cine Mathew is a Counselling Psychologist, Educator, Author, and Founder of WayMaker Skills™. Through mentoring, training, and transformational learning experiences, she helps individuals and organizations unlock their potential and thrive in a changing world."
       }, renderBreadcrumbs({ route: routes.about, breadcrumbs: [{ label: "Home", route: routes.home }, { label: "About Sanjo", route: routes.about }] })),
@@ -9443,7 +9903,7 @@ const pages = [
     content: [
       renderHero({
         eyebrow: "WAMI™ • Children’s Life Skills",
-        title: "Meet WAMI™, the WayMaker Star for growing humans.",
+        title: "Meet WAMI™, the WayMaker Star for Growing Humans.",
         copy: "WAMI™ brings stories, games, activities, and joyful challenges together to help children build confidence, creativity, communication, character, emotional awareness, collaboration, curiosity, and practical life skills.",
         pills: ["Stories", "Games", "Activities", "Life Skills", "Confidence", "Creativity", "Kindness", "Communication"],
         actions: [anchor(routes.contact, "Discuss WAMI™ Programs", "btn btn-primary"), anchor(waymakerLinks.wami, "Learn More at WayMaker Skills™", "btn btn-secondary")],
@@ -9474,7 +9934,7 @@ const pages = [
         <div class="container">
           ${sectionHeader({
             eyebrow: "What Is WAMI™?",
-            title: "A joyful world where life skills come alive.",
+            title: "A Joyful World where Life skills come Alive.",
             copy: "WAMI™ helps children grow through stories, activities, games, challenges, reflection, and character-building experiences that feel bright, safe, and memorable."
           })}
           ${renderCards([
@@ -9490,7 +9950,7 @@ const pages = [
         <div class="container">
           ${sectionHeader({
             eyebrow: "How WAMI™ Comes Alive",
-            title: "Where every activity becomes a life skill adventure.",
+            title: "Where Every Activity becomes a Life skill Adventure.",
             copy: "The WAMI™ world is filled with stories, games, challenges, reflection moments, and creative experiences designed to help children grow."
           })}
           ${renderCards([
@@ -9511,7 +9971,7 @@ const pages = [
         <div class="container">
           ${sectionHeader({
             eyebrow: "Child Development Outcomes",
-            title: "The life skills that matter beyond the classroom.",
+            title: "The Life skills that matter Beyond the Classroom.",
             copy: "WAMI™ helps children build confidence, communication, creativity, emotional awareness, and other essential human skills."
           })}
           ${renderCards([
@@ -9532,7 +9992,7 @@ const pages = [
         <div class="container">
           ${sectionHeader({
             eyebrow: "For Parents And Schools",
-            title: "Growing together through home and school.",
+            title: "Growing together through Home and School.",
             copy: "Children thrive when the important adults in their lives reinforce the same values, skills, and habits. This creates a beautiful bridge between parents and educators."
           })}
           ${renderCards([
@@ -9553,7 +10013,7 @@ const pages = [
         <div class="container">
           ${sectionHeader({
             eyebrow: "Inside The WAMI™ World",
-            title: "A world of stories, play, and personal growth.",
+            title: "A World of Stories, Play, and Personal Growth.",
             copy: "The WAMI™ journey helps children explore ideas, express themselves, build relationships, and grow with confidence."
           })}
           <div class="timeline-steps">
@@ -9584,7 +10044,7 @@ const pages = [
         ]
       }),
       ctaBand({
-        title: "Every child deserves a world that helps them grow.",
+        title: "Every Child deserves a World that helps them Grow.",
         copy: "Bring WAMI™ into homes, classrooms, and communities where stories, play, creativity, and reflection become pathways to life skills.",
         actions: [
           anchor(routes.contact, "Start a Conversation", "btn btn-soft"),
@@ -9866,14 +10326,14 @@ const pages = [
   page("/resume/", {
     title: "Resume & Credentials | Sanjo Cine Mathew",
     description: "View Sanjo Cine Mathew's professional experience, education, certifications, publications, conference presentations, honors, and affiliations.",
-    ogImage: "/assets/imgs/avatar.jpg",
+    ogImage: "/assets/imgs/sanjo-logo.png",
     content: [
       renderHero({
         eyebrow: "Resume / Credentials",
         title: "Professional Credentials",
         copy: "Professional background and Academic credentials.",
         actions: [anchor("/contact/", "Invite Sanjo for a Program", "btn btn-primary"), anchor("/about/", "About Sanjo", "btn btn-secondary")],
-        media: { image: "/assets/imgs/avatar.jpg", alt: "Portrait of Sanjo Cine Mathew" },
+        media: { image: "/assets/imgs/sanjo-logo.png", alt: "Portrait of Sanjo Cine Mathew" },
         panelTitle: "Highlights",
         panelList: ["20+ Years Experience", "10,000+ Students Mentored", "5,000+ Teachers & Parents Trained"]
       }, renderBreadcrumbs({ route: "/resume/", breadcrumbs: [{ label: "Home", route: "/" }, { label: "Resume / Credentials", route: "/resume/" }] })),
@@ -10027,7 +10487,7 @@ const pages = [
         copy: "Explore practical reflections, psychology-informed insights, and future-ready ideas designed to support meaningful growth in life, learning, and leadership. ",
         actions: [anchor("/resources/", "Explore Resources", "btn btn-primary"), anchor("/contact/", "Discuss a Topic", "btn btn-secondary")],
         media: { image: "/assets/imgs/blog.png", alt: "Insight and reading themed visual" },
-        panelTitle: "Initial article themes",
+        panelTitle: "Featured Themes",
         panelMeta: ["Life Skills", "Parenting", "Leadership", "Communication"]
       }, renderBreadcrumbs({ route: routes.blog, breadcrumbs: [{ label: "Home", route: routes.home }, { label: "Blog / Insights", route: routes.blog }] })),
       `
@@ -10042,7 +10502,7 @@ const pages = [
             <div class="blog-search-wrap">
               <label class="sr-only" for="blog-search">Search insights</label>
               <span class="blog-search-icon" aria-hidden="true">${iconSvg("message")}</span>
-              <input id="blog-search" type="search" placeholder="Search insights by topic, skill, or audience..." data-blog-search>
+              <input id="blog-search" type="search" placeholder="Search insights by topic, skill, or audience..." data-blog-search aria-controls="blog-results-grid">
               <button class="blog-search-clear" type="button" data-blog-search-clear hidden>Clear</button>
             </div>
             <div class="blog-filter-row">
@@ -10053,8 +10513,10 @@ const pages = [
             </div>
             <button class="clear-filters" type="button" data-blog-clear hidden>Clear filters</button>
           </div>
+          <script type="application/json" data-blog-posts>${safeJsonForHtml(blogPosts.map(blogClientPayload))}</script>
           <div class="blog-layout">
-            <div class="stack">
+            <div class="blog-main">
+              <div class="blog-default-content">
               <div class="featured-blog-grid">
                 ${getBlogSelections().featured.map((post) => renderBlogCard(post, { featured: true, cta: "Read Featured", result: false })).join("")}
                 <aside class="story-card reveal">
@@ -10088,6 +10550,21 @@ const pages = [
                   </section>
                 `).join("")}
               </div>
+              </div>
+              <section class="blog-results-section">
+                <div class="blog-results-header reveal">
+                  <h3>All Articles</h3>
+                  <p class="muted blog-count-line">Showing <span data-blog-count>${blogPosts.length}</span> of <span data-blog-total>${blogPosts.length}</span> insights.</p>
+                </div>
+                <div class="grid-3" id="blog-results-grid" data-blog-grid>
+                  ${blogPosts.map((post) => renderBlogCard(post)).join("")}
+                </div>
+                <div class="blog-empty-card" data-blog-empty hidden role="status" aria-live="polite">
+                  <h3>No insights matched your filters.</h3>
+                  <p class="muted">Try a different keyword or clear the filters.</p>
+                  <div class="button-row"><button class="clear-filters" type="button" data-blog-clear>Clear filters</button></div>
+                </div>
+              </section>
             </div>
             <aside class="blog-sidebar reveal">
               <div class="blog-side-block">
@@ -10129,18 +10606,6 @@ const pages = [
               </div>
             </aside>
           </div>
-          <div class="blog-results-header reveal">
-            <h3>All Articles</h3>
-            <p class="muted blog-count-line">Showing <span data-blog-count>${blogPosts.length}</span> of <span data-blog-total>${blogPosts.length}</span> insights.</p>
-          </div>
-          <div class="grid-3" data-blog-grid>
-            ${blogPosts.map((post) => renderBlogCard(post)).join("")}
-          </div>
-          <div class="blog-empty-card" data-blog-empty hidden>
-            <h3>No insights matched your filters.</h3>
-            <p class="muted">Try a different keyword or clear the filters.</p>
-            <div class="button-row"><button class="clear-filters" type="button" data-blog-clear>Clear filters</button></div>
-          </div>
         </div>
       </section>
       `,
@@ -10157,14 +10622,14 @@ const pages = [
   page("/contact/", {
     title: "Contact Sanjo Cine Mathew",
     description: "Contact Sanjo Cine Mathew for counselling, coaching, student programs, parent guidance, corporate training, school programs, and WayMaker Skills™ collaborations.",
-    ogImage: "/assets/imgs/avatar.jpg",
+    ogImage: "/assets/imgs/sanjo-logo.png",
     content: [
       renderHero({
         eyebrow: "Contact",
         title: "Let us build your next Transformation roadmap.",
         copy: "Whether you're seeking personal growth, planning a learning initiative, or creating meaningful change within a community or organization, every transformation begins with a conversation.",
         actions: [anchor("mailto:biosanjo@gmail.com", "Email Now", "btn btn-primary"), anchor("https://wa.me/919645343777", "WhatsApp", "btn btn-secondary")],
-        media: { image: "/assets/imgs/avatar.jpg", alt: "Sanjo Cine Mathew portrait" },
+        media: { image: "/assets/imgs/sanjo-logo.png", alt: "Sanjo Cine Mathew portrait" },
         panelTitle: "Areas of Support",
         panelList: ["Counselling & Coaching", "Personal Growth & Well-being", "School & Parent Programmes", "Leadership & Communication Development", "Women Empowerment Initiatives", "Workshops, Training & Keynote Sessions"]
       }, renderBreadcrumbs({ route: "/contact/", breadcrumbs: [{ label: "Home", route: "/" }, { label: "Contact", route: "/contact/" }] })),
@@ -10250,14 +10715,14 @@ const pages = [
   page("/book-consultation/", {
     title: "Book a Consultation | Sanjo Cine Mathew",
     description: "Book a respectful and clarity-focused consultation with Dr. Sanjo Cine Mathew for counselling, coaching, student support, parenting guidance, and programme enquiries.",
-    ogImage: "/assets/imgs/avatar.jpg",
+    ogImage: "/assets/imgs/sanjo-logo.png",
     content: [
       renderHero({
         eyebrow: "Book a Consultation",
         title: "A safe space to explore challenges, possibilities, and clarity- focused  path ahead",
         copy: "People connect with me for counselling, mentoring, personal growth, parenting support, educational guidance, leadership development, and meaningful life conversations. Whether you're facing a challenge, exploring a possibility, or seeking a fresh perspective, this consultation helps us identify the most appropriate next step.",
         actions: [anchor("/contact/", "Book Consultation", "btn btn-primary"), anchor("https://wa.me/919645343777", "WhatsApp", "btn btn-secondary")],
-        media: { image: "/assets/imgs/avatar.jpg", alt: "Sanjo Cine Mathew portrait" },
+        media: { image: "/assets/imgs/sanjo-logo.png", alt: "Sanjo Cine Mathew portrait" },
         panelTitle: "What to expect",
         panelList: ["Private and respectful conversation", "Clarity-focused discussion", "Practical next steps"]
       }, renderBreadcrumbs({ route: "/book-consultation/", breadcrumbs: [{ label: "Home", route: "/" }, { label: "Book a Consultation", route: "/book-consultation/" }] })),
@@ -10352,14 +10817,14 @@ const pages = [
   page("/faq/", {
     title: "FAQ | Sanjo Cine Mathew",
     description: "Frequently asked questions about consultations, programs, schools, corporate learning, WayMaker Skills™, WAMI™, NOVA™, and LQ™.",
-    ogImage: "/assets/imgs/avatar.jpg",
+    ogImage: "/assets/imgs/sanjo-logo.png",
     content: [
       renderHero({
         eyebrow: "FAQ",
         title: "Frequently asked questions about programs, consultations, and frameworks.",
         copy: "A complete FAQ page covering consultations, schools, corporate learning, founder pathways, and WayMaker-connected frameworks.",
         actions: [anchor("/contact/", "Ask a Question", "btn btn-primary"), anchor("/book-consultation/", "Book a Consultation", "btn btn-secondary")],
-        media: { image: "/assets/imgs/avatar.jpg", alt: "Sanjo Cine Mathew portrait" },
+        media: { image: "/assets/imgs/sanjo-logo.png", alt: "Sanjo Cine Mathew portrait" },
         panelTitle: "FAQ categories",
         panelMeta: ["Consultations", "Programs", "Schools & Students", "Corporate Learning", "WayMaker Skills™", "WAMI™, NOVA™, LQ™"]
       }, renderBreadcrumbs({ route: "/faq/", breadcrumbs: [{ label: "Home", route: "/" }, { label: "FAQ", route: "/faq/" }] })),
@@ -10727,7 +11192,7 @@ function notFoundHtml() {
   return renderPage(page("/404.html", {
     title: "Page Not Found | Sanjo Cine Mathew",
     description: "The requested Sanjo Cine Mathew page could not be found. Use the main navigation to continue.",
-    ogImage: "/assets/imgs/avatar.jpg",
+    ogImage: "/assets/imgs/sanjo-logo.png",
     content: `
       <section class="hero-section">
         <div class="container">
