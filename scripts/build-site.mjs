@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+﻿import { existsSync, readFileSync } from "node:fs";
 import { cp, mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -1226,7 +1226,7 @@ ol {
 
 .blog-lanes {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
 }
 
@@ -1244,6 +1244,12 @@ ol {
 .blog-results-header h3 {
   font-family: var(--font-display);
   line-height: 1.1;
+}
+
+.mini-section {
+  display: grid;
+  gap: 12px;
+  align-content: start;
 }
 
 .mini-post-list {
@@ -4735,6 +4741,13 @@ body {
   background: rgba(255, 255, 255, 0.62);
 }
 
+.blog-about-quote {
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  line-height: 1.45;
+}
+
 .blog-card {
   display: grid;
   grid-template-rows: auto auto auto 1fr auto auto;
@@ -7338,7 +7351,7 @@ function getBlogSelections() {
   const latest = blogPosts.slice(0, 8);
   return {
     featured: fallbackPosts(blogPosts.filter((post) => post.featured), latest, 1),
-    editorPicks: fallbackPosts(blogPosts.filter((post) => post.editorPick), latest, 3),
+    editorPicks: fallbackPosts(blogPosts.filter((post) => post.editorPick), latest, 5),
     trending: fallbackPosts(blogPosts.filter((post) => post.trending), latest, 5),
     popular: fallbackPosts(blogPosts.filter((post) => post.popular), popularVarietyPosts(5), 5)
   };
@@ -8908,7 +8921,7 @@ const pages = [
         scrollCue: "Scroll to explore Sanjo's pathways for growth",
         stats: [
           { label: "Years of professional insight", value: 20, suffix: "+" },
-          { label: "Lives impacted", value: 7000, suffix: "+" },
+          { label: "Lives impacted", value: 10000, suffix: "+" },
           { label: "Sessions delivered", value: 700, suffix: "+" },
           { label: "Certifications", value: 50, suffix: "+" }
         ],
@@ -9795,14 +9808,14 @@ const pages = [
   page(routes.waymaker, {
     title: "WayMaker Skills™ | Sanjo Cine Mathew",
     description: "Learn how WayMaker Skills™, founded by Dr. Sanjo Cine Mathew, connects human development, applied intelligence, future skills, and transformational learning.",
-    ogImage: "/assets/imgs/sanjo-cine-mathew.png",
+    ogImage: "/assets/imgs/waymaker-logo.jpeg",
     content: [
       renderHero({
         eyebrow: "WayMaker Skills™",
         title: "Developing People, Possibilities, and Future-Ready Capabilities.",
         copy: "WayMaker Skills™ is a human development organization dedicated to helping individuals, educators, professionals, and communities grow through learning, leadership, life skills, and applied intelligence. Founded by Dr. Sanjo Cine Mathew, serves as the ecosystem through which transformative frameworks, programs, and initiatives are developed and delivered.",
         actions: [anchor(waymakerLinks.company, "Visit WayMaker Skills™", "btn btn-primary"), anchor(routes.programs, "Explore Related Programs", "btn btn-secondary")],
-        media: { image: "/assets/imgs/sanjo-cine-mathew.png", alt: "WayMaker Skills visual identity" },
+        media: { image: "/assets/imgs/waymaker-logo.jpeg", alt: "WayMaker Skills visual identity" },
         panelTitle: "Core Pillars",
         panelMeta: ["Human Development", "Applied Intelligence", "Leadership", "Emotional Intelligence", "Future Skills", "Purposeful Growth"]
       }, renderBreadcrumbs({ route: routes.waymaker, breadcrumbs: [{ label: "Home", route: routes.home }, { label: "WayMaker Skills™", route: routes.waymaker }] })),
@@ -10519,21 +10532,20 @@ const pages = [
               <div class="blog-default-content">
               <div class="featured-blog-grid">
                 ${getBlogSelections().featured.map((post) => renderBlogCard(post, { featured: true, cta: "Read Featured", result: false })).join("")}
-                <aside class="story-card reveal">
-                  <h3>Meet Sanjo</h3>
-                  <p class="muted">Counselling psychologist, educator, author, and founder of WayMaker Skills. Sharing practical insights on growth, learning, leadership, parenting, and intentional living.</p>
-                  <div class="button-row">
-                    ${anchor(routes.contact, "Discuss a Topic", "btn btn-soft")}
-                    ${anchor(routes.about, "About Sanjo", "btn btn-secondary")}
+                <section class="mini-section reveal">
+                  <h3>Editor's Pick</h3>
+                  <div class="mini-post-list">
+                    ${getBlogSelections().editorPicks.map((post) => `
+                      <a class="mini-post" href="${routes.blog}${post.slug}/">
+                        <img src="${post.image}" alt="${post.imageAlt}" loading="lazy" decoding="async">
+                        <span class="mini-post-body"><span>${post.category}</span><strong>${post.title}</strong><small>${post.date} - ${post.readTime}</small></span>
+                      </a>
+                    `).join("")}
                   </div>
-                  <br/>
-                  <br/>
-                  <h2 class="muted">Growth is not about becoming someone else. It is about becoming more of who you are capable of being. <br/> — Sanjo</h2>
-                </aside>
+                </section>
               </div>
               <div class="blog-lanes">
                 ${[
-                  ["Editor's Pick", getBlogSelections().editorPicks],
                   ["Trending Posts", getBlogSelections().trending],
                   ["Popular Posts", getBlogSelections().popular]
                 ].map(([title, posts]) => `
@@ -10569,8 +10581,12 @@ const pages = [
             <aside class="blog-sidebar reveal">
               <div class="blog-side-block">
                 <h3>About Sanjo</h3>
-                <p class="muted">Counselling psychologist, skill coach, learning facilitator, author, and founder of WayMaker Skills.</p>
-                ${anchor(routes.about, "About Sanjo", "btn btn-secondary")}
+                <p class="muted">Counselling psychologist, educator, author, and founder of WayMaker Skills. Sharing practical insights on growth, learning, leadership, parenting, and intentional living.</p>
+                <div class="button-row">
+                  ${anchor(routes.contact, "Discuss a Topic", "btn btn-soft")}
+                  ${anchor(routes.about, "About Sanjo", "btn btn-secondary")}
+                </div>
+                <p class="blog-about-quote muted">Growth is not about becoming someone else. It is about becoming more of who you are capable of being. <br/> - Sanjo</p>
               </div>
               <div class="blog-side-block">
                 <h3>Categories</h3>
