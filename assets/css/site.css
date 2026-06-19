@@ -295,6 +295,22 @@ ol {
   gap: 18px;
 }
 
+.hero-brand-mark {
+  justify-self: start;
+  margin: 4px 0 2px;
+}
+
+.hero-brand-mark .waymaker-logo-panel {
+  width: min(100%, 250px);
+}
+
+.hero-brand-mark-caption {
+  margin: -6px 0 2px;
+  color: var(--brand-deep);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
 .hero-copy .lede {
   font-size: clamp(1.02rem, 2vw, 1.16rem);
 }
@@ -303,6 +319,17 @@ ol {
   margin: 0;
   color: var(--ink-soft);
   max-width: 62ch;
+}
+
+.hero-body {
+  display: grid;
+  gap: 14px;
+  max-width: 68ch;
+}
+
+.hero-body p {
+  margin: 0;
+  color: var(--muted);
 }
 
 .hero-supporting-meta {
@@ -424,6 +451,16 @@ ol {
   width: auto;
   height: clamp(120px, 16vw, 150px);
   max-width: 50%;
+  object-fit: contain;
+}
+
+.hero-media.is-contained {
+  min-height: 0;
+  padding: 0;
+}
+
+.hero-media.is-contained img {
+  height: auto;
   object-fit: contain;
 }
 

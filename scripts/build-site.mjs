@@ -330,6 +330,22 @@ ol {
   gap: 18px;
 }
 
+.hero-brand-mark {
+  justify-self: start;
+  margin: 4px 0 2px;
+}
+
+.hero-brand-mark .waymaker-logo-panel {
+  width: min(100%, 250px);
+}
+
+.hero-brand-mark-caption {
+  margin: -6px 0 2px;
+  color: var(--brand-deep);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
 .hero-copy .lede {
   font-size: clamp(1.02rem, 2vw, 1.16rem);
 }
@@ -338,6 +354,17 @@ ol {
   margin: 0;
   color: var(--ink-soft);
   max-width: 62ch;
+}
+
+.hero-body {
+  display: grid;
+  gap: 14px;
+  max-width: 68ch;
+}
+
+.hero-body p {
+  margin: 0;
+  color: var(--muted);
 }
 
 .hero-supporting-meta {
@@ -459,6 +486,16 @@ ol {
   width: auto;
   height: clamp(120px, 16vw, 150px);
   max-width: 50%;
+  object-fit: contain;
+}
+
+.hero-media.is-contained {
+  min-height: 0;
+  padding: 0;
+}
+
+.hero-media.is-contained img {
+  height: auto;
   object-fit: contain;
 }
 
@@ -7403,7 +7440,7 @@ function sectionHeader({ eyebrow, title, copy, centered = false }) {
   return `
     <div class="section-header${centered ? " centered" : ""} reveal">
       ${eyebrow ? `<p class="eyebrow">${eyebrow}</p>` : ""}
-      <h2>${title}</h2>
+      ${title ? `<h2>${title}</h2>` : ""}
       ${copy ? `<p>${copy}</p>` : ""}
     </div>
   `;
@@ -7418,7 +7455,7 @@ function renderWaymakerLogoPanel({ className = "", loading = "lazy", maxWidth = 
   const style = maxWidth ? ` style="--waymaker-logo-max-width:${maxWidth}"` : "";
   return `
     <div class="${classes}"${style}>
-      <img src="/assets/imgs/waymaker-logo.jpeg" alt="WayMaker Skills™ — Redefining Paths. Empowering Growth." loading="${loading}" decoding="async" width="1268" height="1241">
+      <img src="/assets/imgs/waymaker-logo.png" alt="WayMaker Skills™ — Redefining Paths. Empowering Growth." loading="${loading}" decoding="async" width="1268" height="1241">
     </div>
   `;
 }
@@ -7645,7 +7682,17 @@ function renderBreadcrumbs(page) {
 }
 
 function renderHero(hero, withBreadcrumbs = "") {
-  const mediaClass = hero.media?.image === "/assets/imgs/sanjo-logo.png" ? " hero-media is-logo-media" : " hero-media";
+  const mediaClass = [
+    "hero-media",
+    hero.media?.image === "/assets/imgs/sanjo-logo.png" ? "is-logo-media" : "",
+    hero.media?.className || ""
+  ].filter(Boolean).join(" ");
+  const heroHeader = [
+    hero.eyebrow ? `<p class="eyebrow">${hero.eyebrow}</p>` : "",
+    hero.brandMark ? `<div class="hero-brand-mark">${hero.brandMark}</div>` : "",
+    hero.brandMarkCaption ? `<p class="hero-brand-mark-caption">${hero.brandMarkCaption}</p>` : "",
+    `<h1 class="hero-title">${hero.title}</h1>`
+  ].filter(Boolean).join("\n              ");
   return `
     <section class="hero-section">
       <div class="container">
@@ -7654,11 +7701,11 @@ function renderHero(hero, withBreadcrumbs = "") {
           ${decorLayer(hero.decorClass || "hero-decor")}
           <div class="page-hero-grid">
             <div class="hero-copy">
-              ${hero.eyebrow ? `<p class="eyebrow">${hero.eyebrow}</p>` : ""}
-              <h1 class="hero-title">${hero.title}</h1>
+              ${heroHeader}
               <p class="lede">${hero.copy}</p>
               ${hero.supportingCopy ? `<p class="hero-supporting">${hero.supportingCopy}</p>` : ""}
               ${hero.supportingMeta ? `<p class="hero-supporting-meta">${hero.supportingMeta}</p>` : ""}
+              ${hero.bodyHtml ? `<div class="hero-body">${hero.bodyHtml}</div>` : ""}
               ${hero.list ? list(hero.list, hero.listClass || "hero-benefit-list") : ""}
               ${hero.pills ? metaPills(hero.pills) : ""}
               ${hero.actions ? `<div class="hero-actions">${hero.actions.join("")}</div>` : ""}
@@ -7799,9 +7846,9 @@ function programCards(programs) {
   return `
     <div class="grid-2">
       ${programs.map((program) => {
-        const visual = programVisual(program);
-        const outcomes = program.outcomes.split(",").map((item) => item.trim()).filter(Boolean).slice(0, 4);
-        return `
+    const visual = programVisual(program);
+    const outcomes = program.outcomes.split(",").map((item) => item.trim()).filter(Boolean).slice(0, 4);
+    return `
         <article class="program-card program-card-${program.id} reveal" id="${program.id}">
           <div class="program-card-head">
             ${iconSvg(visual.icon)}
@@ -7817,7 +7864,7 @@ function programCards(programs) {
           </div>
         </article>
       `;
-      }).join("")}
+  }).join("")}
     </div>
   `;
 }
@@ -7827,14 +7874,14 @@ function gallerySection() {
     <section class="section">
       <div class="container">
         ${sectionHeader({
-          eyebrow: "Gallery",
-          title: "Impact Across Schools, Communities & Organizations.",
-          copy: "A glimpse into learning, growth, leadership, and transformation across schools, communities, families, and organizations."
-        })}
+    eyebrow: "Gallery",
+    title: "Impact Across Schools, Communities & Organizations.",
+    copy: "A glimpse into learning, growth, leadership, and transformation across schools, communities, families, and organizations."
+  })}
         <div class="gallery-grid">
           ${galleryItems.map((item) => {
-            const src = `/assets/imgs/gallery/${item.file}`;
-            return `
+    const src = `/assets/imgs/gallery/${item.file}`;
+    return `
               <button class="gallery-card reveal" type="button" data-lightbox-src="${src}" data-lightbox-alt="${item.title}">
                 <img src="${src}" alt="${item.title}" loading="lazy" decoding="async">
                 <div class="gallery-card-content">
@@ -7844,7 +7891,7 @@ function gallerySection() {
                 </div>
               </button>
             `;
-          }).join("")}
+  }).join("")}
         </div>
       </div>
     </section>
@@ -8448,10 +8495,10 @@ function renderBooksReaderPathway(trilogy) {
       <div class="container">
         <div class="books-reader-shell">
           ${sectionHeader({
-            eyebrow: "Reader pathway",
-            title: "Choose your reading pathway.",
-            copy: "Begin with transformational fiction or move through the trilogy built around intentional living, intentional thinking, and intentional being."
-          })}
+    eyebrow: "Reader pathway",
+    title: "Choose your reading pathway.",
+    copy: "Begin with transformational fiction or move through the trilogy built around intentional living, intentional thinking, and intentional being."
+  })}
           <div class="books-reader-grid">
             <article class="books-reader-card reveal">
               <span class="books-reader-card-kicker">Transformational Fiction</span>
@@ -8544,10 +8591,10 @@ function renderBooksIndexContent() {
     <section class="section books-collection-section" id="book-collection">
       <div class="container">
         ${sectionHeader({
-          eyebrow: "All Books",
-          title: "Explore the complete book collection.",
-          copy: "Presented in the intended reading order, beginning with The WayMaker Woman and continuing through the blueprint trilogy."
-        })}
+      eyebrow: "All Books",
+      title: "Explore the complete book collection.",
+      copy: "Presented in the intended reading order, beginning with The WayMaker Woman and continuing through the blueprint trilogy."
+    })}
         <div class="books-grid">
           ${books.map(renderBookCard).join("")}
         </div>
@@ -8568,7 +8615,7 @@ function renderBookListSection(title, items) {
   `;
 }
 
-﻿function renderPurchasePanel(book) {
+function renderPurchasePanel(book) {
   if (!book.purchaseLinks.length) return "";
   const purchaseLink = (link) => {
     const className = link.label.includes("Amazon") ? "btn btn-primary" : "btn btn-secondary";
@@ -8637,10 +8684,10 @@ function renderRelatedBooks(book) {
     <section class="section book-related-section">
       <div class="container">
         ${sectionHeader({
-          eyebrow: "Related Books",
-          title: "Continue exploring.",
-          copy: "Related books are shown in the intended collection order without repeating the current book."
-        })}
+    eyebrow: "Related Books",
+    title: "Continue exploring.",
+    copy: "Related books are shown in the intended collection order without repeating the current book."
+  })}
         <div class="related-books-grid">
           ${related.map((item) => `
             <article class="related-book reveal">
@@ -8783,6 +8830,12 @@ const programDetails = [
     title: "Empower to Empowerment",
     eyebrow: "Women's Program",
     description: "A women-focused personal growth and self-discovery program that builds skill development, empowerment strategies, action planning, inner brilliance, and community impact.",
+    bodyHtml: [
+      "<p>Empowerment is more than confidence, it is the ability to recognize your strengths, navigate challenges with resilience, and create meaningful change in your life and the lives of others.</p>",
+      "<p>The Empower to Empowerment journey is designed to help women move beyond limitations and step into greater self-awareness, purpose, and personal leadership. Through guided reflection, practical skill development, meaningful conversations, and action-oriented learning experiences, participants are encouraged to discover their inner potential and transform it into lasting impact.</p>",
+      "<p>Whether you are seeking personal growth, career advancement, stronger relationships, or a renewed sense of direction, this program provides a supportive space to learn, grow, and thrive alongside a community of like-minded women.</p>",
+      "<p>Empowerment begins the moment you recognize the strength that already exists within you.</p>"
+    ].join(""),
     image: "/assets/imgs/women-empowerment-brochure.png",
     audience: ["Women", "Colleges", "Communities", "Support groups"],
     highlights: ["Skill Enhancement", "Fostering Empowerment", "Community Impact", "Recognition of Inner Brilliance", "Catalyzing Positive Transformation", "Mindfulness and well-being practices"],
@@ -8891,6 +8944,7 @@ const programDetailPages = programDetails.map((detail) => page(detail.route, {
       eyebrow: detail.eyebrow,
       title: detail.title,
       copy: detail.description,
+      bodyHtml: detail.bodyHtml,
       actions: [
         anchor(routes.consultation, "Book a Consultation", "btn btn-primary"),
         anchor(routes.contact, "Register Interest", "btn btn-secondary"),
@@ -8974,10 +9028,10 @@ const pages = [
         <div class="container home-identity-grid">
           <div class="identity-copy reveal">
             ${sectionHeader({
-              eyebrow: "Human Development Strategist ",
-              title: "The Strategist for Transformative Growth.",
-              copy: "Sanjo helps individuals, families, educators, leaders, and institutions navigate growth with clarity, competence, and purpose."
-            })}
+        eyebrow: "Human Development Strategist ",
+        title: "The Strategist for Transformative Growth.",
+        copy: "Sanjo helps individuals, families, educators, leaders, and institutions navigate growth with clarity, competence, and purpose."
+      })}
             <p class="muted">Her work integrates counselling psychology, education, communication, leadership, parenting, and skill development to translate insight into meaningful action and lasting impact.</p>
             <div class="button-row">
               <a class="btn btn-primary" href="/about/">Explore My Journey</a>
@@ -8985,13 +9039,13 @@ const pages = [
           </div>
           <div class="role-grid reveal" aria-label="Sanjo's professional roles">
             ${[
-              ["Mindset Architect", "mind"],
-              ["Skill Development Strategist", "growth"],
-              ["Performance Mentor", "leadership"],
-              ["Women Empowerment Advocate", "people"],
-              ["Learning Facilitator", "book"],
-              ["Corporate Trainer", "bridge"]
-            ].map(([role, icon]) => `<div class="role-chip">${iconSvg(icon)}<strong>${role}</strong></div>`).join("")}
+        ["Mindset Architect", "mind"],
+        ["Skill Development Strategist", "growth"],
+        ["Performance Mentor", "leadership"],
+        ["Women Empowerment Advocate", "people"],
+        ["Learning Facilitator", "book"],
+        ["Corporate Trainer", "bridge"]
+      ].map(([role, icon]) => `<div class="role-chip">${iconSvg(icon)}<strong>${role}</strong></div>`).join("")}
           </div>
         </div>
       </section>
@@ -9000,16 +9054,16 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "PROFESSIONAL EXPERTISE",
-            title: "Expertise that blends Psychology, Education, Leadership, and Human development.",
-            copy: "Each intervention is designed to move people from insight to action with practical structure and emotional intelligence."
-          })}
+        eyebrow: "PROFESSIONAL EXPERTISE",
+        title: "Expertise that blends Psychology, Education, Leadership, and Human development.",
+        copy: "Each intervention is designed to move people from insight to action with practical structure and emotional intelligence."
+      })}
           ${renderCards(expertiseAreas.slice(0, 6).map((item, index) => ({
-            icon: ["calm", "growth", "bridge", "leadership", "mind", "message"][index] || "spark",
-            title: item.title,
-            copy: item.copy,
-            links: [anchor(item.href, "Explore Area", "btn btn-secondary")]
-          })), "feature-card", "grid-3")}
+        icon: ["calm", "growth", "bridge", "leadership", "mind", "message"][index] || "spark",
+        title: item.title,
+        copy: item.copy,
+        links: [anchor(item.href, "Explore Area", "btn btn-secondary")]
+      })), "feature-card", "grid-3")}
         </div>
       </section>
       `,
@@ -9017,10 +9071,10 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "Signature Programs",
-            title: "Signature Interventions for Measurable Outcomes.",
-            copy: "Personal programmes across counselling, student development, leadership, parenting, empowerment, and corporate transformation."
-          })}
+        eyebrow: "Signature Programs",
+        title: "Signature Interventions for Measurable Outcomes.",
+        copy: "Personal programmes across counselling, student development, leadership, parenting, empowerment, and corporate transformation."
+      })}
           ${programCards(signaturePrograms.slice(0, 8))}
         </div>
       </section>
@@ -9047,31 +9101,31 @@ const pages = [
           </div>
           <div class="stack">
             ${renderCards([
-              {
-                title: "WAMI™ — Children's Life Skills",
-                copy: "A joyful children's life skills world built around stories, games, activities, confidence, creativity, communication, character, and reflection.",
-                links: [
-                  anchor(routes.wami, "Read Overview", "btn btn-secondary"),
-                  anchor(waymakerLinks.wami, "Learn More at WayMaker Skills™", "btn btn-soft")
-                ]
-              },
-              {
-                title: "NOVA™ — Human Development Methodology",
-                copy: "Practical models that help individuals and institutions navigate learning, leadership, and future readiness.",
-                links: [
-                  anchor(routes.nova, "Read Overview", "btn btn-secondary"),
-                  anchor(waymakerLinks.nova, "Learn More at WayMaker Skills™", "btn btn-soft")
-                ]
-              },
-              {
-                title: "LQ™ — Life Intelligence Quotient Framework",
-                copy: "A signature human development framework that offers a deeper lens for understanding personal capability, growth, and life effectiveness.",
-                links: [
-                  anchor(routes.lq, "Read Overview", "btn btn-secondary"),
-                  anchor(waymakerLinks.lq, "Learn More at WayMaker Skills™", "btn btn-soft")
-                ]
-              }
-            ], "framework-card", "grid-1")}
+        {
+          title: "WAMI™ — Children's Life Skills",
+          copy: "A joyful children's life skills world built around stories, games, activities, confidence, creativity, communication, character, and reflection.",
+          links: [
+            anchor(routes.wami, "Read Overview", "btn btn-secondary"),
+            anchor(waymakerLinks.wami, "Learn More at WayMaker Skills™", "btn btn-soft")
+          ]
+        },
+        {
+          title: "NOVA™ — Human Development Methodology",
+          copy: "Practical models that help individuals and institutions navigate learning, leadership, and future readiness.",
+          links: [
+            anchor(routes.nova, "Read Overview", "btn btn-secondary"),
+            anchor(waymakerLinks.nova, "Learn More at WayMaker Skills™", "btn btn-soft")
+          ]
+        },
+        {
+          title: "LQ™ — Life Intelligence Quotient Framework",
+          copy: "A signature human development framework that offers a deeper lens for understanding personal capability, growth, and life effectiveness.",
+          links: [
+            anchor(routes.lq, "Read Overview", "btn btn-secondary"),
+            anchor(waymakerLinks.lq, "Learn More at WayMaker Skills™", "btn btn-soft")
+          ]
+        }
+      ], "framework-card", "grid-1")}
           </div>
           </div>
         </div>
@@ -9081,20 +9135,20 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "Find your growth pathway",
-            title: "Quick Pathway Selector.",
-            copy: "Everyone's journey is unique. Choose the pathway that best reflects where you are and where you want to grow."
-          })}
+        eyebrow: "Find your growth pathway",
+        title: "Quick Pathway Selector.",
+        copy: "Everyone's journey is unique. Choose the pathway that best reflects where you are and where you want to grow."
+      })}
           ${renderCards([
-            { icon: "book", title: "I am a Student", copy: "Exam confidence, future readiness, self-expression, and learning habits.", links: [anchor("/schools-students-parents/", "See Student Pathway", "btn btn-secondary")] },
-            { icon: "family", title: "I am a Parent", copy: "Emotional guidance, communication, boundaries, and developmental support at home.", links: [anchor("/schools-students-parents/#parenting-with-passion", "See Parent Pathway", "btn btn-secondary")] },
-            { icon: "people", title: "I represent a School", copy: "Whole-ecosystem support across students, parents, and educators.", links: [anchor("/schools-students-parents/", "See School Pathway", "btn btn-secondary")] },
-            { icon: "people", title: "I am an Educator", copy: "Teaching excellence, student engagement, classroom leadership, and professional growth.", links: [anchor("/programs/educator-excellence-pathway/", "See Educator Pathway", "btn btn-secondary")] },
-            { icon: "bridge", title: "I represent an Organization", copy: "Leadership, collaboration, culture, and human-centered performance.", links: [anchor("/corporate-learning/", "See Organization Pathway", "btn btn-secondary")] },
-            { icon: "leadership", title: "I Want to Lead", copy: "Leadership presence, communication, influence, emotional intelligence, and purposeful impact.", links: [anchor("/programs/future-ready-leadership-program/", "See Leadership Pathway", "btn btn-secondary")] },
-            { icon: "calm", title: "I want Counselling", copy: "Clarity, emotional steadiness, decision support, and one-to-one growth.", links: [anchor("/counselling-coaching/", "See Counselling Pathway", "btn btn-secondary")] },
-            { icon: "growth", title: "I want Women Empowerment", copy: "Identity, confidence, voice, well-being, and action planning.", links: [anchor("/women-empowerment/", "See Women Pathway", "btn btn-secondary")] }
-          ], "path-card", "grid-4")}
+        { icon: "book", title: "I am a Student", copy: "Exam confidence, future readiness, self-expression, and learning habits.", links: [anchor("/schools-students-parents/", "See Student Pathway", "btn btn-secondary")] },
+        { icon: "family", title: "I am a Parent", copy: "Emotional guidance, communication, boundaries, and developmental support at home.", links: [anchor("/schools-students-parents/#parenting-with-passion", "See Parent Pathway", "btn btn-secondary")] },
+        { icon: "people", title: "I represent a School", copy: "Whole-ecosystem support across students, parents, and educators.", links: [anchor("/schools-students-parents/", "See School Pathway", "btn btn-secondary")] },
+        { icon: "people", title: "I am an Educator", copy: "Teaching excellence, student engagement, classroom leadership, and professional growth.", links: [anchor("/programs/educator-excellence-pathway/", "See Educator Pathway", "btn btn-secondary")] },
+        { icon: "bridge", title: "I represent an Organization", copy: "Leadership, collaboration, culture, and human-centered performance.", links: [anchor("/corporate-learning/", "See Organization Pathway", "btn btn-secondary")] },
+        { icon: "leadership", title: "I Want to Lead", copy: "Leadership presence, communication, influence, emotional intelligence, and purposeful impact.", links: [anchor("/programs/future-ready-leadership-program/", "See Leadership Pathway", "btn btn-secondary")] },
+        { icon: "calm", title: "I want Counselling", copy: "Clarity, emotional steadiness, decision support, and one-to-one growth.", links: [anchor("/counselling-coaching/", "See Counselling Pathway", "btn btn-secondary")] },
+        { icon: "growth", title: "I want Women Empowerment", copy: "Identity, confidence, voice, well-being, and action planning.", links: [anchor("/women-empowerment/", "See Women Pathway", "btn btn-secondary")] }
+      ], "path-card", "grid-4")}
         </div>
       </section>
       `,
@@ -9118,9 +9172,9 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "Latest Insights",
-            title: "Fresh Reflections from the Blog.",
-          })}
+        eyebrow: "Latest Insights",
+        title: "Fresh Reflections from the Blog.",
+      })}
           <div class="grid-3">
             ${blogPosts.slice(0, 3).map((post) => renderBlogCard(post, { cta: "Read Insight" })).join("")}
           </div>
@@ -9134,18 +9188,18 @@ const pages = [
       <section class="section" id="impact">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "Transformation Outcomes",
-            title: "What Transformation looks like in Practice.",
-            copy: "Sanjo's work is designed to move people from confusion to confidence and from awareness to applied change."
-          })}
+        eyebrow: "Transformation Outcomes",
+        title: "What Transformation looks like in Practice.",
+        copy: "Sanjo's work is designed to move people from confusion to confidence and from awareness to applied change."
+      })}
           ${renderCards([
-            { icon: "growth", title: "Confidence", copy: "A stronger sense of self, voice, and healthy initiative." },
-            { icon: "message", title: "Communication", copy: "Clearer expression, listening, empathy, and influence." },
-            { icon: "calm", title: "Emotional Maturity", copy: "Better regulation, reflection, and resilience under stress." },
-            { icon: "leadership", title: "Leadership", copy: "Personal responsibility, presence, and purpose-led decision making." },
-            { icon: "bridge", title: "Adaptability", copy: "The ability to adjust intelligently in changing situations." },
-            { icon: "spark", title: "Purposeful Action", copy: "Practical life intelligence for school, work, and relationships." }
-          ], "metric-card", "grid-3")}
+        { icon: "growth", title: "Confidence", copy: "A stronger sense of self, voice, and healthy initiative." },
+        { icon: "message", title: "Communication", copy: "Clearer expression, listening, empathy, and influence." },
+        { icon: "calm", title: "Emotional Maturity", copy: "Better regulation, reflection, and resilience under stress." },
+        { icon: "leadership", title: "Leadership", copy: "Personal responsibility, presence, and purpose-led decision making." },
+        { icon: "bridge", title: "Adaptability", copy: "The ability to adjust intelligently in changing situations." },
+        { icon: "spark", title: "Purposeful Action", copy: "Practical life intelligence for school, work, and relationships." }
+      ], "metric-card", "grid-3")}
         </div>
       </section>
       `,
@@ -9221,16 +9275,16 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "Journey Timeline",
-            title: "A connected path from insight to institution-building.",
-          })}
+        eyebrow: "Journey Timeline",
+        title: "A connected path from insight to institution-building.",
+      })}
           <div class="timeline-steps">
             ${[
-              ["The Explorer", "A lifelong fascination with people, learning, science, and possibility."],
-              ["The Learner", "Pursuing psychology, education, and interdisciplinary studies to understand how growth happens."],
-              ["The Practitioner", "Working directly with students, families, educators, and professionals across diverse settings."],
-              ["The WayMaker", "Creating programs, books, and learning experiences that help people discover, develop, and direct their potential."],
-            ].map(([title, copy]) => `
+        ["The Explorer", "A lifelong fascination with people, learning, science, and possibility."],
+        ["The Learner", "Pursuing psychology, education, and interdisciplinary studies to understand how growth happens."],
+        ["The Practitioner", "Working directly with students, families, educators, and professionals across diverse settings."],
+        ["The WayMaker", "Creating programs, books, and learning experiences that help people discover, develop, and direct their potential."],
+      ].map(([title, copy]) => `
               <article class="timeline-step reveal">
                 <h3>${title}</h3>
                 <p>${copy}</p>
@@ -9244,20 +9298,20 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "Professional Identity",
-            title: "Roles Rooted in One Mission.",
-            copy: "Across Psychology, Education, Coaching, and Leadership development, each role serves a single purpose: Helping people and organizations Grow with Intention."
-          })}
+        eyebrow: "Professional Identity",
+        title: "Roles Rooted in One Mission.",
+        copy: "Across Psychology, Education, Coaching, and Leadership development, each role serves a single purpose: Helping people and organizations Grow with Intention."
+      })}
           ${renderCards([
-            { title: "Director & Founder", copy: "Leading the vision and strategic direction behind WayMaker Skills™." },
-            { title: "Human Development Specialist", copy: "Designing growth pathways that connect awareness, learning, and action." },
-            { title: "Corporate Trainer", copy: "Facilitating human-centered professional learning for organizations and teams." },
-            { title: "Leadership Coach", copy: "Helping leaders build self-awareness, emotional steadiness, and influence." },
-            { title: "Counselling Psychologist", copy: "Supporting clarity, emotional resilience, and personal transitions." },
-            { title: "Wellness & Mindfulness Coach", copy: "Promoting reflective living, balance, and sustainable well-being." },
-            { title: "Learning & Development Consultant", copy: "Building experiences that improve retention, relevance, and behavior change." },
-            { title: "Learning Strategist", copy: "Translating knowledge into engagement, structure, and practical outcomes." }
-          ], "card", "grid-4")}
+        { title: "Director & Founder", copy: "Leading the vision and strategic direction behind WayMaker Skills™." },
+        { title: "Human Development Specialist", copy: "Designing growth pathways that connect awareness, learning, and action." },
+        { title: "Corporate Trainer", copy: "Facilitating human-centered professional learning for organizations and teams." },
+        { title: "Leadership Coach", copy: "Helping leaders build self-awareness, emotional steadiness, and influence." },
+        { title: "Counselling Psychologist", copy: "Supporting clarity, emotional resilience, and personal transitions." },
+        { title: "Wellness & Mindfulness Coach", copy: "Promoting reflective living, balance, and sustainable well-being." },
+        { title: "Learning & Development Consultant", copy: "Building experiences that improve retention, relevance, and behavior change." },
+        { title: "Learning Strategist", copy: "Translating knowledge into engagement, structure, and practical outcomes." }
+      ], "card", "grid-4")}
         </div>
       </section>
       `,
@@ -9265,8 +9319,8 @@ const pages = [
       <section class="section">
       <div class="container">
         ${sectionHeader({
-          title: "One Vision. Two Platforms.",
-        })}
+        title: "One Vision. Two Platforms.",
+      })}
         <div class="container comparison">
           <article class="card reveal">
             <h3>www.sanjo.in</h3>
@@ -9288,24 +9342,24 @@ const pages = [
         <div class="container split-panel">
           <div class="story-card reveal">
             ${sectionHeader({
-              eyebrow: "Mission",
-              title: "Helping people discover Strengths, build Clarity, and Create meaningful Change.",
-              copy: "Sanjo's mission is not simply to motivate people but to help them understand themselves better and move with greater maturity, confidence, and direction."
-            })}
+        eyebrow: "Mission",
+        title: "Helping people discover Strengths, build Clarity, and Create meaningful Change.",
+        copy: "Sanjo's mission is not simply to motivate people but to help them understand themselves better and move with greater maturity, confidence, and direction."
+      })}
             ${list([
-              "Support people through confusion, transition, pressure, and untapped potential.",
-              "Build essential life skills that make growth usable in daily life.",
-              "Strengthen personal, relational, and professional effectiveness.",
-              "Create learning experiences that are reflective, practical, and deeply human."
-            ])}
+        "Support people through confusion, transition, pressure, and untapped potential.",
+        "Build essential life skills that make growth usable in daily life.",
+        "Strengthen personal, relational, and professional effectiveness.",
+        "Create learning experiences that are reflective, practical, and deeply human."
+      ])}
           </div>
           <div class="timeline">
             ${[
-              ["Psychology", "Bringing emotional insight, behavioural awareness, and clarity to personal growth."],
-              ["Education", "Helping learners and educators build effective, human-centered development pathways."],
-              ["Leadership", "Supporting people who influence others to lead with greater self-awareness and responsibility."],
-              ["Human Development", "Building frameworks that connect thinking, emotion, action, and adaptability."]
-            ].map(([title, copy]) => `
+        ["Psychology", "Bringing emotional insight, behavioural awareness, and clarity to personal growth."],
+        ["Education", "Helping learners and educators build effective, human-centered development pathways."],
+        ["Leadership", "Supporting people who influence others to lead with greater self-awareness and responsibility."],
+        ["Human Development", "Building frameworks that connect thinking, emotion, action, and adaptability."]
+      ].map(([title, copy]) => `
               <article class="timeline-card reveal">
                 <h3>${title}</h3>
                 <p>${copy}</p>
@@ -9364,15 +9418,15 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "Expertise Grid",
-            title: "Areas of Expertise",
-            copy: "Each domain represents a unique route toward growth, capability, and meaningful impact."
-          })}
+        eyebrow: "Expertise Grid",
+        title: "Areas of Expertise",
+        copy: "Each domain represents a unique route toward growth, capability, and meaningful impact."
+      })}
           ${renderCards(expertiseAreas.map((item) => ({
-            title: item.title,
-            copy: item.copy,
-            links: [anchor(item.href, "Relevant Pathway", "btn btn-secondary")]
-          })), "card", "grid-4")}
+        title: item.title,
+        copy: item.copy,
+        links: [anchor(item.href, "Relevant Pathway", "btn btn-secondary")]
+      })), "card", "grid-4")}
         </div>
       </section>
       `,
@@ -9381,25 +9435,25 @@ const pages = [
         <div class="container split-panel">
           <div class="story-card reveal">
             ${sectionHeader({
-              eyebrow: "Approach",
-              title: "Different Paths. Shared Principles.",
-              copy: "While every audience faces unique challenges, the principles that drive meaningful growth remain remarkably consistent: awareness, clarity, capability, purpose, and action."
-            })}
+        eyebrow: "Approach",
+        title: "Different Paths. Shared Principles.",
+        copy: "While every audience faces unique challenges, the principles that drive meaningful growth remain remarkably consistent: awareness, clarity, capability, purpose, and action."
+      })}
             ${list([
-              "Begin with understanding, not assumptions.",
-              "Transform insight into practical action.",
-              "Learn through experience and reflection.",
-              "Focus on meaningful, measurable growth."
-            ])}
+        "Begin with understanding, not assumptions.",
+        "Transform insight into practical action.",
+        "Learn through experience and reflection.",
+        "Focus on meaningful, measurable growth."
+      ])}
           </div>
           ${renderCards([
-            { title: "Students", copy: "Confidence, focus, life skills, and future readiness." },
-            { title: "Parents", copy: "Communication, guidance, and developmental support." },
-            { title: "Teachers", copy: "Capacity building, learner engagement, and classroom effectiveness." },
-            { title: "Women", copy: "Confidence, identity, resilience, and empowerment." },
-            { title: "Professionals", copy: "Communication, adaptability, leadership, and effectiveness." },
-            { title: "Leaders & Teams", copy: "Culture, collaboration, emotional intelligence, and performance." }
-          ], "audience-card", "grid-2")}
+        { title: "Students", copy: "Confidence, focus, life skills, and future readiness." },
+        { title: "Parents", copy: "Communication, guidance, and developmental support." },
+        { title: "Teachers", copy: "Capacity building, learner engagement, and classroom effectiveness." },
+        { title: "Women", copy: "Confidence, identity, resilience, and empowerment." },
+        { title: "Professionals", copy: "Communication, adaptability, leadership, and effectiveness." },
+        { title: "Leaders & Teams", copy: "Culture, collaboration, emotional intelligence, and performance." }
+      ], "audience-card", "grid-2")}
         </div>
       </section>
       `,
@@ -9448,10 +9502,10 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "Program Index",
-            title: "Transformative Programs for Every Stage of Growth.",
-            copy: "Each card points to the most relevant details page and a direct enquiry path."
-          })}
+        eyebrow: "Program Index",
+        title: "Transformative Programs for Every Stage of Growth.",
+        copy: "Each card points to the most relevant details page and a direct enquiry path."
+      })}
           ${programCards(signaturePrograms)}
         </div>
       </section>
@@ -9460,16 +9514,16 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "How Programs Are Delivered",
-            title: "One Vision. Multiple Pathways for Growth.",
-            copy: "Every individual, team, and community has unique needs. Programs are designed as personalized mentoring, interactive workshops, focused interventions, or long-term growth journeys."
-          })}
+        eyebrow: "How Programs Are Delivered",
+        title: "One Vision. Multiple Pathways for Growth.",
+        copy: "Every individual, team, and community has unique needs. Programs are designed as personalized mentoring, interactive workshops, focused interventions, or long-term growth journeys."
+      })}
           ${renderCards([
-            { title: "One-to-One Support", copy: "Personalized guidance and mentoring." },
-            { title: "Group Programs", copy: "Shared learning experiences and workshops." },
-            { title: "Strategic Interventions", copy: "Targeted solutions for specific needs." },
-            { title: "Development Journeys", copy: "Longer-term growth and transformation pathways." }
-          ], "process-card", "grid-4")}
+        { title: "One-to-One Support", copy: "Personalized guidance and mentoring." },
+        { title: "Group Programs", copy: "Shared learning experiences and workshops." },
+        { title: "Strategic Interventions", copy: "Targeted solutions for specific needs." },
+        { title: "Development Journeys", copy: "Longer-term growth and transformation pathways." }
+      ], "process-card", "grid-4")}
         </div>
       </section>
       `,
@@ -9509,6 +9563,14 @@ const pages = [
         eyebrow: "Corporate Learning",
         title: "Corporate Learning for Leadership, Culture, and Human-Centered Performance.",
         copy: "Sanjo brings psychology-based facilitation into organizational environments that need stronger leadership, healthier culture, and more adaptive teams.",
+        supportingCopy: "Through counselling and coaching, you can:",
+        list: [
+          "Understand yourself more deeply",
+          "Navigate challenges with confidence",
+          "Strengthen emotional well-being",
+          "Discover your strengths and possibilities",
+          "Move forward with greater clarity and purpose"
+        ],
         actions: [anchor("/contact/", "Enquire for Corporate Learning", "btn btn-primary"), anchor(waymakerLinks.company, "Visit WayMaker Skills™", "btn btn-secondary")],
         media: { image: "/assets/imgs/elevate.png", alt: "E.L.E.V.A.T.E. corporate learning program" },
         panelTitle: "Featured program: E.L.E.V.A.T.E.",
@@ -9523,21 +9585,21 @@ const pages = [
       <section class="section" id="elevate">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "E.L.E.V.A.T.E.",
-            title: "A premium corporate transformation journey.",
-            copy: "Designed for organizations that want more than a one-off session and need a deeper shift in leadership behavior, communication, engagement, and adaptability."
-          })}
+        eyebrow: "E.L.E.V.A.T.E.",
+        title: "A premium corporate transformation journey.",
+        copy: "Designed for organizations that want more than a one-off session and need a deeper shift in leadership behavior, communication, engagement, and adaptability."
+      })}
           ${renderCards([
-            { title: "Leadership Elevation", copy: "Presence, accountability, decision quality, and responsible influence." },
-            { title: "Engage & Empower / DEI", copy: "Human dignity, belonging, collaboration, and inclusive growth." },
-            { title: "Voice & Influence / Storytelling", copy: "Communication, meaning-making, and persuasive leadership narratives." },
-            { title: "Adventure Labs / Outbound Learning", copy: "Experiential learning for collaboration, trust, and resilience." },
-            { title: "Transformation Mindset", copy: "Adapting to complexity with maturity and strategic focus." },
-            { title: "Emotional Mastery", copy: "Regulation, self-awareness, and performance steadiness under stress." },
-            { title: "Communication Excellence", copy: "Clarity, listening, constructive conversations, and stakeholder trust." },
-            { title: "Team Collaboration", copy: "Shared ownership, psychological safety, and aligned execution." },
-            { title: "Resilience & Sustainable Performance", copy: "Energy, consistency, and well-directed effort over time." }
-          ], "card", "grid-3")}
+        { title: "Leadership Elevation", copy: "Presence, accountability, decision quality, and responsible influence." },
+        { title: "Engage & Empower / DEI", copy: "Human dignity, belonging, collaboration, and inclusive growth." },
+        { title: "Voice & Influence / Storytelling", copy: "Communication, meaning-making, and persuasive leadership narratives." },
+        { title: "Adventure Labs / Outbound Learning", copy: "Experiential learning for collaboration, trust, and resilience." },
+        { title: "Transformation Mindset", copy: "Adapting to complexity with maturity and strategic focus." },
+        { title: "Emotional Mastery", copy: "Regulation, self-awareness, and performance steadiness under stress." },
+        { title: "Communication Excellence", copy: "Clarity, listening, constructive conversations, and stakeholder trust." },
+        { title: "Team Collaboration", copy: "Shared ownership, psychological safety, and aligned execution." },
+        { title: "Resilience & Sustainable Performance", copy: "Energy, consistency, and well-directed effort over time." }
+      ], "card", "grid-3")}
         </div>
       </section>
       `,
@@ -9606,18 +9668,18 @@ const pages = [
       <section class="section" id="c3-program">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "Support Areas",
-            title: "Growth support that meets people where they are.",
-            copy: "Counselling and coaching with Sanjo are designed to move beyond surface advice and toward grounded clarity."
-          })}
+        eyebrow: "Support Areas",
+        title: "Growth support that meets people where they are.",
+        copy: "Counselling and coaching with Sanjo are designed to move beyond surface advice and toward grounded clarity."
+      })}
           ${renderCards([
-            { title: "One-to-One Counselling", copy: "For personal clarity, emotional processing, and difficult transitions." },
-            { title: "Personal Effectiveness Coaching", copy: "For direction, disciplined action, communication, and self-leadership." },
-            { title: "Emotional Resilience Support", copy: "For pressure, overwhelm, emotional fatigue, and recovery." },
-            { title: "Exam Stress Support", copy: "For students who need calm, structure, and smarter preparation habits." },
-            { title: "Wellness & Mindfulness Coaching", copy: "For reflective living, energy balance, and sustainable well-being." },
-            { title: "Goal Clarity Sessions", copy: "For people who know they need change but need help seeing the next step clearly." }
-          ], "card", "grid-3")}
+        { title: "One-to-One Counselling", copy: "For personal clarity, emotional processing, and difficult transitions." },
+        { title: "Personal Effectiveness Coaching", copy: "For direction, disciplined action, communication, and self-leadership." },
+        { title: "Emotional Resilience Support", copy: "For pressure, overwhelm, emotional fatigue, and recovery." },
+        { title: "Exam Stress Support", copy: "For students who need calm, structure, and smarter preparation habits." },
+        { title: "Wellness & Mindfulness Coaching", copy: "For reflective living, energy balance, and sustainable well-being." },
+        { title: "Goal Clarity Sessions", copy: "For people who know they need change but need help seeing the next step clearly." }
+      ], "card", "grid-3")}
         </div>
       </section>
       `,
@@ -9678,17 +9740,17 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "Program Highlights",
-            title: "Development pathways for learners and families.",
-            copy: "These offerings combine emotional awareness, communication, structure, and practical readiness."
-          })}
+        eyebrow: "Program Highlights",
+        title: "Development pathways for learners and families.",
+        copy: "These offerings combine emotional awareness, communication, structure, and practical readiness."
+      })}
           ${renderCards([
-            { title: "Overcome Exam Stress Through Smart Learning", copy: "Reduce stress, improve planning, and build calm confidence during exam seasons.", links: [anchor("#exam-stress", "View Focus", "btn btn-secondary")] },
-            { title: "Parenting With Passion", copy: "Help parents create stronger emotional connection, boundaries, and developmental guidance.", links: [anchor("#parenting-with-passion", "View Focus", "btn btn-secondary")] },
-            { title: "Personal Effectiveness Mentorship", copy: "Develop maturity, discipline, communication, and leadership readiness in young people.", links: [anchor("/programs/#personal-effectiveness-mentorship", "View Program", "btn btn-secondary")] },
-            { title: "I.N.S.P.I.R.E. Series", copy: "An immersive student experience that develops creativity, confidence, and collaboration.", links: [anchor("#inspire-series", "View Focus", "btn btn-secondary")] },
-            { title: "WAMI™ Children's Life Skills", copy: "Early life skill development through structured play, reflection, and emotional learning.", links: [anchor("/wami-childrens-life-skills/", "View Framework", "btn btn-secondary")] }
-          ], "card", "grid-3")}
+        { title: "Overcome Exam Stress Through Smart Learning", copy: "Reduce stress, improve planning, and build calm confidence during exam seasons.", links: [anchor("#exam-stress", "View Focus", "btn btn-secondary")] },
+        { title: "Parenting With Passion", copy: "Help parents create stronger emotional connection, boundaries, and developmental guidance.", links: [anchor("#parenting-with-passion", "View Focus", "btn btn-secondary")] },
+        { title: "Personal Effectiveness Mentorship", copy: "Develop maturity, discipline, communication, and leadership readiness in young people.", links: [anchor("/programs/#personal-effectiveness-mentorship", "View Program", "btn btn-secondary")] },
+        { title: "I.N.S.P.I.R.E. Series", copy: "An immersive student experience that develops creativity, confidence, and collaboration.", links: [anchor("#inspire-series", "View Focus", "btn btn-secondary")] },
+        { title: "WAMI™ Children's Life Skills", copy: "Early life skill development through structured play, reflection, and emotional learning.", links: [anchor("/wami-childrens-life-skills/", "View Framework", "btn btn-secondary")] }
+      ], "card", "grid-3")}
         </div>
       </section>
       `,
@@ -9723,18 +9785,18 @@ const pages = [
         <div class="container split-panel">
           <div class="story-card reveal">
             ${sectionHeader({
-              eyebrow: "Development Focus",
-              title: "What these programs help people build.",
-              copy: "The emphasis is practical and human: better habits, healthier communication, emotional steadiness, and future readiness."
-            })}
+        eyebrow: "Development Focus",
+        title: "What these programs help people build.",
+        copy: "The emphasis is practical and human: better habits, healthier communication, emotional steadiness, and future readiness."
+      })}
             ${list([
-              "Study skills and smart learning systems",
-              "Emotional awareness and resilience",
-              "Confidence and healthy self-expression",
-              "Positive discipline and relational boundaries",
-              "Teacher capacity building and classroom insight",
-              "Future readiness and practical life skills"
-            ])}
+        "Study skills and smart learning systems",
+        "Emotional awareness and resilience",
+        "Confidence and healthy self-expression",
+        "Positive discipline and relational boundaries",
+        "Teacher capacity building and classroom insight",
+        "Future readiness and practical life skills"
+      ])}
           </div>
           <div class="quote-panel reveal">
             <blockquote>WAMI™ expands this work for children's life skills.</blockquote>
@@ -9790,18 +9852,18 @@ const pages = [
       <section class="section" id="empower-to-empowerment">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "Empower to Empowerment",
-            title: "A women-focused intervention rooted in self-discovery and strength.",
-            copy: "Designed for women who want to build confidence, emotional clarity, and action-led growth in their personal or community roles."
-          })}
+        eyebrow: "Empower to Empowerment",
+        title: "A women-focused intervention rooted in self-discovery and strength.",
+        copy: "Designed for women who want to build confidence, emotional clarity, and action-led growth in their personal or community roles."
+      })}
           ${renderCards([
-            { title: "Self-Discovery", copy: "Recognizing strengths, patterns, internal blocks, and authentic desires." },
-            { title: "Inner Strength", copy: "Building emotional steadiness, courage, and grounded self-worth." },
-            { title: "Goal Setting", copy: "Turning reflection into meaningful and realistic next steps." },
-            { title: "Action Planning", copy: "Creating momentum through practical structure and ownership." },
-            { title: "Confidence", copy: "Strengthening voice, presence, and self-expression." },
-            { title: "Well-Being", copy: "Supporting energy, balance, and sustainable personal growth." }
-          ], "card", "grid-3")}
+        { title: "Self-Discovery", copy: "Recognizing strengths, patterns, internal blocks, and authentic desires." },
+        { title: "Inner Strength", copy: "Building emotional steadiness, courage, and grounded self-worth." },
+        { title: "Goal Setting", copy: "Turning reflection into meaningful and realistic next steps." },
+        { title: "Action Planning", copy: "Creating momentum through practical structure and ownership." },
+        { title: "Confidence", copy: "Strengthening voice, presence, and self-expression." },
+        { title: "Well-Being", copy: "Supporting energy, balance, and sustainable personal growth." }
+      ], "card", "grid-3")}
         </div>
       </section>
       `,
@@ -9843,14 +9905,16 @@ const pages = [
   page(routes.waymaker, {
     title: "WayMaker Skills™ | Sanjo Cine Mathew",
     description: "Learn how WayMaker Skills™, founded by Dr. Sanjo Cine Mathew, connects human development, applied intelligence, future skills, and transformational learning.",
-    ogImage: "/assets/imgs/waymaker-logo.jpeg",
+    ogImage: "/assets/imgs/waymaker-logo.png",
     content: [
       renderHero({
         eyebrow: "WayMaker Skills™",
+        brandMark: renderWaymakerLogoPanel({ className: "is-inline", loading: "eager", maxWidth: "230px" }),
+        brandMarkCaption: "Redefining Paths. Empowering Growth.",
         title: "Developing People, Possibilities, and Future-Ready Capabilities.",
         copy: "WayMaker Skills™ is a human development organization dedicated to helping individuals, educators, professionals, and communities grow through learning, leadership, life skills, and applied intelligence. Founded by Dr. Sanjo Cine Mathew, serves as the ecosystem through which transformative frameworks, programs, and initiatives are developed and delivered.",
         actions: [anchor(waymakerLinks.company, "Visit WayMaker Skills™", "btn btn-primary"), anchor(routes.programs, "Explore Related Programs", "btn btn-secondary")],
-        media: { image: "/assets/imgs/waymaker-logo.jpeg", alt: "WayMaker Skills visual identity" },
+        media: { image: "/assets/imgs/core-pillars.png", alt: "WayMaker Skills core pillars illustration", className: "is-contained" },
         panelTitle: "Core Pillars",
         panelMeta: ["Human Development", "Applied Intelligence", "Leadership", "Emotional Intelligence", "Future Skills", "Purposeful Growth"]
       }, renderBreadcrumbs({ route: routes.waymaker, breadcrumbs: [{ label: "Home", route: routes.home }, { label: "WayMaker Skills™", route: routes.waymaker }] })),
@@ -9872,24 +9936,24 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "THE CONNECTION",
-            title: "How Sanjo.in and WayMaker Skills™ Work Together.",
-            copy: "Sanjo.in is the personal brand and thought leadership platform of Dr. Sanjo Cine Mathew. WayMaker Skills™ is the organization through which frameworks, programs, and larger initiatives are developed and delivered."
-          })}
+        eyebrow: "THE CONNECTION",
+        title: "How Sanjo.in and WayMaker Skills™ Work Together.",
+        copy: "Sanjo.in is the personal brand and thought leadership platform of Dr. Sanjo Cine Mathew. WayMaker Skills™ is the organization through which frameworks, programs, and larger initiatives are developed and delivered."
+      })}
           ${renderCards([
-            {
-              title: "Meet the Founder",
-              copy: "Learn about Sanjo's journey, philosophy, expertise, and the ideas that shape her work."
-            },
-            {
-              title: "Explore the Frameworks",
-              copy: "Discover the thinking behind WAMI™, NOVA™, LQ™, and other growth-centered frameworks."
-            },
-            {
-              title: "Engage with WayMaker Skills™",
-              copy: "Explore programs, partnerships, institutional initiatives, and organizational collaborations."
-            }
-          ], "card", "grid-3")}
+        {
+          title: "Meet the Founder",
+          copy: "Learn about Sanjo's journey, philosophy, expertise, and the ideas that shape her work."
+        },
+        {
+          title: "Explore the Frameworks",
+          copy: "Discover the thinking behind WAMI™, NOVA™, LQ™, and other growth-centered frameworks."
+        },
+        {
+          title: "Engage with WayMaker Skills™",
+          copy: "Explore programs, partnerships, institutional initiatives, and organizational collaborations."
+        }
+      ], "card", "grid-3")}
         </div>
       </section>
       `,
@@ -9897,27 +9961,27 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "Frameworks",
-            title: "Frameworks for Intentional Growth and Human Development.",
-            copy: "Discover the signature frameworks that guide learning, self-awareness, leadership, and personal transformation across the WayMaker ecosystem."
-          })}
+        eyebrow: "Frameworks",
+        title: "Frameworks for Intentional Growth and Human Development.",
+        copy: "Discover the signature frameworks that guide learning, self-awareness, leadership, and personal transformation across the WayMaker ecosystem."
+      })}
           ${renderCards([
-            {
-              title: "WAMI™ — Children's Life Skills",
-              copy: "A creative life skills framework that nurtures confidence, communication, creativity, character, and self-awareness through stories, play, and reflection.",
-              links: [anchor(routes.wami, "Read Overview", "btn btn-secondary"), anchor(waymakerLinks.wami, "Learn More at WayMaker Skills™", "btn btn-soft")]
-            },
-            {
-              title: "NOVA™ — Human Development Methodology",
-              copy: "A structured pathway for turning awareness into action, helping people grow with greater purpose, ownership, and direction.",
-              links: [anchor(routes.nova, "Read Overview", "btn btn-secondary"), anchor(waymakerLinks.nova, "Learn More at WayMaker Skills™", "btn btn-soft")]
-            },
-            {
-              title: "LQ™ — Life Intelligence Quotient Framework",
-              copy: "A holistic framework for developing self-awareness, emotional intelligence, relationships, purposeful action, and adaptability.",
-              links: [anchor(routes.lq, "Read Overview", "btn btn-secondary"), anchor(waymakerLinks.lq, "Learn More at WayMaker Skills™", "btn btn-soft")]
-            }
-          ], "framework-card", "grid-3")}
+        {
+          title: "WAMI™ — Children's Life Skills",
+          copy: "A creative life skills framework that nurtures confidence, communication, creativity, character, and self-awareness through stories, play, and reflection.",
+          links: [anchor(routes.wami, "Read Overview", "btn btn-secondary"), anchor(waymakerLinks.wami, "Learn More at WayMaker Skills™", "btn btn-soft")]
+        },
+        {
+          title: "NOVA™ — Human Development Methodology",
+          copy: "A structured pathway for turning awareness into action, helping people grow with greater purpose, ownership, and direction.",
+          links: [anchor(routes.nova, "Read Overview", "btn btn-secondary"), anchor(waymakerLinks.nova, "Learn More at WayMaker Skills™", "btn btn-soft")]
+        },
+        {
+          title: "LQ™ — Life Intelligence Quotient Framework",
+          copy: "A holistic framework for developing self-awareness, emotional intelligence, relationships, purposeful action, and adaptability.",
+          links: [anchor(routes.lq, "Read Overview", "btn btn-secondary"), anchor(waymakerLinks.lq, "Learn More at WayMaker Skills™", "btn btn-soft")]
+        }
+      ], "framework-card", "grid-3")}
         </div>
       </section>
       `,
@@ -9981,15 +10045,15 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "What Is WAMI™?",
-            title: "A Joyful World where Life skills come Alive.",
-            copy: "WAMI™ helps children grow through stories, activities, games, challenges, reflection, and character-building experiences that feel bright, safe, and memorable."
-          })}
+        eyebrow: "What Is WAMI™?",
+        title: "A Joyful World where Life skills come Alive.",
+        copy: "WAMI™ helps children grow through stories, activities, games, challenges, reflection, and character-building experiences that feel bright, safe, and memorable."
+      })}
           ${renderCards([
-            { title: "Learn by doing", copy: "Children learn best when they actively explore, create, and participate." },
-            { title: "Grow through stories", copy: "Stories help children understand values, emotions, choices, and character." },
-            { title: "Reflect with confidence", copy: "Simple reflection moments help children notice, understand, and apply what they learn." }
-          ], "framework-card", "grid-3")}
+        { title: "Learn by doing", copy: "Children learn best when they actively explore, create, and participate." },
+        { title: "Grow through stories", copy: "Stories help children understand values, emotions, choices, and character." },
+        { title: "Reflect with confidence", copy: "Simple reflection moments help children notice, understand, and apply what they learn." }
+      ], "framework-card", "grid-3")}
         </div>
       </section>
       `,
@@ -9997,20 +10061,20 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "How WAMI™ Comes Alive",
-            title: "Where Every Activity becomes a Life skill Adventure.",
-            copy: "The WAMI™ world is filled with stories, games, challenges, reflection moments, and creative experiences designed to help children grow."
-          })}
+        eyebrow: "How WAMI™ Comes Alive",
+        title: "Where Every Activity becomes a Life skill Adventure.",
+        copy: "The WAMI™ world is filled with stories, games, challenges, reflection moments, and creative experiences designed to help children grow."
+      })}
           ${renderCards([
-            { title: "Stories", copy: "Narratives that make values, feelings, and choices feel real and relatable." },
-            { title: "Activity books", copy: "Hands-on prompts that keep the learning tangible beyond a single session." },
-            { title: "Skill challenges", copy: "Small growth tasks that reward effort, curiosity, and courage." },
-            { title: "Games", copy: "Playful formats that help children learn without feeling pressured." },
-            { title: "Creative tasks", copy: "Drawing, making, imagining, and expressing in ways children naturally enjoy." },
-            { title: "Communication practice", copy: "Speaking, listening, sharing, and responding with more confidence." },
-            { title: "Reflection activities", copy: "Safe moments to name feelings, lessons, and next steps." },
-            { title: "Character building", copy: "Helping values become habits through repetition, language, and guided practice." }
-          ], "card", "grid-4")}
+        { title: "Stories", copy: "Narratives that make values, feelings, and choices feel real and relatable." },
+        { title: "Activity books", copy: "Hands-on prompts that keep the learning tangible beyond a single session." },
+        { title: "Skill challenges", copy: "Small growth tasks that reward effort, curiosity, and courage." },
+        { title: "Games", copy: "Playful formats that help children learn without feeling pressured." },
+        { title: "Creative tasks", copy: "Drawing, making, imagining, and expressing in ways children naturally enjoy." },
+        { title: "Communication practice", copy: "Speaking, listening, sharing, and responding with more confidence." },
+        { title: "Reflection activities", copy: "Safe moments to name feelings, lessons, and next steps." },
+        { title: "Character building", copy: "Helping values become habits through repetition, language, and guided practice." }
+      ], "card", "grid-4")}
         </div>
       </section>
       `,
@@ -10018,20 +10082,20 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "Child Development Outcomes",
-            title: "The Life skills that matter Beyond the Classroom.",
-            copy: "WAMI™ helps children build confidence, communication, creativity, emotional awareness, and other essential human skills."
-          })}
+        eyebrow: "Child Development Outcomes",
+        title: "The Life skills that matter Beyond the Classroom.",
+        copy: "WAMI™ helps children build confidence, communication, creativity, emotional awareness, and other essential human skills."
+      })}
           ${renderCards([
-            { title: "Confidence", copy: "A stronger sense of voice, presence, and willingness to try." },
-            { title: "Creativity", copy: "Comfort with imagination, experimentation, and flexible thinking." },
-            { title: "Communication", copy: "Clearer expression, listening, and relationship-building language." },
-            { title: "Character", copy: "Values, responsibility, kindness, and healthy behavior foundations." },
-            { title: "Curiosity", copy: "A growing appetite for questions, wonder, and discovery." },
-            { title: "Collaboration", copy: "Working with others through empathy, turn-taking, and shared tasks." },
-            { title: "Emotional awareness", copy: "Naming and understanding feelings with more steadiness." },
-            { title: "Problem-solving", copy: "Trying options, thinking through challenges, and adapting responses." }
-          ], "card", "grid-4")}
+        { title: "Confidence", copy: "A stronger sense of voice, presence, and willingness to try." },
+        { title: "Creativity", copy: "Comfort with imagination, experimentation, and flexible thinking." },
+        { title: "Communication", copy: "Clearer expression, listening, and relationship-building language." },
+        { title: "Character", copy: "Values, responsibility, kindness, and healthy behavior foundations." },
+        { title: "Curiosity", copy: "A growing appetite for questions, wonder, and discovery." },
+        { title: "Collaboration", copy: "Working with others through empathy, turn-taking, and shared tasks." },
+        { title: "Emotional awareness", copy: "Naming and understanding feelings with more steadiness." },
+        { title: "Problem-solving", copy: "Trying options, thinking through challenges, and adapting responses." }
+      ], "card", "grid-4")}
         </div>
       </section>
       `,
@@ -10039,20 +10103,20 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "For Parents And Schools",
-            title: "Growing together through Home and School.",
-            copy: "Children thrive when the important adults in their lives reinforce the same values, skills, and habits. This creates a beautiful bridge between parents and educators."
-          })}
+        eyebrow: "For Parents And Schools",
+        title: "Growing together through Home and School.",
+        copy: "Children thrive when the important adults in their lives reinforce the same values, skills, and habits. This creates a beautiful bridge between parents and educators."
+      })}
           ${renderCards([
-            {
-              title: "For Parents - Support life skills at home",
-              copy: "WAMI™ provides simple, engaging ways for families to nurture confidence, communication, creativity, values, and reflection in everyday life."
-            },
-            {
-              title: "For Schools - Bring life skills into the learning journey",
-              copy: "WAMI™ supports schools through student programs, classroom experiences, life-skill initiatives, and youth development partnerships."
-            }
-          ], "framework-card", "grid-2")}
+        {
+          title: "For Parents - Support life skills at home",
+          copy: "WAMI™ provides simple, engaging ways for families to nurture confidence, communication, creativity, values, and reflection in everyday life."
+        },
+        {
+          title: "For Schools - Bring life skills into the learning journey",
+          copy: "WAMI™ supports schools through student programs, classroom experiences, life-skill initiatives, and youth development partnerships."
+        }
+      ], "framework-card", "grid-2")}
         </div>
       </section>
       `,
@@ -10060,17 +10124,17 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "Inside The WAMI™ World",
-            title: "A World of Stories, Play, and Personal Growth.",
-            copy: "The WAMI™ journey helps children explore ideas, express themselves, build relationships, and grow with confidence."
-          })}
+        eyebrow: "Inside The WAMI™ World",
+        title: "A World of Stories, Play, and Personal Growth.",
+        copy: "The WAMI™ journey helps children explore ideas, express themselves, build relationships, and grow with confidence."
+      })}
           <div class="timeline-steps">
             ${[
-              ["Game-Based Learning", "-"],
-              ["Creative Expression", "-"],
-              ["Reflection Moments", "-"],
-              // ["Reflection moments", "Guided check-ins help them notice what they learned and how it applies in life."]
-            ].map(([title, copy]) => `
+        ["Game-Based Learning", "-"],
+        ["Creative Expression", "-"],
+        ["Reflection Moments", "-"],
+        // ["Reflection moments", "Guided check-ins help them notice what they learned and how it applies in life."]
+      ].map(([title, copy]) => `
               <article class="timeline-step reveal">
                 <h3>${title}</h3>
                 <p>${copy}</p>
@@ -10122,10 +10186,10 @@ const pages = [
         <div class="container split-panel">
           <div class="story-card reveal">
             ${sectionHeader({
-              eyebrow: "What NOVA™ Is",
-              title: "A repeatable human development pathway.",
-              copy: "NOVA™ is the methodology behind WayMaker Skills™ programs. It exists to close the gap between insight and behavior. Instead of stopping at understanding, it guides people into ownership, direction, and action."
-            })}
+        eyebrow: "What NOVA™ Is",
+        title: "A repeatable human development pathway.",
+        copy: "NOVA™ is the methodology behind WayMaker Skills™ programs. It exists to close the gap between insight and behavior. Instead of stopping at understanding, it guides people into ownership, direction, and action."
+      })}
             <p class="muted">That makes NOVA™ useful across different contexts. The audience may change, but the need stays consistent: people need a simple, disciplined way to move from reflection into capability.</p>
           </div>
           <div class="quote-panel reveal">
@@ -10139,17 +10203,17 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "The Four Stages",
-            title: "Notice. Own. Visualize. Act.",
-            copy: "The sequence is simple by design so that it can be used consistently across real human development contexts."
-          })}
+        eyebrow: "The Four Stages",
+        title: "Notice. Own. Visualize. Act.",
+        copy: "The sequence is simple by design so that it can be used consistently across real human development contexts."
+      })}
           <div class="nova-stages">
             ${[
-              ["Notice", "Build awareness of self, others, and situation."],
-              ["Own", "Accept responsibility and develop a growth mindset."],
-              ["Visualize", "Create direction, purpose, and a path forward."],
-              ["Act", "Apply learning in real life with consistent action."]
-            ].map(([title, copy]) => `
+        ["Notice", "Build awareness of self, others, and situation."],
+        ["Own", "Accept responsibility and develop a growth mindset."],
+        ["Visualize", "Create direction, purpose, and a path forward."],
+        ["Act", "Apply learning in real life with consistent action."]
+      ].map(([title, copy]) => `
               <article class="nova-stage reveal">
                 <h3>${title}</h3>
                 <p>${copy}</p>
@@ -10163,18 +10227,18 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "What NOVA™ Integrates",
-            title: "A multidisciplinary foundation.",
-            copy: "NOVA™ is useful because it is not built on one narrow lens. It draws from multiple domains that shape how people change."
-          })}
+        eyebrow: "What NOVA™ Integrates",
+        title: "A multidisciplinary foundation.",
+        copy: "NOVA™ is useful because it is not built on one narrow lens. It draws from multiple domains that shape how people change."
+      })}
           ${renderCards([
-            { title: "Psychology", copy: "Awareness of emotion, behavior, thought, and pattern." },
-            { title: "Human Development", copy: "A staged view of how people grow across life contexts." },
-            { title: "Behavioral Insight", copy: "Attention to what actually drives repeated choices and habits." },
-            { title: "Leadership Principles", copy: "Responsibility, clarity, influence, and response under pressure." },
-            { title: "Future Skills", copy: "Adaptability, initiative, communication, and practical readiness." },
-            { title: "Experiential Learning", copy: "Growth through reflection, participation, and application." }
-          ], "card", "grid-3")}
+        { title: "Psychology", copy: "Awareness of emotion, behavior, thought, and pattern." },
+        { title: "Human Development", copy: "A staged view of how people grow across life contexts." },
+        { title: "Behavioral Insight", copy: "Attention to what actually drives repeated choices and habits." },
+        { title: "Leadership Principles", copy: "Responsibility, clarity, influence, and response under pressure." },
+        { title: "Future Skills", copy: "Adaptability, initiative, communication, and practical readiness." },
+        { title: "Experiential Learning", copy: "Growth through reflection, participation, and application." }
+      ], "card", "grid-3")}
         </div>
       </section>
       `,
@@ -10182,18 +10246,18 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "NOVA™ In Practice",
-            title: "How NOVA™ shows up inside a program.",
-            copy: "The methodology becomes visible through a repeatable practice cycle rather than a one-time insight."
-          })}
+        eyebrow: "NOVA™ In Practice",
+        title: "How NOVA™ shows up inside a program.",
+        copy: "The methodology becomes visible through a repeatable practice cycle rather than a one-time insight."
+      })}
           <div class="timeline-steps">
             ${[
-              ["Notice the current reality", "Increase awareness of patterns, context, strengths, and constraints."],
-              ["Own the growth task", "Build responsibility, mindset, and willingness to act differently."],
-              ["Visualize a better response", "Create a clearer internal picture of the desired change and direction."],
-              ["Act in the real world", "Move the insight into behavior, decision-making, communication, and practice."],
-              ["Repeat and deepen", "Growth strengthens when the cycle is revisited with reflection and application."]
-            ].map(([title, copy]) => `
+        ["Notice the current reality", "Increase awareness of patterns, context, strengths, and constraints."],
+        ["Own the growth task", "Build responsibility, mindset, and willingness to act differently."],
+        ["Visualize a better response", "Create a clearer internal picture of the desired change and direction."],
+        ["Act in the real world", "Move the insight into behavior, decision-making, communication, and practice."],
+        ["Repeat and deepen", "Growth strengthens when the cycle is revisited with reflection and application."]
+      ].map(([title, copy]) => `
               <article class="timeline-step reveal">
                 <h3>${title}</h3>
                 <p>${copy}</p>
@@ -10207,20 +10271,20 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "Where NOVA™ Applies",
-            title: "Designed for every life stage.",
-            copy: "The audience can change, but the movement from awareness to action remains useful across all of them."
-          })}
+        eyebrow: "Where NOVA™ Applies",
+        title: "Designed for every life stage.",
+        copy: "The audience can change, but the movement from awareness to action remains useful across all of them."
+      })}
           ${renderCards([
-            { title: "Students", copy: "Build awareness, responsibility, direction, and follow-through." },
-            { title: "Educators", copy: "Use reflective practice and purposeful teaching behaviors." },
-            { title: "Parents", copy: "Respond to family growth with more steadiness and clarity." },
-            { title: "Professionals", copy: "Translate reflection into workplace effectiveness and action." },
-            { title: "Leaders", copy: "Grow in ownership, direction, communication, and influence." },
-            { title: "Corporate Teams", copy: "Create shared language for growth, feedback, and accountability." },
-            { title: "Communities", copy: "Support collective development with practical behavior change." },
-            { title: "Institutions", copy: "Build human development pathways with structure instead of chance." }
-          ], "card", "grid-4")}
+        { title: "Students", copy: "Build awareness, responsibility, direction, and follow-through." },
+        { title: "Educators", copy: "Use reflective practice and purposeful teaching behaviors." },
+        { title: "Parents", copy: "Respond to family growth with more steadiness and clarity." },
+        { title: "Professionals", copy: "Translate reflection into workplace effectiveness and action." },
+        { title: "Leaders", copy: "Grow in ownership, direction, communication, and influence." },
+        { title: "Corporate Teams", copy: "Create shared language for growth, feedback, and accountability." },
+        { title: "Communities", copy: "Support collective development with practical behavior change." },
+        { title: "Institutions", copy: "Build human development pathways with structure instead of chance." }
+      ], "card", "grid-4")}
         </div>
       </section>
       `,
@@ -10254,10 +10318,11 @@ const pages = [
       renderHero({
         eyebrow: "LQ™ Framework",
         title: "Life Intelligence Quotient™ (LQ)",
-        copy: "A practical framework for understanding how people think, feel, connect, act, and adapt in everyday life.",
+        copy: "Knowledge alone does not determine success.",
+        supportingCopy: "The ability to apply intelligence effectively in real-life situations is what enables individuals to navigate complexity, lead confidently, build relationships, and create meaningful impact. The LQ™ Framework is Way Maker Skills™' signature model for developing Applied Intelligence. Built around five interconnected dimensions, it provides a practical framework for understanding how individuals learn, lead, communicate, perform, and adapt.",
         pills: ["THINK", "FEEL", "CONNECT", "ACT", "ADAPT"],
         actions: [anchor(routes.programs, "Explore Programs", "btn btn-primary"), anchor(waymakerLinks.lq, "Learn More at WayMaker Skills™", "btn btn-secondary")],
-        media: { image: "/assets/imgs/branding-5.jpg", alt: "Life intelligence framework visual" },
+        media: { image: "/assets/imgs/LQ.png", alt: "Life intelligence framework visual" },
         panelTitle: "The five dimensions",
         panelList: ["THINK", "FEEL", "CONNECT", "ACT", "ADAPT"]
       }, renderBreadcrumbs({ route: routes.lq, breadcrumbs: [{ label: "Home", route: routes.home }, { label: "WayMaker Skills™", route: routes.waymaker }, { label: "LQ™ Framework", route: routes.lq }] })),
@@ -10265,10 +10330,10 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "Why LQ™ Exists",
-            title: "Knowledge Alone Is Not Enough.",
-            copy: "Many people know what to do, yet struggle to apply it consistently. Success in life, learning, relationships, and leadership depends on more than knowledge. LQ™ was developed to help individuals understand the practical human capabilities that influence everyday effectiveness."
-          })}
+        eyebrow: "Why LQ™ Exists",
+        title: "Knowledge Alone Is Not Enough.",
+        copy: "Many people know what to do, yet struggle to apply it consistently. Success in life, learning, relationships, and leadership depends on more than knowledge. LQ™ was developed to help individuals understand the practical human capabilities that influence everyday effectiveness."
+      })}
         </div>
       </section>
       `,
@@ -10276,37 +10341,15 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "The Five Dimensions",
-            title: "Five lenses, one capable human.",
-            copy: "Each dimension strengthens a different part of real-world effectiveness, but together they form a fuller model of maturity and capability."
-          })}
-          ${renderCards([
-            {
-              title: "THINK",
-              eyebrow: "Thinking Intelligence",
-              list: ["Critical Thinking", "Decision Making", "Problem Solving", "Strategic Thinking"]
-            },
-            {
-              title: "FEEL",
-              eyebrow: "Emotional Intelligence",
-              list: ["Self-Awareness", "Emotional Regulation", "Resilience", "Confidence"]
-            },
-            {
-              title: "CONNECT",
-              eyebrow: "Social Intelligence",
-              list: ["Communication", "Collaboration", "Empathy", "Influence"]
-            },
-            {
-              title: "ACT",
-              eyebrow: "Action Intelligence",
-              list: ["Leadership", "Initiative", "Accountability", "Execution"]
-            },
-            {
-              title: "ADAPT",
-              eyebrow: "Context Intelligence",
-              list: ["Adaptability", "Creativity", "Innovation", "Situational Awareness"]
-            }
-          ], "dimension-card", "grid-5")}
+        eyebrow: "The Dimensions",
+        title: "",
+        copy: "LQ™ is built on the understanding that meaningful growth emerges from the interaction of multiple human capacities."
+      })}
+          <div class="section-header reveal" style="margin-top: -1.25rem;">
+            <p>The framework provides a structured approach for exploring the qualities that influence awareness, decision-making, relationships, adaptability, and long-term development.</p>
+            <p>Its purpose is not merely assessment, but insight, reflection, and growth.</p>
+          </div>
+         
         </div>
       </section>
       `,
@@ -10314,20 +10357,20 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "Capabilities",
-            title: "The capabilities LQ™ supports in practice.",
-            copy: "The framework helps connect applied intelligence to real outcomes across life, work, and leadership."
-          })}
+        eyebrow: "Capabilities",
+        title: "The capabilities LQ™ supports in practice.",
+        copy: "The framework helps connect applied intelligence to real outcomes across life, work, and leadership."
+      })}
           ${renderCards([
-            { title: "Leadership development", copy: "Build responsibility, judgment, and influence with more maturity." },
-            { title: "Communication excellence", copy: "Strengthen language, listening, empathy, and clarity in action." },
-            { title: "Emotional intelligence", copy: "Bring steadiness, self-awareness, and better regulation into real situations." },
-            { title: "Critical thinking", copy: "Improve perspective, reasoning, and the quality of decisions." },
-            { title: "Problem solving", copy: "Move from reaction to structured response under pressure." },
-            { title: "Adaptability", copy: "Respond intelligently when contexts shift, conflict, or surprise." },
-            { title: "Resilience", copy: "Recover, learn, and continue with more steadiness and perspective." },
-            { title: "Purposeful action", copy: "Turn insight into consistent behavior and meaningful outcomes." }
-          ], "card", "grid-4")}
+        { title: "Leadership development", copy: "Build responsibility, judgment, and influence with more maturity." },
+        { title: "Communication excellence", copy: "Strengthen language, listening, empathy, and clarity in action." },
+        { title: "Emotional intelligence", copy: "Bring steadiness, self-awareness, and better regulation into real situations." },
+        { title: "Critical thinking", copy: "Improve perspective, reasoning, and the quality of decisions." },
+        { title: "Problem solving", copy: "Move from reaction to structured response under pressure." },
+        { title: "Adaptability", copy: "Respond intelligently when contexts shift, conflict, or surprise." },
+        { title: "Resilience", copy: "Recover, learn, and continue with more steadiness and perspective." },
+        { title: "Purposeful action", copy: "Turn insight into consistent behavior and meaningful outcomes." }
+      ], "card", "grid-4")}
         </div>
       </section>
       `,
@@ -10335,18 +10378,18 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "Where LQ™ Applies",
-            title: "Built for different audiences and life stages.",
-            copy: "LQ™ becomes useful wherever people need better decisions, clearer emotions, stronger relationships, steadier action, and more adaptability."
-          })}
+        eyebrow: "Where LQ™ Applies",
+        title: "Built for different audiences and life stages.",
+        copy: "LQ™ becomes useful wherever people need better decisions, clearer emotions, stronger relationships, steadier action, and more adaptability."
+      })}
           ${renderCards([
-            { title: "Students", copy: "Confidence, direction, and life skills beyond academics." },
-            { title: "Parents", copy: "A clearer lens on the skills children need for life." },
-            { title: "Teachers", copy: "Human development language that supports better classrooms." },
-            { title: "Professionals", copy: "Capabilities that influence career growth and effectiveness." },
-            { title: "Leaders", copy: "A broader model for mature, responsible leadership." },
-            { title: "Teams", copy: "Shared growth across thinking, feeling, communication, and action." }
-          ], "card", "grid-3")}
+        { title: "Students", copy: "Confidence, direction, and life skills beyond academics." },
+        { title: "Parents", copy: "A clearer lens on the skills children need for life." },
+        { title: "Teachers", copy: "Human development language that supports better classrooms." },
+        { title: "Professionals", copy: "Capabilities that influence career growth and effectiveness." },
+        { title: "Leaders", copy: "A broader model for mature, responsible leadership." },
+        { title: "Teams", copy: "Shared growth across thinking, feeling, communication, and action." }
+      ], "card", "grid-3")}
         </div>
       </section>
       `,
@@ -10391,103 +10434,96 @@ const pages = [
           <article class="story-card reveal">
             <h2>Professional Experience</h2>
             ${list([
-              "Director & Founder &mdash; Way Maker Skill Solutions",
-              "Consultant Psychologist &mdash; Worked with various schools",
-              "Resource Teacher Trainer &mdash; CBSE Schools",
-              "Biology Subject Matter Expert &mdash; Growing Stars Infotech Pvt. Ltd.",
-              "Counsellor & Trainer &mdash; Various organisations",
-              "Soft Skills Trainer &mdash; Corporate and Institutional Training Programs",
-              "Leadership Trainer for Professionals &mdash; Delivered training in Aviation, Healthcare, Manufacturing, Consulting, and other professional sectors",
-              "Team Building, Outbound & Inbound Training Facilitator &mdash; Psychology-based experiential learning and professional development programs"
-            ])}
+        "Director & Founder &mdash; Way Maker Skill Solutions",
+        "Consultant Psychologist &mdash; Worked with various schools",
+        "Resource Teacher Trainer &mdash; CBSE Schools",
+        "Biology Subject Matter Expert &mdash; Growing Stars Infotech Pvt. Ltd.",
+        "Counsellor & Trainer &mdash; Various organisations",
+        "Soft Skills Trainer &mdash; Corporate and Institutional Training Programs",
+        "Leadership Trainer for Professionals &mdash; Delivered training in Aviation, Healthcare, Manufacturing, Consulting, and other professional sectors",
+        "Team Building, Outbound & Inbound Training Facilitator &mdash; Psychology-based experiential learning and professional development programs"
+      ])}
           </article>
           <article class="story-card reveal">
             <h2>Education</h2>
             ${list([
-              "Ph.D. in Counselling Psychology",
-              "M.Sc. in Psychology",
-              "M.Sc. in Biotechnology",
-              "B.Sc. in Microbiology, Chemistry and Zoology",
-              "B.Ed. in Natural Science",
-              "CIDTT - Cambridge International Diploma for Teachers and Trainers",
-              "Diploma in Applied Nutrition, Food Science and Dietetics",
-              "Diploma in Neuropsychology",
-              "Diploma in Food and Nutrition",
-              "FCECLD - Rehabilitation Council of India"
-            ])}
+        "Ph.D. in Counselling Psychology",
+        "M.Sc. in Psychology",
+        "M.Sc. in Biotechnology",
+        "B.Sc. in Microbiology, Chemistry and Zoology",
+        "B.Ed. in Natural Science",
+        "CIDTT - Cambridge International Diploma for Teachers and Trainers",
+        "Diploma in Applied Nutrition, Food Science and Dietetics",
+        "Diploma in Neuropsychology",
+        "Diploma in Food and Nutrition",
+        "FCECLD - Rehabilitation Council of India"
+      ])}
           </article>
         </div>
       </section>
       `,
       `
       <section class="section">
-        <div class="container">
+        <div class="container list-columns">
           <article class="story-card reveal">
             <h2>Certifications</h2>
             ${list([
-              "Certified Corporate Trainer",
-              "Certified Shadow Healing Facilitator",
-              "Certified CBT Coach",
-              "Certified NLP Practitioner",
-              "Certified Well-being Coach",
-              "Certified Life Coach",
-              "Certified Fitness Mentor",
-              "Meditation Instructor Trainer",
-              "International Certification in Special Education (SETT)",
-              "International Certification in Educational Administration and Management"
-            ], "bullet-list resume-bullet-columns")}
+        "Certified Corporate Trainer",
+        "Certified Shadow Healing Facilitator",
+        "Certified CBT Coach",
+        "Certified NLP Practitioner",
+        "Certified Well-being Coach",
+        "Certified Life Coach",
+        "Certified Fitness Mentor",
+        "Meditation Instructor Trainer",
+        "International Certification in Special Education (SETT)",
+        "International Certification in Educational Administration and Management"
+      ])}
+          </article>
+          <article class="story-card reveal">
+            <h2>Publications</h2>
+            ${list([
+        "Psycho-Social Issues of Middle-Aged Working Women in Cochin City Based on Stress (2018).",
+        "Study on Physicochemical and Phycological Characteristics of Temple Ponds in Ernakulam, Kerala (2008)."
+      ])}
           </article>
         </div>
       </section>
       `,
       `
       <section class="section">
-        <div class="container comparison">
-          <article class="story-card reveal">
-            <h2>Publications</h2>
-            ${list([
-              "Psycho-Social Issues of Middle-Aged Working Women in Cochin City Based on Stress (2018).",
-              "Study on Physicochemical and Phycological Characteristics of Temple Ponds in Ernakulam, Kerala (2008)."
-            ])}
-          </article>
+        <div class="container list-columns">
           <article class="story-card reveal">
             <h2>Conference Presentations</h2>
             ${list([
-              "Presented a paper on Assistive Technology in Dementia Care at a UGC National Seminar.",
-              "Presented a paper on Psychosocial Stress Issues at a National Seminar, Thrissur."
-            ])}
+        "Presented a paper on Assistive Technology in Dementia Care at a UGC National Seminar.",
+        "Presented a paper on Psychosocial Stress Issues at a National Seminar, Thrissur."
+      ])}
+          </article>
+          <article class="story-card reveal">
+            <h2>Honors & Recognitions</h2>
+            <p><strong>Two-Time Asia Book of Records Awardee</strong></p>
+            <p>Honoured as a Two-Time Asia Book of Records Awardee for contributing to landmark publishing initiatives that achieved the maximum number of books published in a single day and the maximum number of eBooks published on World Book Day. These achievements reflect a commitment to inspiring learning, empowering authorship, and making knowledge accessible to a wider audience.</p>
           </article>
         </div>
       </section>
       `,
-         `
+      `
       <section class="section">
         <div class="container">
           <article class="story-card reveal">
             <h2>Professional Affiliations</h2>
             ${list([
-              "International Affiliate, American Psychological Association (APA).",
-              "Member, International Association of Applied Psychology (IAAP).",
-              "Member, Counsellor Council of India (CCI).",
-              "Member, Global Association of Behavior Management (GABM)."
-            ])}
+        "International Affiliate, American Psychological Association (APA).",
+        "Member, International Association of Applied Psychology (IAAP).",
+        "Member, Counsellor Council of India (CCI).",
+        "Member, Global Association of Behavior Management (GABM)."
+      ])}
           </article>
         </div>
       </section>
       `,
-      renderRecognitionSection({
-        className: "resume-recognition-section",
-        eyebrow: "Honors & Recognitions",
-        heading: "Two-Time Asia Book of Records Awardee",
-        description: "Honoured as a Two-Time Asia Book of Records Awardee for contributing to landmark publishing initiatives that achieved the maximum number of books published in a single day and the maximum number of eBooks published on World Book Day. These achievements reflect a commitment to inspiring learning, empowering authorship, and making knowledge accessible to a wider audience.",
-        facts: [],
-        ctaLabel: "View Books, Certificates & Recognition",
-        ctaHref: routes.books,
-        compact: true,
-        carousel: true,
-        previewCertificate: getBooksCertificates()[0]
-      }),
-   
+
       ctaBand({
         title: "Partner with Sanjo for learning, leadership, and well-being initiatives.",
         copy: "From leadership development and communication training to resilience, wellness, and inclusion programmes, every engagement is tailored to your audience and desired outcomes.",
@@ -10542,10 +10578,10 @@ const pages = [
       <section class="section">
         <div class="container blog-hub" data-blog-hub>
           ${sectionHeader({
-            eyebrow: "Explore Insights",
-            title: "Explore Thoughtful Insights for Meaningful Growth.",
-            copy: "Discover articles, reflections, and practical guidance shaped by psychology, education, leadership, and human development."
-          })}
+        eyebrow: "Explore Insights",
+        title: "Explore Thoughtful Insights for Meaningful Growth.",
+        copy: "Discover articles, reflections, and practical guidance shaped by psychology, education, leadership, and human development."
+      })}
           <div class="blog-controls blog-search-card reveal">
             <div class="blog-search-wrap">
               <label class="sr-only" for="blog-search">Search insights</label>
@@ -10581,9 +10617,9 @@ const pages = [
               </div>
               <div class="blog-lanes">
                 ${[
-                  ["Trending Posts", getBlogSelections().trending],
-                  ["Popular Posts", getBlogSelections().popular]
-                ].map(([title, posts]) => `
+        ["Trending Posts", getBlogSelections().trending],
+        ["Popular Posts", getBlogSelections().popular]
+      ].map(([title, posts]) => `
                   <section class="mini-section reveal">
                     <h3>${title}</h3>
                     <div class="mini-post-list">
@@ -10832,20 +10868,20 @@ const pages = [
           <aside class="contact-card card reveal">
             <h2 style="margin-bottom:16px;">Is this consultation for you?</h2>
             ${list([
-              "Personal growth and life direction",
-              "Student support and mentoring",
-              "Parenting and family concerns",
-              "School and institutional discussions",
-              "Leadership and professional development",
-              "Program enquiries",
-            ])}
+        "Personal growth and life direction",
+        "Student support and mentoring",
+        "Parenting and family concerns",
+        "School and institutional discussions",
+        "Leadership and professional development",
+        "Program enquiries",
+      ])}
             <h2 style="margin-bottom:16px; margin-top:32px;">What you will gain</h2>
             ${list([
-              "Greater clarity",
-              "Practical next steps",
-              "A personalized direction",
-              "Confidence to move forward",
-            ])}
+        "Greater clarity",
+        "Practical next steps",
+        "A personalized direction",
+        "Confidence to move forward",
+      ])}
             <h3 style="margin-bottom:16px; margin-top:32px;">Guided by Dr. Sanjo Cine Mathew</h3>
 
           </aside>
@@ -10954,11 +10990,11 @@ const pages = [
       <section class="section">
         <div class="container grid-4">
           ${[
-            ["10000+", "Lives touched through talks, workshops, programmes, and guided interventions."],
-            ["700+", "Sessions delivered across school, community, counselling, and professional contexts."],
-            ["20+", "Years of insight shaped through education, psychology, and facilitation."],
-            ["50+", "Certifications and developmental credentials supporting multidisciplinary work."]
-          ].map(([number, copy]) => `
+        ["10000+", "Lives touched through talks, workshops, programmes, and guided interventions."],
+        ["700+", "Sessions delivered across school, community, counselling, and professional contexts."],
+        ["20+", "Years of insight shaped through education, psychology, and facilitation."],
+        ["50+", "Certifications and developmental credentials supporting multidisciplinary work."]
+      ].map(([number, copy]) => `
             <article class="metric-card reveal">
               <strong>${number}</strong>
               <p>${copy}</p>
@@ -10971,18 +11007,18 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "Visible Outcomes",
-            title: "What improvement often looks like after the work begins.",
-            copy: "Impact is not framed as hype. It is framed as better human functioning in real settings."
-          })}
+        eyebrow: "Visible Outcomes",
+        title: "What improvement often looks like after the work begins.",
+        copy: "Impact is not framed as hype. It is framed as better human functioning in real settings."
+      })}
           ${renderCards([
-            { title: "Students", copy: "Improved confidence, calmer exam readiness, healthier habits, and stronger self-expression." },
-            { title: "Parents", copy: "More constructive communication, better boundaries, and greater emotional steadiness at home." },
-            { title: "Educators", copy: "Stronger learner connection, better facilitation, and reflective teaching capacity." },
-            { title: "Women", copy: "Increased clarity, confidence, voice, and self-led action." },
-            { title: "Professionals", copy: "Greater effectiveness, communication quality, and personal accountability." },
-            { title: "Teams", copy: "Better collaboration, leadership presence, emotional intelligence, and adaptive culture." }
-          ], "card", "grid-3")}
+        { title: "Students", copy: "Improved confidence, calmer exam readiness, healthier habits, and stronger self-expression." },
+        { title: "Parents", copy: "More constructive communication, better boundaries, and greater emotional steadiness at home." },
+        { title: "Educators", copy: "Stronger learner connection, better facilitation, and reflective teaching capacity." },
+        { title: "Women", copy: "Increased clarity, confidence, voice, and self-led action." },
+        { title: "Professionals", copy: "Greater effectiveness, communication quality, and personal accountability." },
+        { title: "Teams", copy: "Better collaboration, leadership presence, emotional intelligence, and adaptive culture." }
+      ], "card", "grid-3")}
         </div>
       </section>
       `,
@@ -11014,17 +11050,17 @@ const pages = [
       <section class="section">
         <div class="container">
           ${sectionHeader({
-            eyebrow: "Downloads",
-            title: "Existing brochures and program materials.",
-            copy: "These files already exist in the repository and are now surfaced as part of a cleaner resource experience."
-          })}
+        eyebrow: "Downloads",
+        title: "Existing brochures and program materials.",
+        copy: "These files already exist in the repository and are now surfaced as part of a cleaner resource experience."
+      })}
           ${renderCards([
-            { title: "Women Empowerment Brochure", copy: "Resource overview for women-focused development work.", links: [anchor("/assets/women-empowerment-brochure-sanjo.pdf", "Download PDF", "btn btn-secondary")] },
-            { title: "Personal Effectiveness Mentorship Program", copy: "A downloadable overview of the mentorship pathway.", links: [anchor("/assets/personal-effectiveness-mentorship-program-sanjo.pdf", "Download PDF", "btn btn-secondary")] },
-            { title: "Overcome Exam Stress Through Smart Learning", copy: "A brochure for the student stress and smart learning programme.", links: [anchor("/assets/overcome-exam-stress-transformational-smart-learning-workshop-sanjo.pdf", "Download PDF", "btn btn-secondary")] },
-            { title: "Parenting With Passion", copy: "A brochure supporting the parenting pathway.", links: [anchor("/assets/Sanjo-Parenting-With-passion-brochure.pdf", "Download PDF", "btn btn-secondary")] },
-            { title: "Clarity Crest Counselling", copy: "A downloadable counselling and clarity support overview.", links: [anchor("/assets/clarity-crest-counsel-sanjo.pdf", "Download PDF", "btn btn-secondary")] }
-          ], "resource-card", "grid-3")}
+        { title: "Women Empowerment Brochure", copy: "Resource overview for women-focused development work.", links: [anchor("/assets/women-empowerment-brochure-sanjo.pdf", "Download PDF", "btn btn-secondary")] },
+        { title: "Personal Effectiveness Mentorship Program", copy: "A downloadable overview of the mentorship pathway.", links: [anchor("/assets/personal-effectiveness-mentorship-program-sanjo.pdf", "Download PDF", "btn btn-secondary")] },
+        { title: "Overcome Exam Stress Through Smart Learning", copy: "A brochure for the student stress and smart learning programme.", links: [anchor("/assets/overcome-exam-stress-transformational-smart-learning-workshop-sanjo.pdf", "Download PDF", "btn btn-secondary")] },
+        { title: "Parenting With Passion", copy: "A brochure supporting the parenting pathway.", links: [anchor("/assets/Sanjo-Parenting-With-passion-brochure.pdf", "Download PDF", "btn btn-secondary")] },
+        { title: "Clarity Crest Counselling", copy: "A downloadable counselling and clarity support overview.", links: [anchor("/assets/clarity-crest-counsel-sanjo.pdf", "Download PDF", "btn btn-secondary")] }
+      ], "resource-card", "grid-3")}
         </div>
       </section>
       `,
@@ -11146,10 +11182,10 @@ function renderArticleBottom(post) {
     <section class="section tight">
       <div class="container article-bottom">
         ${sectionHeader({
-          eyebrow: "Related Reading",
-          title: "Continue with connected insights.",
-          copy: "These articles are selected from similar categories, shared tags, or the latest Sanjo.in insights."
-        })}
+    eyebrow: "Related Reading",
+    title: "Continue with connected insights.",
+    copy: "These articles are selected from similar categories, shared tags, or the latest Sanjo.in insights."
+  })}
         <div class="grid-3">
           ${related.map((item) => renderBlogCard(item, { cta: "Read Next", result: false })).join("")}
         </div>
