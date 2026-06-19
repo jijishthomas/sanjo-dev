@@ -9055,8 +9055,8 @@ const pages = [
         <div class="container">
           ${sectionHeader({
             eyebrow: "Find your growth pathway",
-            title: "Quick pathway selector.",
-            copy: "Everyone's journey is unique. Choose the pathway that best reflects you are and where you want to grow."
+            title: "Quick Pathway Selector.",
+            copy: "Everyone's journey is unique. Choose the pathway that best reflects where you are and where you want to grow."
           })}
           ${renderCards([
             { icon: "book", title: "I am a Student", copy: "Exam confidence, future readiness, self-expression, and learning habits.", links: [anchor("/schools-students-parents/", "See Student Pathway", "btn btn-secondary")] },
@@ -9092,7 +9092,7 @@ const pages = [
         <div class="container">
           ${sectionHeader({
             eyebrow: "Latest Insights",
-            title: "Fresh reflections from the blog.",
+            title: "Fresh Reflections from the Blog.",
           })}
           <div class="grid-3">
             ${blogPosts.slice(0, 3).map((post) => renderBlogCard(post, { cta: "Read Insight" })).join("")}
@@ -9129,7 +9129,7 @@ const pages = [
         items: homeFaq
       }),
       ctaBand({
-        title: "Let us build your next transformation roadmap.",
+        title: "Let us build your next Transformation Roadmap.",
         copy: "Start with a consultation, share your context, and move toward a pathway that fits your life stage, goals, or organizational reality.",
         actions: [
           anchor("/book-consultation/", "Book a Consultation", "btn btn-soft"),
