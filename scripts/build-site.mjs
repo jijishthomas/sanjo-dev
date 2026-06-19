@@ -502,6 +502,7 @@ ol {
 }
 
 .hero-list,
+.hero-benefit-list,
 .bullet-list,
 .mini-list {
   display: grid;
@@ -509,12 +510,14 @@ ol {
   color: var(--muted);
 }
 
-.hero-list {
+.hero-list,
+.hero-benefit-list {
   padding-left: 0;
   list-style: none;
 }
 
 .hero-list li,
+.hero-benefit-list li,
 .bullet-list li,
 .mini-list li {
   position: relative;
@@ -532,6 +535,29 @@ ol {
   height: 8px;
   border-radius: 999px;
   background: linear-gradient(135deg, var(--accent), var(--secondary));
+}
+
+.hero-benefit-list {
+  margin: 0;
+}
+
+.hero-benefit-list li {
+  padding-left: 30px;
+  color: var(--ink-soft);
+}
+
+.hero-benefit-list li::before {
+  content: "\2713";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background: none;
+  color: var(--secondary);
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 .hero-stats,
@@ -7633,6 +7659,7 @@ function renderHero(hero, withBreadcrumbs = "") {
               <p class="lede">${hero.copy}</p>
               ${hero.supportingCopy ? `<p class="hero-supporting">${hero.supportingCopy}</p>` : ""}
               ${hero.supportingMeta ? `<p class="hero-supporting-meta">${hero.supportingMeta}</p>` : ""}
+              ${hero.list ? list(hero.list, hero.listClass || "hero-benefit-list") : ""}
               ${hero.pills ? metaPills(hero.pills) : ""}
               ${hero.actions ? `<div class="hero-actions">${hero.actions.join("")}</div>` : ""}
               ${hero.scrollCue ? `<div class="scroll-cue">${hero.scrollCue}</div>` : ""}
@@ -9562,6 +9589,14 @@ const pages = [
         eyebrow: "Counselling & Coaching",
         title: "Counselling, Coaching, and Clarity-Centered Growth.",
         copy: "A space for personal clarity, emotional resilience, stress support, performance mindset, and meaningful next steps.",
+        supportingCopy: "Through counselling and coaching, you can:",
+        list: [
+          "Understand yourself more deeply",
+          "Navigate challenges with confidence",
+          "Strengthen emotional well-being",
+          "Discover your strengths and possibilities",
+          "Move forward with greater clarity and purpose"
+        ],
         actions: [anchor("/book-consultation/", "Book a Consultation", "btn btn-primary"), anchor("/contact/", "Send a Message", "btn btn-secondary")],
         media: { image: "/assets/imgs/clarity-crest.png", alt: "Clarity Crest counselling program visual" },
         panelTitle: "Clarity Crest Counselling / C3 Program",

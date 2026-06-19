@@ -467,6 +467,7 @@ ol {
 }
 
 .hero-list,
+.hero-benefit-list,
 .bullet-list,
 .mini-list {
   display: grid;
@@ -474,12 +475,14 @@ ol {
   color: var(--muted);
 }
 
-.hero-list {
+.hero-list,
+.hero-benefit-list {
   padding-left: 0;
   list-style: none;
 }
 
 .hero-list li,
+.hero-benefit-list li,
 .bullet-list li,
 .mini-list li {
   position: relative;
@@ -497,6 +500,29 @@ ol {
   height: 8px;
   border-radius: 999px;
   background: linear-gradient(135deg, var(--accent), var(--secondary));
+}
+
+.hero-benefit-list {
+  margin: 0;
+}
+
+.hero-benefit-list li {
+  padding-left: 30px;
+  color: var(--ink-soft);
+}
+
+.hero-benefit-list li::before {
+  content: "\2713";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background: none;
+  color: var(--secondary);
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 .hero-stats,
